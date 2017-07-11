@@ -1,0 +1,27 @@
+[gd_scene format=1]
+
+[node name="root" type="Node"]
+
+[node name="level_area" type="Area2D" parent="."]
+
+transform/pos = Vector2( 437.077, 427.648 )
+transform/scale = Vector2( 253.834, 144.294 )
+input/pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="base_area" type="Area2D" parent="."]
+
+transform/pos = Vector2( 512.524, 354.835 )
+transform/scale = Vector2( 90.6529, 53.6914 )
+input/pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="content" type="Node2D" parent="."]
+
+
