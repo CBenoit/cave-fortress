@@ -27,4 +27,13 @@ extents = Vector2( 16, 16 )
 1/navigation_offset = Vector2( 16, 16 )
 1/shape_offset = Vector2( 16, 16 )
 1/shapes = [ SubResource( 1 ) ]
+2/name = "steel"
+2/texture = ExtResource( 1 )
+2/tex_offset = Vector2( 0, 0 )
+2/modulate = Color( 1, 1, 1, 1 )
+2/region = Rect2( 64, 0, 32, 32 )
+2/occluder_offset = Vector2( 16, 16 )
+2/navigation_offset = Vector2( 16, 16 )
+2/shape_offset = Vector2( 16, 16 )
+2/shapes = [ SubResource( 1 ) ]
 

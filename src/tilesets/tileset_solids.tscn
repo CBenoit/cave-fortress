@@ -10,39 +10,13 @@ extents = Vector2( 16, 16 )
 
 [node name="root" type="Node"]
 
-[node name="stone" type="Sprite" parent="."]
-
-transform/pos = Vector2( 96, 32 )
-texture = ExtResource( 1 )
-hframes = 10
-frame = 1
-
-[node name="StaticBody2D" type="StaticBody2D" parent="stone"]
-
-input/pickable = false
-shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
-shapes/0/trigger = false
-collision/layers = 1
-collision/mask = 1
-constant_linear_velocity = Vector2( 0, 0 )
-constant_angular_velocity = 0.0
-friction = 1.0
-bounce = 0.0
-script/script = ExtResource( 2 )
-health = 50
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="stone/StaticBody2D"]
-
-shape = SubResource( 1 )
-trigger = false
-_update_shape_index = 0
-
 [node name="dirt" type="Sprite" parent="."]
 
 transform/pos = Vector2( 32, 32 )
 texture = ExtResource( 1 )
 hframes = 10
+script/script = ExtResource( 2 )
+health = 10
 
 [node name="StaticBody2D" type="StaticBody2D" parent="dirt"]
 
@@ -56,11 +30,70 @@ constant_linear_velocity = Vector2( 0, 0 )
 constant_angular_velocity = 0.0
 friction = 1.0
 bounce = 0.0
-script/script = ExtResource( 2 )
-health = 10
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="dirt/StaticBody2D"]
 
+visibility/visible = false
+shape = SubResource( 1 )
+trigger = false
+_update_shape_index = 0
+
+[node name="stone" type="Sprite" parent="."]
+
+transform/pos = Vector2( 96, 32 )
+texture = ExtResource( 1 )
+hframes = 10
+frame = 1
+script/script = ExtResource( 2 )
+health = 50
+
+[node name="StaticBody2D" type="StaticBody2D" parent="stone"]
+
+input/pickable = false
+shapes/0/shape = SubResource( 1 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = false
+collision/layers = 1
+collision/mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="stone/StaticBody2D"]
+
+visibility/visible = false
+shape = SubResource( 1 )
+trigger = false
+_update_shape_index = 0
+
+[node name="steel" type="Sprite" parent="."]
+
+transform/pos = Vector2( 160, 32 )
+texture = ExtResource( 1 )
+hframes = 10
+frame = 2
+script/script = ExtResource( 2 )
+health = 200
+
+[node name="StaticBody2D" type="StaticBody2D" parent="steel"]
+
+transform/pos = Vector2( 96, 0 )
+input/pickable = false
+shapes/0/shape = SubResource( 1 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, -96, 0 )
+shapes/0/trigger = false
+collision/layers = 1
+collision/mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="steel/StaticBody2D"]
+
+visibility/visible = false
+transform/pos = Vector2( -96, 0 )
 shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
