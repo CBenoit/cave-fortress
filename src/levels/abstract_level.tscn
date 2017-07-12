@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=1]
+[gd_scene load_steps=4 format=1]
 
 [ext_resource path="res://levels/abstract_level.gd" type="Script" id=1]
 [ext_resource path="res://tilesets/tileset_solids.tres" type="TileSet" id=2]
+[ext_resource path="res://musics/background_music.ogg" type="AudioStream" id=3]
 
 [node name="root" type="Node"]
 
@@ -44,5 +45,16 @@ transform/pos = Vector2( -900, -400 )
 [node name="bottomright_base_area" type="Position2D" parent="."]
 
 transform/pos = Vector2( 900, 400 )
+
+[node name="music" type="StreamPlayer" parent="."]
+
+stream/stream = ExtResource( 3 )
+stream/play = false
+stream/loop = false
+stream/volume_db = 0.0
+stream/autoplay = true
+stream/paused = false
+stream/loop_restart_time = 0.0
+stream/buffering_ms = 500
 
 
