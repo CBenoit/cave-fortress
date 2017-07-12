@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=1]
+[gd_scene load_steps=6 format=1]
 
 [ext_resource path="res://actors/hero/hero.gd" type="Script" id=1]
 [ext_resource path="res://actors/hero/hero.tex" type="Texture" id=2]
+[ext_resource path="res://actors/hero/pistol1.tex" type="Texture" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -39,9 +40,19 @@ walk_speed = 128
 gravity = 313.6
 jump_power = 150
 
-[node name="sprite" type="Sprite" parent="."]
+[node name="body" type="Sprite" parent="."]
 
 texture = ExtResource( 2 )
+
+[node name="arm" type="Sprite" parent="."]
+
+transform/pos = Vector2( 0, -6 )
+texture = ExtResource( 3 )
+offset = Vector2( 16, 1 )
+
+[node name="shoot_position" type="Position2D" parent="arm"]
+
+transform/pos = Vector2( 24, -1 )
 
 [node name="collision" type="CollisionShape2D" parent="."]
 

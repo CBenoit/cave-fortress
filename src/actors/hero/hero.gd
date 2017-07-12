@@ -10,30 +10,69 @@ export var jump_power = 150
 
 signal killed()
 
-var sprite
+var basic_bullet_scn = preload("res://actors/bullets/basic_bullet.tscn")
+
+var body_sprite
+var arm_sprite
+var shoot_position
 var camera
 var camera_anim
+
 var velocity = Vector2()
 var on_air_time = 0
 var jumping = false
 var jump_time = 0 # relative to airbone time
 var x_jump_velocity = 0
-
 var killed = false
 var focused = false
 
 func _ready():
-	sprite = get_node("sprite")
+	body_sprite = get_node("body")
+	arm_sprite = get_node("arm")
+	shoot_position = get_node("arm/shoot_position")
 	camera = get_node("camera")
 	camera_anim = get_node("camera/camera_anim")
 
 	set_fixed_process(true)
 	set_process_input(true)
+	set_process(true)
+
+func _input(event):
+	if event.is_action_released("attack"):
+		var bullet = basic_bullet_scn.instance()
+		bullet.orientation = arm_sprite.get_rot()
+		bullet.set_pos(shoot_position.get_global_pos())
+		get_node("..").add_child(bullet)
+
+func _process(delta):
+	_update_arm_rotation()
+
+func _update_arm_rotation():
+	var mouse_vec = get_local_mouse_pos().normalized()
+	arm_sprite.set_rot(Vector2(-mouse_vec.y, mouse_vec.x).angle())
+	if arm_sprite.get_rot() > PI / 2 or arm_sprite.get_rot() < -PI / 2:
+		arm_sprite.set_flip_v(true)
+		arm_sprite.set_draw_behind_parent(true)
+		body_sprite.set_flip_h(true)
+
+		if arm_sprite.get_rot() < 5 * PI / 7 and arm_sprite.get_rot() > 0:
+			arm_sprite.set_rot(5 * PI / 7)
+		elif arm_sprite.get_rot() > -5 * PI / 7 and arm_sprite.get_rot() < 0:
+			arm_sprite.set_rot(-5 * PI / 7)
+	else:
+		arm_sprite.set_flip_v(false)
+		arm_sprite.set_draw_behind_parent(false)
+		body_sprite.set_flip_h(false)
+
+		if arm_sprite.get_rot() > 2 * PI / 7:
+			arm_sprite.set_rot(2 * PI / 7)
+		elif arm_sprite.get_rot() < -2 * PI / 7:
+			arm_sprite.set_rot(-2 * PI / 7)
 
 func kill():
 	if(!killed):
 		killed = true
-		sprite.set_modulate(Color(1, 0, 0))
+		body_sprite.set_modulate(Color(1, 0, 0))
 		camera_anim.play("shaking")
 		set_fixed_process(false)
 		emit_signal("killed")

@@ -1,7 +1,7 @@
 extends "../abstract_screen.gd"
 
 var content
-var test_level = preload("../../levels/level_test.tscn")
+var test_level = preload("res://levels/level_test.tscn")
 
 func _ready():
 	content = get_node("content")
