@@ -22,6 +22,7 @@ collision/margin = 0.08
 script/script = ExtResource( 1 )
 orientation = 0.0
 speed = 1000
+power = 1
 
 [node name="sprite" type="Sprite" parent="."]
 
