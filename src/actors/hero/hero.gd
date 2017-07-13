@@ -35,7 +35,7 @@ func _ready():
 	camera = get_node("camera")
 	camera_anim = get_node("camera/camera_anim")
 	sound_voice = get_node("voice")
-	
+
 	set_fixed_process(true)
 	set_process_input(true)
 	set_process(true)
@@ -45,6 +45,7 @@ func _input(event):
 		var bullet = build_bullet_scn.instance()
 		bullet.orientation = arm_sprite.get_rot()
 		bullet.set_pos(shoot_position.get_global_pos())
+		bullet.add_collision_exception_with(self)
 		get_node("..").add_child(bullet)
 
 func _process(delta):
@@ -57,20 +58,10 @@ func _update_arm_rotation():
 		arm_sprite.set_flip_v(true)
 		arm_sprite.set_draw_behind_parent(true)
 		body_sprite.set_flip_h(true)
-
-		if arm_sprite.get_rot() < 5 * PI / 7 and arm_sprite.get_rot() > 0:
-			arm_sprite.set_rot(5 * PI / 7)
-		elif arm_sprite.get_rot() > -5 * PI / 7 and arm_sprite.get_rot() < 0:
-			arm_sprite.set_rot(-5 * PI / 7)
 	else:
 		arm_sprite.set_flip_v(false)
 		arm_sprite.set_draw_behind_parent(false)
 		body_sprite.set_flip_h(false)
-
-		if arm_sprite.get_rot() > 2 * PI / 7:
-			arm_sprite.set_rot(2 * PI / 7)
-		elif arm_sprite.get_rot() < -2 * PI / 7:
-			arm_sprite.set_rot(-2 * PI / 7)
 
 func kill():
 	if(!killed):
@@ -122,7 +113,7 @@ func _fixed_process(delta):
 		elif jumping and n.y > 0:
 			var pick = round(rand_range(0.5,11.5))
 			sound_voice.play("cri"+ str(pick))
-		
+
 		x_jump_velocity = 0
 		motion = n.slide(motion)
 		velocity = n.slide(velocity)
