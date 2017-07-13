@@ -15,10 +15,10 @@
 [ext_resource path="res://actors/hero/cri8.smp" type="Sample" id=13]
 [ext_resource path="res://actors/hero/cri9.smp" type="Sample" id=14]
 
-[sub_resource type="RectangleShape2D" id=1]
+[sub_resource type="RectangleShape2D" id=4]
 
 custom_solver_bias = 0.0
-extents = Vector2( 10, 28 )
+extents = Vector2( 8, 27 )
 
 [sub_resource type="Animation" id=2]
 
@@ -109,8 +109,8 @@ samples/cri9 = {
 [node name="hero" type="KinematicBody2D"]
 
 input/pickable = false
-shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 4 )
+shapes/0/shape = SubResource( 4 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 5 )
 shapes/0/trigger = false
 collision/layers = 1
 collision/mask = 1
@@ -124,9 +124,18 @@ jump_power = 150
 
 texture = ExtResource( 2 )
 
+[node name="arm_right" type="Position2D" parent="body"]
+
+transform/pos = Vector2( 7, -6 )
+
+[node name="arm_left" type="Position2D" parent="body"]
+
+transform/pos = Vector2( -7, -6 )
+
 [node name="arm" type="Sprite" parent="."]
 
-transform/pos = Vector2( 8.39158, -5.12588 )
+visibility/behind_parent = true
+transform/pos = Vector2( 7, -6 )
 texture = ExtResource( 3 )
 offset = Vector2( 16, 1 )
 
@@ -136,8 +145,8 @@ transform/pos = Vector2( 24, -1 )
 
 [node name="collision" type="CollisionShape2D" parent="."]
 
-transform/pos = Vector2( 0, 4 )
-shape = SubResource( 1 )
+transform/pos = Vector2( 0, 5 )
+shape = SubResource( 4 )
 trigger = false
 _update_shape_index = 0
 

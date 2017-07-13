@@ -15,6 +15,8 @@ var basic_bullet_scn = preload("res://actors/bullets/basic_bullet.tscn")
 var build_bullet_scn = preload("res://actors/bullets/build_bullet.tscn")
 
 var body_sprite
+var arm_right_position
+var arm_left_position
 var arm_sprite
 var shoot_position
 var camera
@@ -31,6 +33,8 @@ var focused = false
 
 func _ready():
 	body_sprite = get_node("body")
+	arm_right_position = get_node("body/arm_right")
+	arm_left_position = get_node("body/arm_left")
 	arm_sprite = get_node("arm")
 	shoot_position = get_node("arm/shoot_position")
 	camera = get_node("camera")
@@ -57,12 +61,12 @@ func _update_arm_rotation():
 	arm_sprite.set_rot(Vector2(-mouse_vec.y, mouse_vec.x).angle())
 	if arm_sprite.get_rot() > PI / 2 or arm_sprite.get_rot() < -PI / 2:
 		arm_sprite.set_flip_v(true)
-		arm_sprite.set_draw_behind_parent(true)
 		body_sprite.set_flip_h(true)
+		arm_sprite.set_pos(arm_left_position.get_pos())
 	else:
 		arm_sprite.set_flip_v(false)
-		arm_sprite.set_draw_behind_parent(false)
 		body_sprite.set_flip_h(false)
+		arm_sprite.set_pos(arm_right_position.get_pos())
 
 func kill():
 	if(!killed):
@@ -110,7 +114,6 @@ func _fixed_process(delta):
 			floor_velocity = get_collider_velocity()
 			jumping = false
 		elif jumping and n.y > 0 and velocity.y < -MIN_JUMP_SPEED_HEAD_DAMAGE:
-			print(velocity.y)
 			var pick = round(rand_range(0.5,11.5))
 			sound_voice.play("cri"+ str(pick))
 
