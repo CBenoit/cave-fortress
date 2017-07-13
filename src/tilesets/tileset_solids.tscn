@@ -16,7 +16,7 @@ transform/pos = Vector2( 32, 32 )
 texture = ExtResource( 1 )
 hframes = 10
 script/script = ExtResource( 2 )
-health = 10
+max_health = 10
 
 [node name="StaticBody2D" type="StaticBody2D" parent="dirt"]
 
@@ -33,7 +33,6 @@ bounce = 0.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="dirt/StaticBody2D"]
 
-visibility/visible = false
 shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
@@ -45,7 +44,7 @@ texture = ExtResource( 1 )
 hframes = 10
 frame = 1
 script/script = ExtResource( 2 )
-health = 50
+max_health = 10
 
 [node name="StaticBody2D" type="StaticBody2D" parent="stone"]
 
@@ -62,7 +61,6 @@ bounce = 0.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="stone/StaticBody2D"]
 
-visibility/visible = false
 shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
@@ -74,7 +72,7 @@ texture = ExtResource( 1 )
 hframes = 10
 frame = 2
 script/script = ExtResource( 2 )
-health = 200
+max_health = 10
 
 [node name="StaticBody2D" type="StaticBody2D" parent="steel"]
 
@@ -92,7 +90,6 @@ bounce = 0.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="steel/StaticBody2D"]
 
-visibility/visible = false
 transform/pos = Vector2( -96, 0 )
 shape = SubResource( 1 )
 trigger = false
