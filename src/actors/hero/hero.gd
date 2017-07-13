@@ -20,6 +20,7 @@ var shoot_position
 var camera
 var camera_anim
 var sound_voice
+var sound_gun
 
 var velocity = Vector2()
 var on_air_time = 0
@@ -36,6 +37,7 @@ func _ready():
 	camera = get_node("camera")
 	camera_anim = get_node("camera/camera_anim")
 	sound_voice = get_node("voice")
+	sound_gun = get_node("gun")
 
 	set_fixed_process(true)
 	set_process_input(true)
@@ -48,6 +50,7 @@ func _input(event):
 		bullet.set_pos(shoot_position.get_global_pos())
 		bullet.add_collision_exception_with(self)
 		get_node("..").add_child(bullet)
+		sound_gun.play("shot1")
 
 func _process(delta):
 	_update_arm_rotation()
