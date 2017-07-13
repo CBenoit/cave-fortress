@@ -3,6 +3,7 @@ extends KinematicBody2D
 const JUMP_MAX_AIRBORNE_TIME = 0.1
 const JUMP_INFLUENCE_START_TIME = 0.05
 const JUMP_INFLUENCE_MAX_TIME = 0.15
+const MIN_JUMP_SPEED_HEAD_DAMAGE = 140
 
 export var walk_speed = 128
 export var gravity = 313.6
@@ -79,10 +80,8 @@ func _fixed_process(delta):
 	if jumping: # air control
 		if walk_left:
 			velocity.x = x_jump_velocity - walk_speed / 2
-			#x_jump_velocity = (velocity.x + x_jump_velocity) / 2
 		elif walk_right:
 			velocity.x = x_jump_velocity + walk_speed / 2
-			#x_jump_velocity = (velocity.x + x_jump_velocity) / 2
 		else:
 			velocity.x = x_jump_velocity
 	else:
@@ -110,7 +109,8 @@ func _fixed_process(delta):
 			on_air_time = 0
 			floor_velocity = get_collider_velocity()
 			jumping = false
-		elif jumping and n.y > 0:
+		elif jumping and n.y > 0 and velocity.y < -MIN_JUMP_SPEED_HEAD_DAMAGE:
+			print(velocity.y)
 			var pick = round(rand_range(0.5,11.5))
 			sound_voice.play("cri"+ str(pick))
 
