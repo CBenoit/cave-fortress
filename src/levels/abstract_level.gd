@@ -14,6 +14,12 @@ func _ready():
 	bottomright_base_area = get_node("bottomright_base_area")
 	solids_tilemap = get_node("content/solids")
 
+	var hero_camera = get_node("content/entities/hero/camera")
+	hero_camera.set_limit(MARGIN_LEFT, topleft_level_area.get_pos().x)
+	hero_camera.set_limit(MARGIN_TOP, topleft_level_area.get_pos().y)
+	hero_camera.set_limit(MARGIN_RIGHT, bottomright_level_area.get_pos().x)
+	hero_camera.set_limit(MARGIN_BOTTOM, bottomright_level_area.get_pos().y)
+
 	fill_area_outside_base()
 
 func fill_area_outside_base():
