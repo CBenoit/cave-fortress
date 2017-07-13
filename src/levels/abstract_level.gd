@@ -1,9 +1,5 @@
 extends Node
 
-const TILE_STONE = 0
-const TILE_DIRT = 1
-const TILE_STEEL = 2
-
 var current_wave = 0
 var topleft_level_area
 var bottomright_level_area
@@ -27,15 +23,15 @@ func fill_area_outside_base():
 			if not contained_in_base(pos):
 				var tile_pos = solids_tilemap.world_to_map(pos)
 
-				var selected_tile = TILE_DIRT
+				var selected_tile = SolidTiles.TILE_DIRT
 				var stone_probability = 0.1
-				if TILE_STONE in get_neighbour_tiles(tile_pos):
+				if SolidTiles.TILE_STONE in get_neighbour_tiles(tile_pos):
 					stone_probability = 0.4
 
 				if randf() < stone_probability:
-					selected_tile = TILE_STONE
+					selected_tile = SolidTiles.TILE_STONE
 				elif randf() < 0.01: # very small probability of steel
-					selected_tile = TILE_STEEL
+					selected_tile = SolidTiles.TILE_STEEL
 
 				solids_tilemap.set_cellv(tile_pos, selected_tile)
 
