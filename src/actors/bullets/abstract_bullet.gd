@@ -9,12 +9,16 @@ func _ready():
 
 func _fixed_process(delta):
 	# move the bullet
-	var direction = Vector2(cos(orientation), -sin(orientation))
-	var remaining_motion = move(direction * speed * delta)
+	advance(speed * delta)
 
 	if is_colliding():
-		_on_colliding(remaining_motion)
+		_on_colliding()
 		queue_free() # this free the bullet safely
 
-func _on_colliding(remaining_motion):
+func _on_colliding():
 	pass
+
+func advance(force):
+	var direction = Vector2(cos(orientation), -sin(orientation))
+	move(direction * force)
+
