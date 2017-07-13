@@ -11,6 +11,7 @@ export var jump_power = 150
 signal killed()
 
 var basic_bullet_scn = preload("res://actors/bullets/basic_bullet.tscn")
+var build_bullet_scn = preload("res://actors/bullets/build_bullet.tscn")
 
 var body_sprite
 var arm_sprite
@@ -39,7 +40,7 @@ func _ready():
 
 func _input(event):
 	if event.is_action_released("attack"):
-		var bullet = basic_bullet_scn.instance()
+		var bullet = build_bullet_scn.instance()
 		bullet.orientation = arm_sprite.get_rot()
 		bullet.set_pos(shoot_position.get_global_pos())
 		get_node("..").add_child(bullet)
@@ -112,8 +113,7 @@ func _fixed_process(delta):
 		var n = get_collision_normal()
 
 		if (rad2deg(acos(n.dot(Vector2(0, -1)))) == 0):
-			# If angle to the "up" vectors is < angle tolerance
-			# char is on floor
+			# If angle to the "up" vectors is null, then: on floor
 			on_air_time = 0
 			floor_velocity = get_collider_velocity()
 			jumping = false
