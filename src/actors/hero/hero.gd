@@ -107,8 +107,8 @@ func _fixed_process(delta):
 	if(is_colliding()):
 		var n = get_collision_normal()
 
-		if (n.x==0 and n.y <0):
-			# If angle to the "up" vectors is null, then: on floor
+		if (n.x == 0 and n.y < 0):
+			# If the normal strictly goes "up", then: on floor
 			on_air_time = 0
 			floor_velocity = get_collider_velocity()
 			jumping = false
