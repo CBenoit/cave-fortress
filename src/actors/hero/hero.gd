@@ -17,12 +17,11 @@ var build_bullet_scn = preload("res://actors/bullets/build_bullet.tscn")
 var body_sprite
 var arm_right_position
 var arm_left_position
-var arm_sprite
+var weapon
 var shoot_position
 var camera
 var camera_anim
 var sound_voice
-var sound_gun
 
 var velocity = Vector2()
 var on_air_time = 0
@@ -36,12 +35,10 @@ func _ready():
 	body_sprite = get_node("body")
 	arm_right_position = get_node("body/arm_right")
 	arm_left_position = get_node("body/arm_left")
-	arm_sprite = get_node("arm")
-	shoot_position = get_node("arm/shoot_position")
+	weapon = get_node("weapon")
 	camera = get_node("camera")
 	camera_anim = get_node("camera/camera_anim")
 	sound_voice = get_node("voice")
-	sound_gun = get_node("gun")
 
 	set_fixed_process(true)
 	set_process_input(true)
@@ -50,26 +47,26 @@ func _ready():
 func _input(event):
 	if event.is_action_released("attack"):
 		var bullet = basic_bullet_scn.instance()
-		bullet.orientation = arm_sprite.get_rot()
-		bullet.set_pos(shoot_position.get_global_pos())
+		bullet.orientation = weapon.get_rot()
+		bullet.set_pos(weapon.get_node("fire_position").get_global_pos())
 		bullet.add_collision_exception_with(self)
 		get_node("..").add_child(bullet)
-		sound_gun.play("shot1")
+		weapon.get_node("fire_sound").play("fire")
 
 func _process(delta):
 	_update_arm_rotation()
 
 func _update_arm_rotation():
 	var mouse_vec = get_local_mouse_pos().normalized()
-	arm_sprite.set_rot(Vector2(-mouse_vec.y, mouse_vec.x).angle())
-	if arm_sprite.get_rot() > PI / 2 or arm_sprite.get_rot() < -PI / 2:
-		arm_sprite.set_flip_v(true)
+	weapon.set_rot(Vector2(-mouse_vec.y, mouse_vec.x).angle())
+	if weapon.get_rot() > PI / 2 or weapon.get_rot() < -PI / 2:
+		weapon.set_flip_v(true)
 		body_sprite.set_flip_h(true)
-		arm_sprite.set_pos(arm_left_position.get_pos())
+		weapon.set_pos(arm_left_position.get_pos())
 	else:
-		arm_sprite.set_flip_v(false)
+		weapon.set_flip_v(false)
 		body_sprite.set_flip_h(false)
-		arm_sprite.set_pos(arm_right_position.get_pos())
+		weapon.set_pos(arm_right_position.get_pos())
 
 func kill():
 	if(!killed):

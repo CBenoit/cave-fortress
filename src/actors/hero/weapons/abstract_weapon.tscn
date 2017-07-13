@@ -1,0 +1,18 @@
+[gd_scene format=1]
+
+[node name="weapon" type="Sprite"]
+
+[node name="fire_position" type="Position2D" parent="."]
+
+[node name="fire_sound" type="SamplePlayer2D" parent="."]
+
+params/volume_db = 0.0
+params/pitch_scale = 1.0
+params/attenuation/min_distance = 1.0
+params/attenuation/max_distance = 2048.0
+params/attenuation/distance_exp = 1.0
+config/polyphony = 1
+config/samples = null
+config/pitch_random = 0.0
+
+
