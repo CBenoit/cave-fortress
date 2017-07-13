@@ -126,7 +126,7 @@ texture = ExtResource( 2 )
 
 [node name="arm" type="Sprite" parent="."]
 
-transform/pos = Vector2( 0, -6 )
+transform/pos = Vector2( 8.39158, -5.12588 )
 texture = ExtResource( 3 )
 offset = Vector2( 16, 1 )
 
