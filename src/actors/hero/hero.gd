@@ -111,7 +111,7 @@ func _fixed_process(delta):
 	if(is_colliding()):
 		var n = get_collision_normal()
 
-		if (rad2deg(acos(n.dot(Vector2(0, -1)))) == 0):
+		if (n.x==0 and n.y <0):
 			# If angle to the "up" vectors is null, then: on floor
 			on_air_time = 0
 			floor_velocity = get_collider_velocity()
