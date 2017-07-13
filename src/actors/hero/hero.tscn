@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=1]
+[gd_scene load_steps=18 format=1]
 
 [ext_resource path="res://actors/hero/hero.gd" type="Script" id=1]
 [ext_resource path="res://actors/hero/weapons/basic_weapon.tscn" type="PackedScene" id=2]
@@ -106,15 +106,6 @@ samples/cri9 = {
 "sample": ExtResource( 14 )
 }
 
-[sub_resource type="SampleLibrary" id=4]
-
-samples/shot1 = {
-"db": 0.0,
-"pitch": 1.0,
-"priority": 0,
-"sample": null
-}
-
 [node name="hero" type="KinematicBody2D"]
 
 input/pickable = false
@@ -182,38 +173,15 @@ playback/speed = 1.0
 blend_times = [  ]
 autoplay = ""
 
-[node name="voice" type="SamplePlayer" parent="."]
+[node name="voice" type="SamplePlayer2D" parent="."]
 
+params/volume_db = -15.0
+params/pitch_scale = 1.0
+params/attenuation/min_distance = 1.0
+params/attenuation/max_distance = 2048.0
+params/attenuation/distance_exp = 1.0
 config/polyphony = 1
 config/samples = SubResource( 3 )
-default/volume_db = -14.0
-default/pitch_scale = 1.0
-default/pan = 0.0
-default/depth = 0.0
-default/height = 0.0
-default/filter/type = 0
-default/filter/cutoff = 5000.0
-default/filter/resonance = 1.0
-default/filter/gain = 1.0
-default/reverb_room = 2
-default/reverb_send = 0.0
-default/chorus_send = 0.0
-
-[node name="gun" type="SamplePlayer" parent="."]
-
-config/polyphony = 1
-config/samples = SubResource( 4 )
-default/volume_db = 0.0
-default/pitch_scale = 1.0
-default/pan = 0.0
-default/depth = 0.0
-default/height = 0.0
-default/filter/type = 0
-default/filter/cutoff = 5000.0
-default/filter/resonance = 1.0
-default/filter/gain = 1.0
-default/reverb_room = 2
-default/reverb_send = 0.0
-default/chorus_send = 0.0
+config/pitch_random = 0.0
 
 

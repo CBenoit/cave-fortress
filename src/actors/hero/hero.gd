@@ -114,7 +114,8 @@ func _fixed_process(delta):
 			jumping = false
 		elif jumping and n.y > 0 and velocity.y < -MIN_JUMP_SPEED_HEAD_DAMAGE:
 			var pick = round(rand_range(0.5,11.5))
-			sound_voice.play("cri"+ str(pick))
+			if not sound_voice.is_voice_active(0):
+				sound_voice.play("cri" + str(pick))
 
 		x_jump_velocity = 0
 		motion = n.slide(motion)
