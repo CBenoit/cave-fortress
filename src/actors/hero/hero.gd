@@ -17,6 +17,7 @@ var arm_sprite
 var shoot_position
 var camera
 var camera_anim
+var sound_voice
 
 var velocity = Vector2()
 var on_air_time = 0
@@ -32,7 +33,8 @@ func _ready():
 	shoot_position = get_node("arm/shoot_position")
 	camera = get_node("camera")
 	camera_anim = get_node("camera/camera_anim")
-
+	sound_voice = get_node("voice")
+	
 	set_fixed_process(true)
 	set_process_input(true)
 	set_process(true)
@@ -117,7 +119,10 @@ func _fixed_process(delta):
 			on_air_time = 0
 			floor_velocity = get_collider_velocity()
 			jumping = false
-
+		elif jumping and n.y > 0:
+			var pick = round(rand_range(0.5,11.5))
+			sound_voice.play("cri"+ str(pick))
+		
 		x_jump_velocity = 0
 		motion = n.slide(motion)
 		velocity = n.slide(velocity)
