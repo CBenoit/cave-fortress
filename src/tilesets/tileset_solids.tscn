@@ -1,7 +1,6 @@
-[gd_scene load_steps=4 format=1]
+[gd_scene load_steps=3 format=1]
 
 [ext_resource path="res://tilesets/solids.tex" type="Texture" id=1]
-[ext_resource path="res://tilesets/solids.gd" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -15,8 +14,6 @@ extents = Vector2( 16, 16 )
 transform/pos = Vector2( 32, 32 )
 texture = ExtResource( 1 )
 hframes = 10
-script/script = ExtResource( 2 )
-max_health = 10
 
 [node name="StaticBody2D" type="StaticBody2D" parent="dirt"]
 
@@ -43,8 +40,6 @@ transform/pos = Vector2( 96, 32 )
 texture = ExtResource( 1 )
 hframes = 10
 frame = 1
-script/script = ExtResource( 2 )
-max_health = 10
 
 [node name="StaticBody2D" type="StaticBody2D" parent="stone"]
 
@@ -71,8 +66,6 @@ transform/pos = Vector2( 160, 32 )
 texture = ExtResource( 1 )
 hframes = 10
 frame = 2
-script/script = ExtResource( 2 )
-max_health = 10
 
 [node name="StaticBody2D" type="StaticBody2D" parent="steel"]
 
