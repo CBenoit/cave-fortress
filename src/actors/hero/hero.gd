@@ -11,14 +11,13 @@ export var jump_power = 150
 
 signal killed()
 
-var basic_bullet_scn = preload("res://actors/bullets/basic_bullet.tscn")
-var build_bullet_scn = preload("res://actors/bullets/build_bullet.tscn")
+var basic_weapon_scn = preload("res://actors/hero/weapons/basic_weapon.tscn")
+#TODO: var build_weapon_scn = preload("res://actors/hero/weapons/build_weapon.tscn")
 
 var body_sprite
 var arm_right_position
 var arm_left_position
 var weapon
-var shoot_position
 var camera
 var camera_anim
 var sound_voice
@@ -45,13 +44,9 @@ func _ready():
 	set_process(true)
 
 func _input(event):
-	if event.is_action_released("attack"):
-		var bullet = basic_bullet_scn.instance()
-		bullet.orientation = weapon.get_rot()
-		bullet.set_pos(weapon.get_node("fire_position").get_global_pos())
-		bullet.add_collision_exception_with(self)
-		get_node("..").add_child(bullet)
-		weapon.get_node("fire_sound").play("fire")
+	if weapon.mode == weapon.SEMI_AUTO_MODE:
+		if event.is_action_released("attack"):
+			weapon.fire()
 
 func _process(delta):
 	_update_arm_rotation()
@@ -77,6 +72,10 @@ func kill():
 		emit_signal("killed")
 
 func _fixed_process(delta):
+	if weapon.mode == weapon.AUTOMATIC_MODE:
+		if Input.is_action_pressed("attack"):
+			weapon.fire()
+
 	var walk_left = Input.is_action_pressed("move_left")
 	var walk_right = Input.is_action_pressed("move_right")
 	var jump = Input.is_action_pressed("jump")

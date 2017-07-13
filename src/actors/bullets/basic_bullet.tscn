@@ -20,9 +20,10 @@ collision/layers = 1
 collision/mask = 1
 collision/margin = 0.08
 script/script = ExtResource( 1 )
-orientation = 0.0
+orientation = 0
 speed = 1000
-power = 2
+power = 1
+lifetime_sec = 10
 
 [node name="sprite" type="Sprite" parent="."]
 

@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=1]
+[gd_scene load_steps=6 format=1]
 
 [ext_resource path="res://actors/hero/weapons/abstract_weapon.tscn" type="PackedScene" id=1]
 [ext_resource path="res://actors/hero/weapons/pistol1.tex" type="Texture" id=2]
-[ext_resource path="res://actors/hero/weapons/shot1.smp" type="Sample" id=3]
+[ext_resource path="res://actors/bullets/basic_bullet.tscn" type="PackedScene" id=3]
+[ext_resource path="res://actors/hero/weapons/shot1.smp" type="Sample" id=4]
 
 [sub_resource type="SampleLibrary" id=1]
 
@@ -10,7 +11,7 @@ samples/fire = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
-"sample": ExtResource( 3 )
+"sample": ExtResource( 4 )
 }
 
 [node name="weapon" instance=ExtResource( 1 )]
@@ -18,10 +19,14 @@ samples/fire = {
 visibility/behind_parent = true
 texture = ExtResource( 2 )
 offset = Vector2( 16, 1 )
+fire_interval_sec = 0.05
+fire_angle = 0.1
+bullet_scn = ExtResource( 3 )
+mode = 1
 
 [node name="fire_position" parent="."]
 
-transform/pos = Vector2( 18, -1 )
+transform/pos = Vector2( 20, 0 )
 
 [node name="fire_sound" parent="."]
 
