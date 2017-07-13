@@ -1,22 +1,10 @@
-extends KinematicBody2D
+extends "./abstract_bullet.gd"
 
-export var orientation = 0.0
-export var speed = 1000
-export var power = 1
-
-func _ready():
-	set_fixed_process(true)
-
-func _fixed_process(delta):
-	# move the bullet
-	var direction = Vector2(cos(orientation), -sin(orientation))
-	move(direction * speed * delta)
-
-	if is_colliding():
-		# apply damages to collider if applicable
-		var collider = get_collider()
-		if "solid" in collider.get_groups():
-			collider.damage(power)
-
-		queue_free() # this free the bullet safely
-
+func _on_colliding():
+	# apply damages to collider if applicable
+	var collider = get_collider()
+	if "solids" in collider.get_groups():
+		var collision_pos = get_pos()
+		if collider.get_cellv(collider.world_to_map(collision_pos)) == SolidTiles.TILE_EMPTY:
+			collision_pos += Vector2(cos(orientation), -sin(orientation)) * TilemapsConstants.TILE_SIZE / 4
+		collider.damage_tile(collider.world_to_map(collision_pos))

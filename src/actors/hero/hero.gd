@@ -42,7 +42,7 @@ func _ready():
 
 func _input(event):
 	if event.is_action_released("attack"):
-		var bullet = build_bullet_scn.instance()
+		var bullet = basic_bullet_scn.instance()
 		bullet.orientation = arm_sprite.get_rot()
 		bullet.set_pos(shoot_position.get_global_pos())
 		bullet.add_collision_exception_with(self)
