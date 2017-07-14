@@ -21,6 +21,7 @@ texture = ExtResource( 2 )
 offset = Vector2( 16, 1 )
 fire_interval_sec = 0.05
 fire_angle = 0.1
+bullet_num = 2
 bullet_scn = ExtResource( 3 )
 mode = 1
 

@@ -5,6 +5,7 @@ const SEMI_AUTO_MODE = 1
 
 export(float, 0.01, 15, 0.01) var fire_interval_sec = 0.1
 export(float, 0, 2, 0.01) var fire_angle = 0
+export(int,1,5,1) var bullet_num = 1
 export(PackedScene) var bullet_scn
 export(int, "Automatic", "Semi-auto") var mode
 
@@ -26,7 +27,12 @@ func fire():
 func _create_bullets():
 	# default behaviour: one bullet taking into account the given fire angle
 	var bullet = bullet_scn.instance()
-	bullet.orientation = get_rot() + rand_range(-fire_angle / 2, fire_angle / 2)
-	bullet.set_pos(fire_position.get_global_pos())
-	bullet.add_collision_exception_with(get_node("..")) # avoid collision with the shooter...
-	get_node("../..").add_child(bullet) # add the bullets to the node "entities" in abstract_level
+	var bullets = []
+	for i in range(bullet_num):
+		bullets.append(bullet_scn.instance())
+		bullets[i].orientation = get_rot() + rand_range(-fire_angle / 2, fire_angle / 2)
+		bullets[i].set_pos(fire_position.get_global_pos())
+		bullets[i].add_collision_exception_with(get_node("..")) # avoid collision with the shooter...
+		for j in range(i):
+			bullets[i].add_collision_exception_with(bullets[j])
+		get_node("../..").add_child(bullets[i]) # add the bullets to the node "entities" in abstract_level
