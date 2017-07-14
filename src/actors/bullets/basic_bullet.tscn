@@ -8,7 +8,7 @@
 custom_solver_bias = 0.0
 radius = 1.0
 
-[node name="basic_bullet" type="KinematicBody2D" groups=[
+[node name="bullet" type="KinematicBody2D" groups=[
 "bullet",
 ]]
 
@@ -23,7 +23,7 @@ script/script = ExtResource( 1 )
 orientation = 0
 speed = 1000
 power = 1
-lifetime_sec = 10.0
+lifetime_sec = 10
 
 [node name="sprite" type="Sprite" parent="."]
 
