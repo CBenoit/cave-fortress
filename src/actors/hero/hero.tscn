@@ -1,19 +1,20 @@
-[gd_scene load_steps=18 format=1]
+[gd_scene load_steps=19 format=1]
 
 [ext_resource path="res://actors/hero/hero.gd" type="Script" id=1]
 [ext_resource path="res://actors/hero/weapons/basic_weapon.tscn" type="PackedScene" id=2]
-[ext_resource path="res://actors/hero/hero.tex" type="Texture" id=3]
-[ext_resource path="res://actors/hero/cri1.smp" type="Sample" id=4]
-[ext_resource path="res://actors/hero/cri10.smp" type="Sample" id=5]
-[ext_resource path="res://actors/hero/cri11.smp" type="Sample" id=6]
-[ext_resource path="res://actors/hero/cri2.smp" type="Sample" id=7]
-[ext_resource path="res://actors/hero/cri3.smp" type="Sample" id=8]
-[ext_resource path="res://actors/hero/cri4.smp" type="Sample" id=9]
-[ext_resource path="res://actors/hero/cri5.smp" type="Sample" id=10]
-[ext_resource path="res://actors/hero/cri6.smp" type="Sample" id=11]
-[ext_resource path="res://actors/hero/cri7.smp" type="Sample" id=12]
-[ext_resource path="res://actors/hero/cri8.smp" type="Sample" id=13]
-[ext_resource path="res://actors/hero/cri9.smp" type="Sample" id=14]
+[ext_resource path="res://actors/bullets/shotgun_bullet.tscn" type="PackedScene" id=3]
+[ext_resource path="res://actors/hero/hero.tex" type="Texture" id=4]
+[ext_resource path="res://actors/hero/cri1.smp" type="Sample" id=5]
+[ext_resource path="res://actors/hero/cri10.smp" type="Sample" id=6]
+[ext_resource path="res://actors/hero/cri11.smp" type="Sample" id=7]
+[ext_resource path="res://actors/hero/cri2.smp" type="Sample" id=8]
+[ext_resource path="res://actors/hero/cri3.smp" type="Sample" id=9]
+[ext_resource path="res://actors/hero/cri4.smp" type="Sample" id=10]
+[ext_resource path="res://actors/hero/cri5.smp" type="Sample" id=11]
+[ext_resource path="res://actors/hero/cri6.smp" type="Sample" id=12]
+[ext_resource path="res://actors/hero/cri7.smp" type="Sample" id=13]
+[ext_resource path="res://actors/hero/cri8.smp" type="Sample" id=14]
+[ext_resource path="res://actors/hero/cri9.smp" type="Sample" id=15]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -43,67 +44,67 @@ samples/cri1 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
-"sample": ExtResource( 4 )
+"sample": ExtResource( 5 )
 }
 samples/cri10 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
-"sample": ExtResource( 5 )
+"sample": ExtResource( 6 )
 }
 samples/cri11 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
-"sample": ExtResource( 6 )
+"sample": ExtResource( 7 )
 }
 samples/cri2 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
-"sample": ExtResource( 7 )
+"sample": ExtResource( 8 )
 }
 samples/cri3 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
-"sample": ExtResource( 8 )
+"sample": ExtResource( 9 )
 }
 samples/cri4 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
-"sample": ExtResource( 9 )
+"sample": ExtResource( 10 )
 }
 samples/cri5 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
-"sample": ExtResource( 10 )
+"sample": ExtResource( 11 )
 }
 samples/cri6 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
-"sample": ExtResource( 11 )
+"sample": ExtResource( 12 )
 }
 samples/cri7 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
-"sample": ExtResource( 12 )
+"sample": ExtResource( 13 )
 }
 samples/cri8 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
-"sample": ExtResource( 13 )
+"sample": ExtResource( 14 )
 }
 samples/cri9 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
-"sample": ExtResource( 14 )
+"sample": ExtResource( 15 )
 }
 
 [node name="hero" type="KinematicBody2D"]
@@ -122,11 +123,14 @@ jump_power = 150
 
 [node name="weapon" parent="." instance=ExtResource( 2 )]
 
-transform/pos = Vector2( 33, -19 )
+transform/pos = Vector2( 34, -19 )
+fire_angle = 1.29
+bullet_num = 4
+bullet_scn = ExtResource( 3 )
 
 [node name="body" type="Sprite" parent="."]
 
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 
 [node name="arm_right" type="Position2D" parent="body"]
 
