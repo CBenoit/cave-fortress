@@ -29,9 +29,9 @@ func set_map():
 		for y in range(topleft_level_area.get_pos().y, bottomright_level_area.get_pos().y, 32):
 			var pos = Vector2(x, y)
 			var tile_pos = solids_tilemap.world_to_map(pos)
-			
+
 			background_tilemap.set_cellv(tile_pos, floor(rand_range(0,5))) # placing the background texture
-			
+
 			if not contained_in_base(pos): #filling the map outside the base area
 
 				var selected_tile = SolidTiles.TILE_DIRT
