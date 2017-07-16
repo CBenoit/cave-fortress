@@ -22,17 +22,16 @@ func _ready():
 	hero_camera.set_limit(MARGIN_RIGHT, bottomright_level_area.get_pos().x)
 	hero_camera.set_limit(MARGIN_BOTTOM, bottomright_level_area.get_pos().y)
 
-	set_map()
+	fill_outside_base()
+	set_background()
 
-func set_map():
+func fill_outside_base(): #filling the map outside the base area
 	for x in range(topleft_level_area.get_pos().x, bottomright_level_area.get_pos().x, 32):
 		for y in range(topleft_level_area.get_pos().y, bottomright_level_area.get_pos().y, 32):
 			var pos = Vector2(x, y)
-			var tile_pos = solids_tilemap.world_to_map(pos)
 
-			background_tilemap.set_cellv(tile_pos, floor(rand_range(0,5))) # placing the background texture
-
-			if not contained_in_base(pos): #filling the map outside the base area
+			if not contained_in_base(pos):
+				var tile_pos = solids_tilemap.world_to_map(pos)
 
 				var selected_tile = SolidTiles.TILE_DIRT
 				var stone_probability = 0.1
@@ -45,6 +44,13 @@ func set_map():
 					selected_tile = SolidTiles.TILE_STEEL
 
 				solids_tilemap.set_cellv(tile_pos, selected_tile)
+
+func set_background(): # generates the background
+	for x in range(topleft_level_area.get_pos().x, bottomright_level_area.get_pos().x, 32):
+		for y in range(topleft_level_area.get_pos().y, bottomright_level_area.get_pos().y, 32):
+			var tile_pos = solids_tilemap.world_to_map(Vector2(x,y))
+			background_tilemap.set_cellv(tile_pos, floor(rand_range(0,5))) # placing the background texture
+
 
 func contained_in_base(pos):
 	return pos.x > topleft_base_area.get_pos().x and pos.x < bottomright_base_area.get_pos().x \

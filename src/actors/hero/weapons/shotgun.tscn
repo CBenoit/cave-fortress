@@ -16,21 +16,22 @@ samples/fire = {
 
 [node name="weapon" instance=ExtResource( 1 )]
 
-transform/pos = Vector2( 15.8058, 1.57011 )
+transform/pos = Vector2( -0.104649, 0 )
 texture = ExtResource( 2 )
+offset = Vector2( 16, 1 )
+name = "Shotgun"
 fire_interval_sec = 1.0
-fire_angle = 0.15
-bullet_num = 4
+fire_angle = 0.4
+bullet_num = 5
 bullet_scn = ExtResource( 3 )
 mode = 1
 
 [node name="fire_position" parent="."]
 
-transform/pos = Vector2( 5.33837, -1.46544 )
+transform/pos = Vector2( 22.0862, -0.104676 )
 
 [node name="fire_sound" parent="."]
 
-visibility/visible = false
 transform/pos = Vector2( 0.104675, 0 )
 config/samples = SubResource( 1 )
 

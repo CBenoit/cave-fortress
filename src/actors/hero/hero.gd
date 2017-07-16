@@ -21,6 +21,10 @@ var weapon
 var camera
 var camera_anim
 var sound_voice
+var weapons = [preload("res://actors/hero/weapons/basic_weapon.tscn"),
+preload("res://actors/hero/weapons/shotgun.tscn"),
+preload("res://actors/hero/weapons/build_gun.tscn")]
+var picked_weapon = 0
 
 var velocity = Vector2()
 var on_air_time = 0
@@ -47,6 +51,19 @@ func _input(event):
 	if weapon.mode == weapon.SEMI_AUTO_MODE:
 		if event.is_action_released("attack"):
 			weapon.fire()
+	# weapon switching
+	if event.is_action_released("next_weapon"):
+		picked_weapon = (picked_weapon + 1) % weapons.size()
+
+		weapon.queue_free()
+		weapon = weapons[picked_weapon].instance()
+		add_child(weapon)
+	if event.is_action_released("previous_weapon"):
+		picked_weapon = (picked_weapon - 1) % weapons.size()
+
+		weapon.queue_free()
+		weapon = weapons[picked_weapon].instance()
+		add_child(weapon)
 
 func _process(delta):
 	_update_arm_rotation()
