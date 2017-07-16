@@ -50,19 +50,14 @@ func _input(event):
 	if weapon.mode == weapon.SEMI_AUTO_MODE:
 		if event.is_action_released("attack"):
 			weapon.fire()
+
 	# weapon switching
 	if event.is_action_pressed("next_weapon"):
 		picked_weapon = (picked_weapon + 1) % weapons.size()
-
-		weapon.queue_free()
-		weapon = weapons[picked_weapon].instance()
-		add_child(weapon)
-	if event.is_action_pressed("previous_weapon"):
+		change_weapon_by_weapon_idx(picked_weapon)
+	elif event.is_action_pressed("previous_weapon"):
 		picked_weapon = (picked_weapon - 1) % weapons.size()
-
-		weapon.queue_free()
-		weapon = weapons[picked_weapon].instance()
-		add_child(weapon)
+		change_weapon_by_weapon_idx(picked_weapon)
 
 func _process(delta):
 	_update_arm_rotation()
@@ -148,6 +143,11 @@ func _fixed_process(delta):
 		velocity.y -= jump_power * delta * 5
 
 	on_air_time += delta
+
+func change_weapon_by_weapon_idx(weapon_idx):
+	weapon.queue_free()
+	weapon = weapons[weapon_idx].instance()
+	add_child(weapon)
 
 func play_hurt_sound():
 	# Beware: needs to be manually changed when adding or removing sounds.
