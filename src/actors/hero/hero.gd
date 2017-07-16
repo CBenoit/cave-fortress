@@ -129,9 +129,7 @@ func _fixed_process(delta):
 			floor_velocity = get_collider_velocity()
 			jumping = false
 		elif jumping and n.y > 0 and velocity.y < -MIN_JUMP_SPEED_HEAD_DAMAGE:
-			var pick = round(rand_range(0.5,11.5))
-			if not sound_voice.is_voice_active(0):
-				sound_voice.play("cri" + str(pick))
+			play_hurt_sound()
 
 		x_jump_velocity = 0
 		motion = n.slide(motion)
@@ -150,3 +148,10 @@ func _fixed_process(delta):
 		velocity.y -= jump_power * delta * 5
 
 	on_air_time += delta
+
+func play_hurt_sound():
+	# Beware: needs to be manually changed when adding or removing sounds.
+	# May be improved.
+	var pick = round(rand_range(0.5,11.5))
+	if not sound_voice.is_voice_active(0):
+		sound_voice.play("cri" + str(pick))
