@@ -28,10 +28,10 @@ func _ready():
 
 	fill_outside_base()
 	set_background()
+	update_hud()
 
 	# connect signals
 	hero.connect("weapon_changed", hud, "current_weapon_changed")
-	hud.current_weapon_changed(hero.weapon)
 
 func fill_outside_base(): #filling the map outside the base area
 	for x in range(topleft_level_area.get_pos().x, bottomright_level_area.get_pos().x, 32):
@@ -59,7 +59,6 @@ func set_background(): # generates the background
 			var tile_pos = solids_tilemap.world_to_map(Vector2(x,y))
 			background_tilemap.set_cellv(tile_pos, floor(rand_range(0,5))) # placing the background texture
 
-
 func contained_in_base(pos):
 	return pos.x > topleft_base_area.get_pos().x and pos.x < bottomright_base_area.get_pos().x \
 		and pos.y > topleft_base_area.get_pos().y and pos.y < bottomright_base_area.get_pos().y
@@ -69,3 +68,8 @@ func get_neighbour_tiles(tile_pos):
 			solids_tilemap.get_cell(tile_pos.x + 1, tile_pos.y),
 			solids_tilemap.get_cell(tile_pos.x, tile_pos.y - 1),
 			solids_tilemap.get_cell(tile_pos.x, tile_pos.y + 1)]
+
+# update the HUD state with current information
+# as signal update individual parts, this should only be called once at the start.
+func update_hud():
+	hud.current_weapon_changed(hero.weapon)
