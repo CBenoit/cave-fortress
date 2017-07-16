@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=1]
 
 [ext_resource path="res://actors/hero/weapons/abstract_weapon.tscn" type="PackedScene" id=1]
-[ext_resource path="res://actors/hero/weapons/pistol1.tex" type="Texture" id=2]
+[ext_resource path="res://actors/hero/weapons/build_gun.tex" type="Texture" id=2]
 [ext_resource path="res://actors/bullets/build_bullet.tscn" type="PackedScene" id=3]
 [ext_resource path="res://actors/hero/weapons/shot1.smp" type="Sample" id=4]
 
@@ -16,7 +16,7 @@ samples/fire = {
 
 [node name="weapon" instance=ExtResource( 1 )]
 
-transform/pos = Vector2( 0, 0.0852585 )
+transform/pos = Vector2( 0, -0.0852547 )
 texture = ExtResource( 2 )
 offset = Vector2( 16, 1 )
 name = "Build gun"
@@ -25,10 +25,11 @@ mode = 1
 
 [node name="fire_position" parent="."]
 
-transform/pos = Vector2( 23.3606, -0.0852585 )
+transform/pos = Vector2( 23.1048, -2.57194e-05 )
 
 [node name="fire_sound" parent="."]
 
+visibility/visible = false
 config/samples = SubResource( 1 )
 
 

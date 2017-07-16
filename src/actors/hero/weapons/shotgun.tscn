@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=1]
 
 [ext_resource path="res://actors/hero/weapons/abstract_weapon.tscn" type="PackedScene" id=1]
-[ext_resource path="res://actors/hero/weapons/pistol1.tex" type="Texture" id=2]
+[ext_resource path="res://actors/hero/weapons/shotgun.tex" type="Texture" id=2]
 [ext_resource path="res://actors/bullets/shotgun_bullet.tscn" type="PackedScene" id=3]
 [ext_resource path="res://actors/hero/weapons/shot1.smp" type="Sample" id=4]
 
@@ -20,7 +20,7 @@ transform/pos = Vector2( -0.104649, 0 )
 texture = ExtResource( 2 )
 offset = Vector2( 16, 1 )
 name = "Shotgun"
-fire_interval_sec = 1.0
+fire_interval_sec = 0.8
 fire_angle = 0.4
 bullet_num = 5
 bullet_scn = ExtResource( 3 )
@@ -28,7 +28,7 @@ mode = 1
 
 [node name="fire_position" parent="."]
 
-transform/pos = Vector2( 22.0862, -0.104676 )
+transform/pos = Vector2( 30.6695, -4.5225e-06 )
 
 [node name="fire_sound" parent="."]
 

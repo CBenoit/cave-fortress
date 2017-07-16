@@ -21,9 +21,11 @@ var weapon
 var camera
 var camera_anim
 var sound_voice
-var weapons = [preload("res://actors/hero/weapons/basic_weapon.tscn"),
-preload("res://actors/hero/weapons/shotgun.tscn"),
-preload("res://actors/hero/weapons/build_gun.tscn")]
+var weapons = [
+	preload("res://actors/hero/weapons/basic_weapon.tscn"),
+	preload("res://actors/hero/weapons/shotgun.tscn"),
+	preload("res://actors/hero/weapons/build_gun.tscn")
+]
 var picked_weapon = 0
 
 var velocity = Vector2()
@@ -52,13 +54,13 @@ func _input(event):
 		if event.is_action_released("attack"):
 			weapon.fire()
 	# weapon switching
-	if event.is_action_released("next_weapon"):
+	if event.is_action_pressed("next_weapon"):
 		picked_weapon = (picked_weapon + 1) % weapons.size()
 
 		weapon.queue_free()
 		weapon = weapons[picked_weapon].instance()
 		add_child(weapon)
-	if event.is_action_released("previous_weapon"):
+	if event.is_action_pressed("previous_weapon"):
 		picked_weapon = (picked_weapon - 1) % weapons.size()
 
 		weapon.queue_free()

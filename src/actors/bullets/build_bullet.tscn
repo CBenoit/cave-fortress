@@ -1,9 +1,10 @@
-[gd_scene load_steps=2 format=1]
+[gd_scene load_steps=3 format=1]
 
 [ext_resource path="res://actors/bullets/basic_bullet.tscn" type="PackedScene" id=1]
+[ext_resource path="res://actors/bullets/build_bullet.gd" type="Script" id=2]
 
 [node name="bullet" instance=ExtResource( 1 )]
 
-power = 0
+script/script = ExtResource( 2 )
 
 
