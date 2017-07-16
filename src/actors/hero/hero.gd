@@ -10,6 +10,7 @@ export var gravity = 313.6
 export var jump_power = 150
 
 signal killed()
+signal weapon_changed(new_weapon)
 
 var body_sprite
 var arm_right_position
@@ -148,6 +149,7 @@ func change_weapon_by_weapon_idx(weapon_idx):
 	weapon.queue_free()
 	weapon = weapons[weapon_idx].instance()
 	add_child(weapon)
+	emit_signal("weapon_changed", weapon)
 
 func play_hurt_sound():
 	# Beware: needs to be manually changed when adding or removing sounds.

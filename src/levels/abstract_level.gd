@@ -7,6 +7,8 @@ var topleft_base_area
 var bottomright_base_area
 var solids_tilemap
 var background_tilemap
+var hero
+var hud
 
 func _ready():
 	topleft_level_area = get_node("topleft_level_area")
@@ -15,6 +17,8 @@ func _ready():
 	bottomright_base_area = get_node("bottomright_base_area")
 	solids_tilemap = get_node("content/solids")
 	background_tilemap = get_node("content/background")
+	hero = get_node("content/entities/hero")
+	hud = get_node("HUD")
 
 	var hero_camera = get_node("content/entities/hero/camera")
 	hero_camera.set_limit(MARGIN_LEFT, topleft_level_area.get_pos().x)
@@ -24,6 +28,10 @@ func _ready():
 
 	fill_outside_base()
 	set_background()
+
+	# connect signals
+	hero.connect("weapon_changed", hud, "current_weapon_changed")
+	hud.current_weapon_changed(hero.weapon)
 
 func fill_outside_base(): #filling the map outside the base area
 	for x in range(topleft_level_area.get_pos().x, bottomright_level_area.get_pos().x, 32):
