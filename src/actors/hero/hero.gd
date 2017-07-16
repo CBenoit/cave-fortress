@@ -10,9 +10,7 @@ export var gravity = 313.6
 export var jump_power = 150
 
 signal killed()
-
-var basic_weapon_scn = preload("res://actors/hero/weapons/basic_weapon.tscn")
-#TODO: var build_weapon_scn = preload("res://actors/hero/weapons/build_weapon.tscn")
+signal weapon_changed(new_weapon)
 
 var body_sprite
 var arm_right_position
@@ -54,19 +52,14 @@ func _input(event):
 	if weapon.mode == weapon.SEMI_AUTO_MODE:
 		if event.is_action_released("attack"):
 			weapon.fire()
+
 	# weapon switching
 	if event.is_action_pressed("next_weapon"):
 		picked_weapon = (picked_weapon + 1) % weapons.size()
-
-		weapon.queue_free()
-		weapon = weapons[picked_weapon].instance()
-		add_child(weapon)
-	if event.is_action_pressed("previous_weapon"):
+		change_weapon_by_weapon_idx(picked_weapon)
+	elif event.is_action_pressed("previous_weapon"):
 		picked_weapon = (picked_weapon - 1) % weapons.size()
-
-		weapon.queue_free()
-		weapon = weapons[picked_weapon].instance()
-		add_child(weapon)
+		change_weapon_by_weapon_idx(picked_weapon)
 
 func _process(delta):
 	_update_arm_rotation()
@@ -133,9 +126,7 @@ func _fixed_process(delta):
 			floor_velocity = get_collider_velocity()
 			jumping = false
 		elif jumping and n.y > 0 and velocity.y < -MIN_JUMP_SPEED_HEAD_DAMAGE:
-			var pick = round(rand_range(0.5,11.5))
-			if not sound_voice.is_voice_active(0):
-				sound_voice.play("cri" + str(pick))
+			play_hurt_sound()
 
 		x_jump_velocity = 0
 		motion = n.slide(motion)
@@ -154,3 +145,16 @@ func _fixed_process(delta):
 		velocity.y -= jump_power * delta * 5
 
 	on_air_time += delta
+
+func change_weapon_by_weapon_idx(weapon_idx):
+	weapon.queue_free()
+	weapon = weapons[weapon_idx].instance()
+	add_child(weapon)
+	emit_signal("weapon_changed", weapon)
+
+func play_hurt_sound():
+	# Beware: needs to be manually changed when adding or removing sounds.
+	# May be improved.
+	var pick = round(rand_range(0.5,11.5))
+	if not sound_voice.is_voice_active(0):
+		sound_voice.play("cri" + str(pick))

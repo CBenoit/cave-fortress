@@ -123,7 +123,6 @@ jump_power = 150
 [node name="weapon" parent="." instance=ExtResource( 2 )]
 
 transform/pos = Vector2( 26.0489, -8.74123 )
-name = "unknown"
 
 [node name="body" type="Sprite" parent="."]
 
