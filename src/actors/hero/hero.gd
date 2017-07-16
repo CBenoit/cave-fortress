@@ -11,9 +11,6 @@ export var jump_power = 150
 
 signal killed()
 
-var basic_weapon_scn = preload("res://actors/hero/weapons/basic_weapon.tscn")
-#TODO: var build_weapon_scn = preload("res://actors/hero/weapons/build_weapon.tscn")
-
 var body_sprite
 var arm_right_position
 var arm_left_position
