@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=1]
+
+[ext_resource path="res://actors/hero/weapons/abstract_grenade_weapon.tscn" type="PackedScene" id=1]
+[ext_resource path="res://actors/hero/weapons/shotgun.tex" type="Texture" id=2]
+[ext_resource path="res://actors/bullets/weak_timed_grenade.tscn" type="PackedScene" id=3]
+
+[node name="weapon" instance=ExtResource( 1 )]
+
+transform/pos = Vector2( 0.069437, 0 )
+texture = ExtResource( 2 )
+offset = Vector2( 16, 1 )
+name = "Grenade launcher"
+fire_interval_sec = 1.0
+bullet_scn = ExtResource( 3 )
+mode = 1
+velocity = 800.0
+
+[node name="fire_position" parent="."]
+
+transform/pos = Vector2( 29.7216, -0.138885 )
+
+[node name="fire_sound" parent="."]
+
+transform/pos = Vector2( 1.18053, 1.11109 )
+
+

@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-export(float, -2, 2) var orientation = 0
+export(float, -4, 4) var orientation = 0
 export(int, 1, 1500) var speed = 1000
 export(int, 0, 50) var power = 1
 export(float, 0, 30, 0.01) var lifetime_sec = 10

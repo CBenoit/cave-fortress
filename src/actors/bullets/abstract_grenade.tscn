@@ -32,8 +32,10 @@ velocity/angular = 0.0
 damp_override/linear = -1.0
 damp_override/angular = -1.0
 script/script = ExtResource( 1 )
-on_colliding = null
+on_colliding = true
 timer = 5
+power = 10
+radius = 100
 
 [node name="Sprite" type="Sprite" parent="."]
 

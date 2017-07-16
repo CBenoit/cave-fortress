@@ -24,6 +24,7 @@ var sound_voice
 var weapons = [
 	preload("res://actors/hero/weapons/basic_weapon.tscn"),
 	preload("res://actors/hero/weapons/shotgun.tscn"),
+	preload("res://actors/hero/weapons/grenade_launcher.tscn"),
 	preload("res://actors/hero/weapons/build_gun.tscn")
 ]
 var picked_weapon = 0

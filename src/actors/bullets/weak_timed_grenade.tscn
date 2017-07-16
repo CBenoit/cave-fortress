@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=1]
+
+[ext_resource path="res://actors/bullets/abstract_grenade.tscn" type="PackedScene" id=1]
+
+[node name="grenade" instance=ExtResource( 1 )]
+
+on_colliding = false
+timer = 3.0
+power = 30
+
+
