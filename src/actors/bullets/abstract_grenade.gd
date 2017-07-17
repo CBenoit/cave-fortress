@@ -6,12 +6,14 @@ export(int,1,200,1) var power = 30
 export(float,32,320,1) var radius = 100
 
 var solids_tilemap
+var sound_emitter
+var previous_angle
 
 func _ready():
+	previous_angle = get_linear_velocity().angle()
 	solids_tilemap = get_node("../../solids")
+	sound_emitter = get_node("sound_emitter")
 
-	set_contact_monitor(true)
-	set_max_contacts_reported(1)
 	set_fixed_process(true)
 
 
@@ -20,10 +22,17 @@ func _fixed_process(delta):
 
 	if ( timer < 0):#if the time is out, boom
 		explode()
+		sound_emitter.play("grenade_explosion")
 		queue_free()
-	elif get_colliding_bodies().size() != 0 and on_colliding: #if the grenade is to explode on hit.. and collides, boom
-		explode()
-		queue_free()
+	elif bounced():
+		sound_emitter.play("grenade_collide")
+		if on_colliding: #if the grenade is to explode on hit.. and collides, boom
+			explode()
+			sound_emitter.play("grenade_explosion")
+			queue_free()
+
+	previous_angle = get_linear_velocity().angle()
+
 
 func explode():
 	var center = get_pos()
@@ -38,3 +47,11 @@ func explode():
 			if ( l < radius): # deals the damage if within the radius of the explosion
 				# damages = power in the center and half of it at the rim, linear scaling
 				solids_tilemap.damage_tile(solids_tilemap.world_to_map(vertex),power - (power/2)*(l/radius))
+
+
+func bounced():
+	var angle = get_linear_velocity().angle()
+	if ((180/PI)*abs(angle-previous_angle)< 5):
+		return false
+	else:
+		return true
