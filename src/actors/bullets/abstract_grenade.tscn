@@ -6,9 +6,11 @@
 [sub_resource type="CircleShape2D" id=1]
 
 custom_solver_bias = 0.0
-radius = 10.0
+radius = 17.0
 
-[node name="grenade" type="RigidBody2D"]
+[node name="grenade" type="RigidBody2D" groups=[
+"grenade",
+]]
 
 input/pickable = false
 shapes/0/shape = SubResource( 1 )
@@ -19,8 +21,8 @@ collision/mask = 1
 mode = 0
 mass = 1.0
 friction = 1.0
-bounce = 0.0
-gravity_scale = 1.0
+bounce = 0.4
+gravity_scale = 2.0
 custom_integrator = false
 continuous_cd = 0
 contacts_reported = 0
