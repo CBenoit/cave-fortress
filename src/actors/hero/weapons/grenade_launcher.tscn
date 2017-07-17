@@ -13,7 +13,7 @@ name = "grenade launcher"
 fire_interval_sec = 1.0
 bullet_scn = ExtResource( 3 )
 mode = 1
-velocity = 800.0
+velocity = 600.0
 
 [node name="fire_position" parent="."]
 
