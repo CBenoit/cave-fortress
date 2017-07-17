@@ -23,13 +23,11 @@ func _fixed_process(delta):
 
 	if ( timer < 0):#if the time is out, boom
 		explode()
-		sound_emitter.play("grenade_explosion")
 		queue_free()
 	elif bounced():
 		sound_emitter.play("grenade_collide")
 		if on_colliding: #if the grenade is to explode on hit.. and collides, boom
 			explode()
-			sound_emitter.play("grenade_explosion")
 			queue_free()
 
 	previous_angle = get_linear_velocity().angle()
@@ -49,7 +47,7 @@ func explode():
 			if ( l < radius): # deals the damage if within the radius of the explosion
 				# damages = power in the center and half of it at the rim, linear scaling
 				solids_tilemap.damage_tile(solids_tilemap.world_to_map(vertex),power - (power/2)*(l/radius))
-	# spawn the explosion effect (just graphics)
+	# spawn the explosion effect
 	var effect = explosion_effect_scn.instance()
 	effect.set_pos(get_pos())
 	effect.activate()

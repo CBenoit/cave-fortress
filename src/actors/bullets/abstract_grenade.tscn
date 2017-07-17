@@ -1,17 +1,9 @@
-<<<<<<< HEAD
 [gd_scene load_steps=7 format=1]
-
-[ext_resource path="res://actors/bullets/abstract_grenade.gd" type="Script" id=1]
-[ext_resource path="res://actors/bullets/basic_bullet.tex" type="Texture" id=2]
-[ext_resource path="res://actors/bullets/grenade_collide.smp" type="Sample" id=3]
-[ext_resource path="res://actors/bullets/grenade_explosion.smp" type="Sample" id=4]
-=======
-[gd_scene load_steps=5 format=1]
 
 [ext_resource path="res://actors/bullets/abstract_grenade.gd" type="Script" id=1]
 [ext_resource path="res://effects/explosion_effect.tscn" type="PackedScene" id=2]
 [ext_resource path="res://actors/bullets/basic_bullet.tex" type="Texture" id=3]
->>>>>>> 50021fd59bd0557110185b74ab594b657bf3ef01
+[ext_resource path="res://actors/bullets/grenade_collide.smp" type="Sample" id=4]
 
 [sub_resource type="CircleShape2D" id=1]
 
@@ -21,12 +13,6 @@ radius = 17.0
 [sub_resource type="SampleLibrary" id=2]
 
 samples/grenade_collide = {
-"db": 0.0,
-"pitch": 1.0,
-"priority": 0,
-"sample": ExtResource( 3 )
-}
-samples/grenade_explosion = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
