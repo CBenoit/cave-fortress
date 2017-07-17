@@ -7,6 +7,5 @@
 mass = 10.0
 on_colliding = false
 timer = 3.0
-power = 30
 
 
