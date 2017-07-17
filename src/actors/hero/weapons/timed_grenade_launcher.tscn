@@ -8,7 +8,7 @@
 
 texture = ExtResource( 2 )
 offset = Vector2( 16, 1 )
-name = "grTimed grenade launcher"
+name = "timed grenade launcher"
 fire_interval_sec = 1.0
 bullet_scn = ExtResource( 3 )
 velocity = 500.0

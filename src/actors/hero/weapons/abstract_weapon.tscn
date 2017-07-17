@@ -5,6 +5,7 @@
 [node name="weapon" type="Sprite"]
 
 script/script = ExtResource( 1 )
+name = "unknown"
 fire_interval_sec = 0.1
 fire_angle = 0
 bullet_num = 1

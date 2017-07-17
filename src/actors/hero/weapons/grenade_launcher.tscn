@@ -9,7 +9,7 @@
 transform/pos = Vector2( 0.069437, 0 )
 texture = ExtResource( 2 )
 offset = Vector2( 16, 1 )
-name = "Grenade launcher"
+name = "grenade launcher"
 fire_interval_sec = 1.0
 bullet_scn = ExtResource( 3 )
 mode = 1

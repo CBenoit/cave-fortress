@@ -19,7 +19,7 @@ samples/fire = {
 transform/pos = Vector2( 0, -0.0852547 )
 texture = ExtResource( 2 )
 offset = Vector2( 16, 1 )
-name = "Build gun"
+name = "build gun"
 bullet_scn = ExtResource( 3 )
 mode = 1
 
