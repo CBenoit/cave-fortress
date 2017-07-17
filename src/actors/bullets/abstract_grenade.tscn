@@ -1,9 +1,17 @@
+<<<<<<< HEAD
 [gd_scene load_steps=7 format=1]
 
 [ext_resource path="res://actors/bullets/abstract_grenade.gd" type="Script" id=1]
 [ext_resource path="res://actors/bullets/basic_bullet.tex" type="Texture" id=2]
 [ext_resource path="res://actors/bullets/grenade_collide.smp" type="Sample" id=3]
 [ext_resource path="res://actors/bullets/grenade_explosion.smp" type="Sample" id=4]
+=======
+[gd_scene load_steps=5 format=1]
+
+[ext_resource path="res://actors/bullets/abstract_grenade.gd" type="Script" id=1]
+[ext_resource path="res://effects/explosion_effect.tscn" type="PackedScene" id=2]
+[ext_resource path="res://actors/bullets/basic_bullet.tex" type="Texture" id=3]
+>>>>>>> 50021fd59bd0557110185b74ab594b657bf3ef01
 
 [sub_resource type="CircleShape2D" id=1]
 
@@ -55,10 +63,11 @@ on_colliding = true
 timer = 5
 power = 10
 radius = 100
+explosion_effect_scn = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
 
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 
 [node name="sound_emitter" type="SamplePlayer2D" parent="."]
 
