@@ -47,13 +47,13 @@ func explode():
 			if ( l < radius): # deals the damage if within the radius of the explosion
 				# damages = power in the center and half of it at the rim, linear scaling
 				solids_tilemap.damage_tile(solids_tilemap.world_to_map(vertex),power - (power/2)*(l/radius))
+
 	# spawn the explosion effect
 	var effect = explosion_effect_scn.instance()
 	effect.set_pos(get_pos())
-	effect.activate()
 	effect.set_scale(Vector2(radius / 7, radius / 7))
 	get_node("../").add_child(effect)
-
+	effect.activate()
 
 func bounced():
 	var previous_angle = previous_velocity.angle()
