@@ -16,7 +16,7 @@ func _ready():
 	topleft_base_area = get_node("topleft_base_area")
 	bottomright_base_area = get_node("bottomright_base_area")
 	solids_tilemap = get_node("content/solids")
-	background_tilemap = get_node("content/background")
+	background_tilemap = get_node("content/ParallaxBackground/ParallaxLayer/background")
 	hero = get_node("content/entities/hero")
 	hud = get_node("HUD")
 
