@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=1]
+[gd_scene load_steps=5 format=1]
 
-[ext_resource path="res://effects/explosion_effect.gd" type="Script" id=1]
-[ext_resource path="res://effects/grenade_explosion.smp" type="Sample" id=2]
+[ext_resource path="res://effects/abstract_effect.tscn" type="PackedScene" id=1]
+[ext_resource path="res://effects/explosion_effect.gd" type="Script" id=2]
+[ext_resource path="res://effects/grenade_explosion.smp" type="Sample" id=3]
 
 [sub_resource type="SampleLibrary" id=1]
 
@@ -9,12 +10,16 @@ samples/sound_effect = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
-"sample": ExtResource( 2 )
+"sample": ExtResource( 3 )
 }
 
-[node name="explosion_effect" type="Node2D"]
+[node name="effect" instance=ExtResource( 1 )]
 
-script/script = ExtResource( 1 )
+script/script = ExtResource( 2 )
+
+[node name="expire_timeout" parent="."]
+
+wait_time = 6.0
 
 [node name="remaining_smoke" type="Particles2D" parent="."]
 
