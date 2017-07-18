@@ -58,7 +58,7 @@ func explode():
 func bounced():
 	var previous_angle = previous_velocity.angle()
 	var angle = get_linear_velocity().angle()
-	if ((180/PI)*abs(angle-previous_angle)< 5 or abs(previous_velocity.y) <20):
+	if ((180/PI)*abs(angle-previous_angle)< 5 or (abs(previous_velocity.y) <20) and abs(previous_velocity.x)<20):
 		return false
 	else:
 		return true

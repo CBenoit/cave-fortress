@@ -3,7 +3,7 @@
 [ext_resource path="res://effects/explosion_effect.gd" type="Script" id=1]
 [ext_resource path="res://effects/grenade_explosion.smp" type="Sample" id=2]
 
-[sub_resource type="SampleLibrary" id=2]
+[sub_resource type="SampleLibrary" id=1]
 
 samples/sound_effect = {
 "db": 0.0,
@@ -102,7 +102,7 @@ params/attenuation/min_distance = 1.0
 params/attenuation/max_distance = 2048.0
 params/attenuation/distance_exp = 1.0
 config/polyphony = 1
-config/samples = SubResource( 2 )
+config/samples = SubResource( 1 )
 config/pitch_random = 0.0
 
 
