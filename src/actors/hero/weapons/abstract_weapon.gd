@@ -13,14 +13,19 @@ export(int, "Automatic", "Semi-auto","has intensity") var mode
 
 var fire_sound
 var fire_position
+var solids_tilemap
 
 var timestamp_last_shot = 0
 
 func _ready():
 	fire_sound = get_node("fire_sound")
 	fire_position = get_node("fire_position")
+	solids_tilemap = get_node("../../../solids")
 
 func fire():
+	if solids_tilemap.get_cellv(solids_tilemap.world_to_map(fire_position.get_global_pos())) != SolidTiles.TILE_EMPTY:
+		return # do not shoot from inside walls…
+
 	if timestamp_last_shot + fire_interval_sec * 1000 <= OS.get_ticks_msec():
 		timestamp_last_shot = OS.get_ticks_msec()
 		fire_sound.play("fire")

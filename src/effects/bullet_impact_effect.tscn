@@ -2,7 +2,7 @@
 
 [ext_resource path="res://effects/bullet_impact_effect.gd" type="Script" id=1]
 
-[node name="explosion_effect" type="Node2D"]
+[node name="impact_effect" type="Node2D"]
 
 script/script = ExtResource( 1 )
 
