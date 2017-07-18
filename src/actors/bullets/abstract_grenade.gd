@@ -8,10 +8,10 @@ export(PackedScene) var explosion_effect_scn
 
 var solids_tilemap
 var sound_emitter
-var previous_angle
+var previous_velocity
 
 func _ready():
-	previous_angle = get_linear_velocity().angle()
+	previous_velocity = get_linear_velocity()
 	solids_tilemap = get_node("../../solids")
 	sound_emitter = get_node("sound_emitter")
 
@@ -30,7 +30,7 @@ func _fixed_process(delta):
 			explode()
 			queue_free()
 
-	previous_angle = get_linear_velocity().angle()
+	previous_velocity = get_linear_velocity()
 
 
 func explode():
@@ -56,8 +56,9 @@ func explode():
 
 
 func bounced():
+	var previous_angle = previous_velocity.angle()
 	var angle = get_linear_velocity().angle()
-	if ((180/PI)*abs(angle-previous_angle)< 5):
+	if ((180/PI)*abs(angle-previous_angle)< 5 or abs(previous_velocity.y) <20):
 		return false
 	else:
 		return true
