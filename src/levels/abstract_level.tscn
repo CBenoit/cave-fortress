@@ -41,7 +41,7 @@ scroll/ignore_camera_zoom = false
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="content/ParallaxBackground"]
 
-motion/scale = Vector2( 0.8, 0.8 )
+motion/scale = Vector2( 0.3, 0.3 )
 motion/offset = Vector2( 0, 0 )
 motion/mirroring = Vector2( 0, 0 )
 

@@ -2,7 +2,7 @@
 
 [ext_resource path="res://actors/hero/weapons/abstract_grenade_weapon.tscn" type="PackedScene" id=1]
 [ext_resource path="res://actors/hero/weapons/shotgun.tex" type="Texture" id=2]
-[ext_resource path="res://actors/bullets/weak_timed_grenade.tscn" type="PackedScene" id=3]
+[ext_resource path="res://actors/bullets/weak_collide_grenade.tscn" type="PackedScene" id=3]
 
 [node name="weapon" instance=ExtResource( 1 )]
 
