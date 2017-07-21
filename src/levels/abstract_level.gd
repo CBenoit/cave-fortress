@@ -27,7 +27,7 @@ func _ready():
 	hero_camera.set_limit(MARGIN_BOTTOM, bottomright_level_area.get_pos().y)
 
 	fill_outside_base()
-	set_background()
+	generate_background()
 	update_hud()
 
 	# connect signals
@@ -53,7 +53,7 @@ func fill_outside_base(): #filling the map outside the base area
 
 				solids_tilemap.set_cellv(tile_pos, selected_tile)
 
-func set_background(): # generates the background
+func generate_background(): # generates the background
 	for x in range(topleft_level_area.get_pos().x, bottomright_level_area.get_pos().x, 32):
 		for y in range(topleft_level_area.get_pos().y, bottomright_level_area.get_pos().y, 32):
 			var tile_pos = solids_tilemap.world_to_map(Vector2(x,y))

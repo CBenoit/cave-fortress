@@ -25,7 +25,9 @@ var weapons = [
 	preload("res://actors/hero/weapons/grenade_launcher.tscn"),
 	preload("res://actors/hero/weapons/build_gun.tscn")
 ]
+var builder_gun = preload("res://actors/hero/weapons/builder_gun.tscn")
 var picked_weapon = 0
+var builder_mode = false
 
 var velocity = Vector2()
 var on_air_time = 0
@@ -34,6 +36,7 @@ var jump_time = 0 # relative to airbone time
 var x_jump_velocity = 0
 var killed = false
 var focused = false
+
 
 func _ready():
 	body_sprite = get_node("body")
@@ -49,32 +52,59 @@ func _ready():
 	set_process(true)
 
 func _input(event):
-	if weapon.mode == weapon.SEMI_AUTO_MODE:
-		if event.is_action_released("attack"):
-			weapon.fire()
+	if event.is_action_pressed("mode_change"):
+		if builder_mode == true:
+			change_weapon_by_weapon_idx(picked_weapon)
 
-	# weapon switching
-	if event.is_action_pressed("next_weapon"):
-		picked_weapon = (picked_weapon + 1) % weapons.size()
-		change_weapon_by_weapon_idx(picked_weapon)
-	elif event.is_action_pressed("previous_weapon"):
-		picked_weapon = (picked_weapon - 1) % weapons.size()
-		change_weapon_by_weapon_idx(picked_weapon)
+			builder_mode = false
+		else:
+			weapon.queue_free()
+			weapon = builder_gun.instance()
+			add_child(weapon)
+
+			builder_mode = true
+
+	if builder_mode == false :
+		if weapon.mode == weapon.SEMI_AUTO_MODE:
+			if event.is_action_released("attack"):
+				weapon.fire()
+
+		# weapon switching
+		if event.is_action_pressed("next_weapon"):
+			picked_weapon = (picked_weapon + 1) % weapons.size()
+			change_weapon_by_weapon_idx(picked_weapon)
+		elif event.is_action_pressed("previous_weapon"):
+			picked_weapon = (picked_weapon - 1) % weapons.size()
+			change_weapon_by_weapon_idx(picked_weapon)
+	else:
+		if event.is_action_pressed("attack"):
+			weapon.create_block()
+		elif event.is_action_pressed("next_weapon"):
+			weapon.change_picked_tile(1)
+		elif event.is_action_pressed("previous_weapon"):
+			weapon.change_picked_tile(-1)
 
 func _process(delta):
 	_update_arm_rotation()
 
 func _update_arm_rotation():
-	var mouse_vec = get_local_mouse_pos().normalized()
-	weapon.set_rot(Vector2(-mouse_vec.y, mouse_vec.x).angle())
-	if weapon.get_rot() > PI / 2 or weapon.get_rot() < -PI / 2:
+	var mouse_vec = get_local_mouse_pos()
+	var theta = Vector2(-mouse_vec.y, mouse_vec.x).angle()
+
+	if builder_mode == false:
+		weapon.set_rot(theta)
+	if abs(theta) > PI / 2:
 		weapon.set_flip_v(true)
 		body_sprite.set_flip_h(true)
 		weapon.set_pos(arm_left_position.get_pos())
+		if builder_mode == true:
+			weapon.set_rot(PI)
 	else:
 		weapon.set_flip_v(false)
 		body_sprite.set_flip_h(false)
 		weapon.set_pos(arm_right_position.get_pos())
+		if builder_mode == true:
+			weapon.set_rot(0)
 
 func kill():
 	if(!killed):
@@ -85,9 +115,10 @@ func kill():
 		emit_signal("killed")
 
 func _fixed_process(delta):
-	if weapon.mode == weapon.AUTOMATIC_MODE:
-		if Input.is_action_pressed("attack"):
-			weapon.fire()
+	if builder_mode == false:
+		if weapon.mode == weapon.AUTOMATIC_MODE:
+			if Input.is_action_pressed("attack"):
+				weapon.fire()
 
 	var walk_left = Input.is_action_pressed("move_left")
 	var walk_right = Input.is_action_pressed("move_right")
@@ -158,3 +189,5 @@ func play_hurt_sound():
 	var pick = round(rand_range(0.5,11.5))
 	if not sound_voice.is_voice_active(0):
 		sound_voice.play("cri" + str(pick))
+
+

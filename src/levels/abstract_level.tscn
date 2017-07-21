@@ -72,18 +72,18 @@ tile_data = IntArray(  )
 
 [node name="topleft_level_area" type="Position2D" parent="."]
 
-transform/pos = Vector2( -1500, -1000 )
+transform/pos = Vector2( -1504, -1024 )
 
 [node name="bottomright_level_area" type="Position2D" parent="."]
 
-transform/pos = Vector2( 1500, 1000 )
+transform/pos = Vector2( 1504, 1024 )
 
 [node name="topleft_base_area" type="Position2D" parent="."]
 
-transform/pos = Vector2( -900, -400 )
+transform/pos = Vector2( -896, -416 )
 
 [node name="bottomright_base_area" type="Position2D" parent="."]
 
-transform/pos = Vector2( 900, 400 )
+transform/pos = Vector2( 896, 416 )
 
 
