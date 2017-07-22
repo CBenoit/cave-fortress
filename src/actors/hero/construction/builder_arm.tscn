@@ -8,7 +8,7 @@
 texture = ExtResource( 1 )
 offset = Vector2( 16, 1 )
 script/script = ExtResource( 2 )
-reach = 96
+reach = 200.0
 build_lapse = 0.0
 
 [node name="build_sound" type="SamplePlayer2D" parent="."]

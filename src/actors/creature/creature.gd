@@ -21,7 +21,10 @@ var go_left = false
 var go_right = false
 var jump = false
 
-signal took_head_damage()
+# fecthed node
+var hp
+
+signal took_head_damage(value)
 
 func set_go_left(value):
 	go_left = value
@@ -33,7 +36,11 @@ func set_jump(value):
 	jump = value
 
 func _ready():
+	hp = get_node("hp")
+
 	set_fixed_process(true)
+
+	connect("took_head_damage",hp,"take_damage")
 
 func _fixed_process(delta):
 	_pre_fixed_process(delta)
@@ -71,7 +78,7 @@ func _fixed_process(delta):
 			floor_velocity = get_collider_velocity()
 			jumping = false
 		elif jumping and n.y > 0 and velocity.y < -MIN_JUMP_SPEED_HEAD_DAMAGE:
-			emit_signal("took_head_damage")
+			emit_signal("took_head_damage",1)
 
 		x_jump_velocity = 0
 		motion = n.slide(motion)

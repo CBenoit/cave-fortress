@@ -23,7 +23,7 @@ collision/margin = 0.08
 script/script = ExtResource( 1 )
 orientation = 0
 speed = 1000
-power = 1
+power = 2
 lifetime_sec = 10
 impact_effect_scn = ExtResource( 2 )
 

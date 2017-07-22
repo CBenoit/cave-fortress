@@ -1,6 +1,5 @@
 extends "../creature/creature.gd"
 
-signal killed()
 signal weapon_changed(new_weapon)
 
 # nodes attributes
@@ -88,7 +87,6 @@ func kill():
 		body_sprite.set_modulate(Color(1, 0, 0))
 		camera_anim.play("shaking")
 		set_fixed_process(false)
-		emit_signal("killed")
 
 func _pre_fixed_process(delta):
 	if not build_mode:
