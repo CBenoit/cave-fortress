@@ -8,7 +8,7 @@ var arm_right_position
 var arm_left_position
 var weapon
 var camera
-var camera_anim
+var anim
 var sound_voice
 
 # weapons attributes
@@ -33,7 +33,7 @@ func _ready():
 	arm_left_position = get_node("body/arm_left")
 	weapon = get_node("weapon")
 	camera = get_node("camera")
-	camera_anim = get_node("camera/camera_anim")
+	anim = get_node("anim")
 	sound_voice = get_node("voice")
 
 	set_process_input(true)
@@ -41,6 +41,7 @@ func _ready():
 
 	connect("take_head_damage", self, "handle_head_damage")
 	connect("take_fall_damage", self, "handle_fall_damage")
+	hp.connect("on_damage", self, "handle_damage")
 
 func _input(event):
 	if event.is_action_pressed("mode_change"):
@@ -84,7 +85,7 @@ func _update_arm_rotation():
 
 func _die():
 	body_sprite.set_modulate(Color(1, 0, 0))
-	camera_anim.play("shaking")
+	anim.play("death")
 
 func _pre_fixed_process(delta):
 	if build_mode:
@@ -119,11 +120,13 @@ func switch_build_mode():
 
 func handle_head_damage():
 	hp.take_damage(1)
-	play_hurt_sound()
 
 func handle_fall_damage():
 	hp.take_damage((on_air_time - MIN_AIRBONE_TIME_FALL_DAMAGE) * 10)
+
+func handle_damage(hp):
 	play_hurt_sound()
+	anim.play("damage")
 
 func play_hurt_sound():
 	# Beware: needs to be manually changed when adding or removing sounds.

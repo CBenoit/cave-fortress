@@ -2,10 +2,15 @@ extends "../creature.gd"
 
 var hero
 var solids
+var anim
 
 func _ready():
 	hero = get_node("../hero")
 	solids = get_node("../../solids")
+	anim = get_node("anim")
+
+	connect("take_fall_damage", self, "handle_fall_damage")
+	hp.connect("on_damage", self, "handle_damage")
 
 func _pre_fixed_process(delta):
 	decide()
@@ -45,3 +50,9 @@ func blocked_on_left():
 
 func _die():
 	queue_free()
+
+func handle_fall_damage():
+	hp.take_damage((on_air_time - MIN_AIRBONE_TIME_FALL_DAMAGE) * 10)
+
+func handle_damage(hp):
+	anim.play("damage")
