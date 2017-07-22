@@ -1,5 +1,4 @@
-extends Node2D
-
+extends Node
 
 export(float,1,1000,1) var max_health = 30
 export(bool) var invicible = false
@@ -7,17 +6,19 @@ export(bool) var invicible = false
 var health
 
 signal killed()
-signal on_damage()
+signal on_damage(hp)
 
 func _ready():
 	health = max_health
 
+func is_dead():
+	return health <= 0
 
 func take_damage(damage):
 	if(!invicible):
-		emit_signal("on_damage")
 		health -= damage
-		if health <= 0:
+		emit_signal("on_damage", self)
+		if is_dead():
 			emit_signal("killed")
 
 func restore_hp(value):
@@ -25,4 +26,3 @@ func restore_hp(value):
 		health = max_health
 	else:
 		health += value
-

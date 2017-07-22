@@ -2,7 +2,7 @@
 
 [ext_resource path="res://utils/hp.gd" type="Script" id=1]
 
-[node name="hp" type="Node2D"]
+[node name="hp" type="Node"]
 
 script/script = ExtResource( 1 )
 max_health = 30

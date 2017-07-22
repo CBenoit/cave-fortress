@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=1]
+[gd_scene load_steps=3 format=1]
 
 [ext_resource path="res://actors/creature/creature.gd" type="Script" id=1]
+[ext_resource path="res://utils/hp.tscn" type="PackedScene" id=2]
 
 [node name="creature" type="KinematicBody2D"]
 
@@ -17,5 +18,7 @@ jump_power = 150
 
 trigger = false
 _update_shape_index = 0
+
+[node name="hp" parent="." instance=ExtResource( 2 )]
 
 

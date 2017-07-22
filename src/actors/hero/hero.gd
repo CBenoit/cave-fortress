@@ -39,7 +39,7 @@ func _ready():
 	set_process_input(true)
 	set_process(true)
 
-	connect("took_head_damage", self, "play_hurt_sound")
+	connect("took_head_damage", self, "take_head_damage")
 
 func _input(event):
 	if event.is_action_pressed("mode_change"):
@@ -81,12 +81,9 @@ func _update_arm_rotation():
 		body_sprite.set_flip_h(false)
 		weapon.set_pos(arm_right_position.get_pos())
 
-func kill():
-	if(!killed):
-		killed = true
-		body_sprite.set_modulate(Color(1, 0, 0))
-		camera_anim.play("shaking")
-		set_fixed_process(false)
+func _die():
+	body_sprite.set_modulate(Color(1, 0, 0))
+	camera_anim.play("shaking")
 
 func _pre_fixed_process(delta):
 	if not build_mode:
@@ -115,6 +112,10 @@ func switch_build_mode():
 		add_child(weapon)
 		build_mode = true
 		emit_signal("weapon_changed", weapon)
+
+func take_head_damage():
+	hp.take_damage(1)
+	play_hurt_sound()
 
 func play_hurt_sound():
 	# Beware: needs to be manually changed when adding or removing sounds.

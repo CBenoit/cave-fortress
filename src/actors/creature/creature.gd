@@ -9,6 +9,9 @@ export var movement_speed = 128
 export var gravity = 313.6
 export var jump_power = 150
 
+# nodes
+var hp
+
 # movements attributes
 var velocity = Vector2()
 var on_air_time = 0
@@ -21,10 +24,7 @@ var go_left = false
 var go_right = false
 var jump = false
 
-# fecthed node
-var hp
-
-signal took_head_damage(value)
+signal took_head_damage()
 
 func set_go_left(value):
 	go_left = value
@@ -40,7 +40,7 @@ func _ready():
 
 	set_fixed_process(true)
 
-	connect("took_head_damage",hp,"take_damage")
+	hp.connect("killed", self, "_die")
 
 func _fixed_process(delta):
 	_pre_fixed_process(delta)
@@ -78,7 +78,7 @@ func _fixed_process(delta):
 			floor_velocity = get_collider_velocity()
 			jumping = false
 		elif jumping and n.y > 0 and velocity.y < -MIN_JUMP_SPEED_HEAD_DAMAGE:
-			emit_signal("took_head_damage",1)
+			emit_signal("took_head_damage")
 
 		x_jump_velocity = 0
 		motion = n.slide(motion)
@@ -104,4 +104,7 @@ func _pre_fixed_process(delta):
 	pass
 
 func _post_fixed_process(delta):
+	pass
+
+func _die():
 	pass
