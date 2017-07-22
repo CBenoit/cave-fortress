@@ -4,7 +4,7 @@
 
 [node name="bullet" instance=ExtResource( 1 )]
 
-power = 5
+power = 7
 lifetime_sec = 0.3
 
 
