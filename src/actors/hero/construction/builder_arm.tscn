@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=1]
+
+[ext_resource path="res://actors/hero/weapons/build_gun.tex" type="Texture" id=1]
+[ext_resource path="res://actors/hero/construction/builder_arm.gd" type="Script" id=2]
+
+[node name="builder_arm" type="Sprite"]
+
+texture = ExtResource( 1 )
+offset = Vector2( 16, 1 )
+script/script = ExtResource( 2 )
+reach = 96
+build_lapse = 0.0
+
+[node name="build_sound" type="SamplePlayer2D" parent="."]
+
+params/volume_db = 0.0
+params/pitch_scale = 1.0
+params/attenuation/min_distance = 1.0
+params/attenuation/max_distance = 2048.0
+params/attenuation/distance_exp = 1.0
+config/polyphony = 1
+config/samples = null
+config/pitch_random = 0.0
+
+
