@@ -1,26 +1,21 @@
-[gd_scene load_steps=18 format=1]
+[gd_scene load_steps=17 format=1]
 
-[ext_resource path="res://actors/hero/hero.gd" type="Script" id=1]
-[ext_resource path="res://actors/hero/weapons/basic_weapon.tscn" type="PackedScene" id=2]
-[ext_resource path="res://actors/hero/hero.tex" type="Texture" id=3]
-[ext_resource path="res://actors/hero/cri1.smp" type="Sample" id=4]
-[ext_resource path="res://actors/hero/cri10.smp" type="Sample" id=5]
-[ext_resource path="res://actors/hero/cri2.smp" type="Sample" id=6]
-[ext_resource path="res://actors/hero/cri3.smp" type="Sample" id=7]
-[ext_resource path="res://actors/hero/cri4.smp" type="Sample" id=8]
-[ext_resource path="res://actors/hero/cri5.smp" type="Sample" id=9]
-[ext_resource path="res://actors/hero/cri6.smp" type="Sample" id=10]
-[ext_resource path="res://actors/hero/cri7.smp" type="Sample" id=11]
-[ext_resource path="res://actors/hero/cri8.smp" type="Sample" id=12]
-[ext_resource path="res://actors/hero/cri9.smp" type="Sample" id=13]
-[ext_resource path="res://utils/hp.tscn" type="PackedScene" id=14]
+[ext_resource path="res://actors/creature/creature.tscn" type="PackedScene" id=1]
+[ext_resource path="res://actors/hero/hero.gd" type="Script" id=2]
+[ext_resource path="res://actors/hero/weapons/basic_weapon.tscn" type="PackedScene" id=3]
+[ext_resource path="res://actors/hero/hero.tex" type="Texture" id=4]
+[ext_resource path="res://actors/hero/cri1.smp" type="Sample" id=5]
+[ext_resource path="res://actors/hero/cri10.smp" type="Sample" id=6]
+[ext_resource path="res://actors/hero/cri2.smp" type="Sample" id=7]
+[ext_resource path="res://actors/hero/cri3.smp" type="Sample" id=8]
+[ext_resource path="res://actors/hero/cri4.smp" type="Sample" id=9]
+[ext_resource path="res://actors/hero/cri5.smp" type="Sample" id=10]
+[ext_resource path="res://actors/hero/cri6.smp" type="Sample" id=11]
+[ext_resource path="res://actors/hero/cri7.smp" type="Sample" id=12]
+[ext_resource path="res://actors/hero/cri8.smp" type="Sample" id=13]
+[ext_resource path="res://actors/hero/cri9.smp" type="Sample" id=14]
 
-[sub_resource type="RectangleShape2D" id=1]
-
-custom_solver_bias = 0.0
-extents = Vector2( 8, 27 )
-
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=1]
 
 resource/name = "shaking"
 length = 0.4
@@ -37,99 +32,88 @@ tracks/0/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, 0 ), Vector2( 0, 10 ), Vector2( 10, 0 ), Vector2( 0, 0 ) ]
 }
 
-[sub_resource type="SampleLibrary" id=3]
+[sub_resource type="SampleLibrary" id=2]
 
 samples/cri1 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
-"sample": ExtResource( 4 )
+"sample": ExtResource( 5 )
 }
 samples/cri10 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
-"sample": ExtResource( 5 )
+"sample": ExtResource( 6 )
 }
 samples/cri2 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
-"sample": ExtResource( 6 )
+"sample": ExtResource( 7 )
 }
 samples/cri3 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
-"sample": ExtResource( 7 )
+"sample": ExtResource( 8 )
 }
 samples/cri4 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
-"sample": ExtResource( 8 )
+"sample": ExtResource( 9 )
 }
 samples/cri5 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
-"sample": ExtResource( 9 )
+"sample": ExtResource( 10 )
 }
 samples/cri6 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
-"sample": ExtResource( 10 )
+"sample": ExtResource( 11 )
 }
 samples/cri7 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
-"sample": ExtResource( 11 )
+"sample": ExtResource( 12 )
 }
 samples/cri8 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
-"sample": ExtResource( 12 )
+"sample": ExtResource( 13 )
 }
 samples/cri9 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
-"sample": ExtResource( 13 )
+"sample": ExtResource( 14 )
 }
 
-[node name="hero" type="KinematicBody2D" groups=[
-"damageable",
-]]
+[node name="hero" instance=ExtResource( 1 )]
 
-input/pickable = false
-shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 5 )
-shapes/0/trigger = false
-collision/layers = 1
-collision/mask = 1
-collision/margin = 0.08
-script/script = ExtResource( 1 )
-movement_speed = 128
-gravity = 313.6
-jump_power = 150
+script/script = ExtResource( 2 )
 
-[node name="collision" type="CollisionShape2D" parent="."]
+[node name="collision" parent="."]
 
 transform/pos = Vector2( 0, 5 )
-shape = SubResource( 1 )
-trigger = false
-_update_shape_index = 0
 
-[node name="weapon" parent="." instance=ExtResource( 2 )]
+[node name="hp" parent="."]
+
+max_health = 10.0
+
+[node name="weapon" parent="." instance=ExtResource( 3 )]
 
 transform/pos = Vector2( 26.0489, -8.74123 )
 
 [node name="body" type="Sprite" parent="."]
 
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 
 [node name="arm_right" type="Position2D" parent="body"]
 
@@ -163,7 +147,7 @@ drag_margin/bottom = 0.05
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/shaking = SubResource( 2 )
+anims/shaking = SubResource( 1 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
@@ -177,11 +161,7 @@ params/attenuation/min_distance = 1.0
 params/attenuation/max_distance = 2048.0
 params/attenuation/distance_exp = 1.0
 config/polyphony = 1
-config/samples = SubResource( 3 )
+config/samples = SubResource( 2 )
 config/pitch_random = 0.0
-
-[node name="hp" parent="." instance=ExtResource( 14 )]
-
-max_health = 100.0
 
 
