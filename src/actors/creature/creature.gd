@@ -4,6 +4,7 @@ const JUMP_MAX_AIRBORNE_TIME = 0.1
 const JUMP_INFLUENCE_START_TIME = 0.05
 const JUMP_INFLUENCE_MAX_TIME = 0.15
 const MIN_JUMP_SPEED_HEAD_DAMAGE = 140
+const MIN_AIRBONE_TIME_FALL_DAMAGE = 2
 
 export var movement_speed = 128
 export var gravity = 313.6
@@ -24,7 +25,8 @@ var go_left = false
 var go_right = false
 var jump = false
 
-signal took_head_damage()
+signal take_head_damage()
+signal take_fall_damage()
 
 func set_go_left(value):
 	go_left = value
@@ -37,10 +39,9 @@ func set_jump(value):
 
 func _ready():
 	hp = get_node("hp")
+	hp.connect("killed", self, "_die")
 
 	set_fixed_process(true)
-
-	hp.connect("killed", self, "_die")
 
 func _fixed_process(delta):
 	_pre_fixed_process(delta)
@@ -74,11 +75,13 @@ func _fixed_process(delta):
 
 		if (n.x == 0 and n.y < 0):
 			# If the normal strictly goes "up", then: on floor
+			if on_air_time > MIN_AIRBONE_TIME_FALL_DAMAGE:
+				emit_signal("take_fall_damage")
 			on_air_time = 0
 			floor_velocity = get_collider_velocity()
 			jumping = false
 		elif jumping and n.y > 0 and velocity.y < -MIN_JUMP_SPEED_HEAD_DAMAGE:
-			emit_signal("took_head_damage")
+			emit_signal("take_head_damage")
 
 		x_jump_velocity = 0
 		motion = n.slide(motion)

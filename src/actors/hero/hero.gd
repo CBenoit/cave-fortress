@@ -39,7 +39,8 @@ func _ready():
 	set_process_input(true)
 	set_process(true)
 
-	connect("took_head_damage", self, "take_head_damage")
+	connect("take_head_damage", self, "handle_head_damage")
+	connect("take_fall_damage", self, "handle_fall_damage")
 
 func _input(event):
 	if event.is_action_pressed("mode_change"):
@@ -116,8 +117,12 @@ func switch_build_mode():
 		build_mode = true
 		emit_signal("weapon_changed", weapon)
 
-func take_head_damage():
+func handle_head_damage():
 	hp.take_damage(1)
+	play_hurt_sound()
+
+func handle_fall_damage():
+	hp.take_damage((on_air_time - MIN_AIRBONE_TIME_FALL_DAMAGE) * 10)
 	play_hurt_sound()
 
 func play_hurt_sound():
