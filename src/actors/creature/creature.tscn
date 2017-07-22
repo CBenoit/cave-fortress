@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=1]
+
+[ext_resource path="res://actors/creature/creature.gd" type="Script" id=1]
+
+[node name="creature" type="KinematicBody2D"]
+
+input/pickable = false
+collision/layers = 1
+collision/mask = 1
+collision/margin = 0.08
+script/script = ExtResource( 1 )
+movement_speed = 128
+gravity = 313.6
+jump_power = 150
+
+[node name="collision" type="CollisionShape2D" parent="."]
+
+trigger = false
+_update_shape_index = 0
+
+

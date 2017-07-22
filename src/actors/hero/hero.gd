@@ -1,13 +1,4 @@
-extends KinematicBody2D
-
-const JUMP_MAX_AIRBORNE_TIME = 0.1
-const JUMP_INFLUENCE_START_TIME = 0.05
-const JUMP_INFLUENCE_MAX_TIME = 0.15
-const MIN_JUMP_SPEED_HEAD_DAMAGE = 140
-
-export var walk_speed = 128
-export var gravity = 313.6
-export var jump_power = 150
+extends "../creature/creature.gd"
 
 signal killed()
 signal weapon_changed(new_weapon)
@@ -34,13 +25,6 @@ var weapons_scn = [
 var builder_arm_scn = preload("construction/builder_arm.tscn")
 var build_mode = false
 
-# movements attributes
-var velocity = Vector2()
-var on_air_time = 0
-var jumping = false
-var jump_time = 0 # relative to airbone time
-var x_jump_velocity = 0
-
 # other
 var killed = false
 
@@ -53,9 +37,10 @@ func _ready():
 	camera_anim = get_node("camera/camera_anim")
 	sound_voice = get_node("voice")
 
-	set_fixed_process(true)
 	set_process_input(true)
 	set_process(true)
+
+	connect("took_head_damage", self, "play_hurt_sound")
 
 func _input(event):
 	if event.is_action_pressed("mode_change"):
@@ -105,68 +90,15 @@ func kill():
 		set_fixed_process(false)
 		emit_signal("killed")
 
-func _fixed_process(delta):
+func _pre_fixed_process(delta):
 	if not build_mode:
 		if weapon.mode == weapon.AUTOMATIC_MODE:
 			if Input.is_action_pressed("attack"):
 				weapon.fire()
 
-	var walk_left = Input.is_action_pressed("move_left")
-	var walk_right = Input.is_action_pressed("move_right")
-	var jump = Input.is_action_pressed("jump")
-
-	if jumping: # air control
-		if walk_left:
-			velocity.x = x_jump_velocity - walk_speed / 2
-		elif walk_right:
-			velocity.x = x_jump_velocity + walk_speed / 2
-		else:
-			velocity.x = x_jump_velocity
-	else:
-		if walk_left:
-			velocity.x = -walk_speed
-		elif walk_right:
-			velocity.x = walk_speed
-		else:
-			velocity.x = 0
-
-	velocity.y += gravity * delta
-
-	# integrate velocity to motion
-	var motion = velocity * delta
-
-	# move and consume motion
-	motion = move(motion)
-
-	var floor_velocity = Vector2()
-	if(is_colliding()):
-		var n = get_collision_normal()
-
-		if (n.x == 0 and n.y < 0):
-			# If the normal strictly goes "up", then: on floor
-			on_air_time = 0
-			floor_velocity = get_collider_velocity()
-			jumping = false
-		elif jumping and n.y > 0 and velocity.y < -MIN_JUMP_SPEED_HEAD_DAMAGE:
-			play_hurt_sound()
-
-		x_jump_velocity = 0
-		motion = n.slide(motion)
-		velocity = n.slide(velocity)
-		move(motion)
-
-	# move with floor
-	move(floor_velocity * delta)
-
-	if on_air_time < JUMP_MAX_AIRBORNE_TIME and jump and not jumping:
-		velocity.y = -jump_power
-		jumping = true
-		x_jump_velocity = velocity.x
-		jump_time = on_air_time
-	elif on_air_time > jump_time + JUMP_INFLUENCE_START_TIME and on_air_time < jump_time + JUMP_INFLUENCE_MAX_TIME and jump and jumping:
-		velocity.y -= jump_power * delta * 5
-
-	on_air_time += delta
+	set_go_left(Input.is_action_pressed("move_left"))
+	set_go_right(Input.is_action_pressed("move_right"))
+	set_jump(Input.is_action_pressed("jump"))
 
 func change_weapon_by_weapon_idx(weapon_idx):
 	weapon.queue_free()
@@ -192,5 +124,3 @@ func play_hurt_sound():
 	var pick = round(rand_range(0.5,11.5))
 	if not sound_voice.is_voice_active(0):
 		sound_voice.play("cri" + str(pick))
-
-
