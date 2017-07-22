@@ -42,3 +42,6 @@ func blocked_on_right():
 
 func blocked_on_left():
 	return solids.get_cellv(solids.world_to_map(get_pos() + Vector2(-SolidTiles.TILE_SIZE, 0))) != SolidTiles.TILE_EMPTY
+
+func _die():
+	queue_free()

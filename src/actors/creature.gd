@@ -110,4 +110,4 @@ func _post_fixed_process(delta):
 	pass
 
 func _die():
-	print("dead")
+	pass
