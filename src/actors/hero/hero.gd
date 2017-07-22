@@ -120,6 +120,6 @@ func take_head_damage():
 func play_hurt_sound():
 	# Beware: needs to be manually changed when adding or removing sounds.
 	# May be improved.
-	var pick = round(rand_range(0.5,11.5))
+	var pick = round(rand_range(0.5,10.5))
 	if not sound_voice.is_voice_active(0):
 		sound_voice.play("cri" + str(pick))

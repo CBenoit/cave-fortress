@@ -1,20 +1,19 @@
-[gd_scene load_steps=19 format=1]
+[gd_scene load_steps=18 format=1]
 
 [ext_resource path="res://actors/hero/hero.gd" type="Script" id=1]
 [ext_resource path="res://actors/hero/weapons/basic_weapon.tscn" type="PackedScene" id=2]
 [ext_resource path="res://actors/hero/hero.tex" type="Texture" id=3]
 [ext_resource path="res://actors/hero/cri1.smp" type="Sample" id=4]
 [ext_resource path="res://actors/hero/cri10.smp" type="Sample" id=5]
-[ext_resource path="res://actors/hero/cri11.smp" type="Sample" id=6]
-[ext_resource path="res://actors/hero/cri2.smp" type="Sample" id=7]
-[ext_resource path="res://actors/hero/cri3.smp" type="Sample" id=8]
-[ext_resource path="res://actors/hero/cri4.smp" type="Sample" id=9]
-[ext_resource path="res://actors/hero/cri5.smp" type="Sample" id=10]
-[ext_resource path="res://actors/hero/cri6.smp" type="Sample" id=11]
-[ext_resource path="res://actors/hero/cri7.smp" type="Sample" id=12]
-[ext_resource path="res://actors/hero/cri8.smp" type="Sample" id=13]
-[ext_resource path="res://actors/hero/cri9.smp" type="Sample" id=14]
-[ext_resource path="res://utils/hp.tscn" type="PackedScene" id=15]
+[ext_resource path="res://actors/hero/cri2.smp" type="Sample" id=6]
+[ext_resource path="res://actors/hero/cri3.smp" type="Sample" id=7]
+[ext_resource path="res://actors/hero/cri4.smp" type="Sample" id=8]
+[ext_resource path="res://actors/hero/cri5.smp" type="Sample" id=9]
+[ext_resource path="res://actors/hero/cri6.smp" type="Sample" id=10]
+[ext_resource path="res://actors/hero/cri7.smp" type="Sample" id=11]
+[ext_resource path="res://actors/hero/cri8.smp" type="Sample" id=12]
+[ext_resource path="res://actors/hero/cri9.smp" type="Sample" id=13]
+[ext_resource path="res://utils/hp.tscn" type="PackedScene" id=14]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -52,59 +51,53 @@ samples/cri10 = {
 "priority": 0,
 "sample": ExtResource( 5 )
 }
-samples/cri11 = {
+samples/cri2 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
 "sample": ExtResource( 6 )
 }
-samples/cri2 = {
+samples/cri3 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
 "sample": ExtResource( 7 )
 }
-samples/cri3 = {
+samples/cri4 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
 "sample": ExtResource( 8 )
 }
-samples/cri4 = {
+samples/cri5 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
 "sample": ExtResource( 9 )
 }
-samples/cri5 = {
+samples/cri6 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
 "sample": ExtResource( 10 )
 }
-samples/cri6 = {
+samples/cri7 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
 "sample": ExtResource( 11 )
 }
-samples/cri7 = {
+samples/cri8 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
 "sample": ExtResource( 12 )
 }
-samples/cri8 = {
-"db": 0.0,
-"pitch": 1.0,
-"priority": 0,
-"sample": ExtResource( 13 )
-}
 samples/cri9 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
-"sample": ExtResource( 14 )
+"sample": ExtResource( 13 )
 }
 
 [node name="hero" type="KinematicBody2D"]
@@ -176,7 +169,7 @@ autoplay = ""
 
 [node name="voice" type="SamplePlayer2D" parent="."]
 
-params/volume_db = -15.0
+params/volume_db = -2.0
 params/pitch_scale = 1.0
 params/attenuation/min_distance = 1.0
 params/attenuation/max_distance = 2048.0
@@ -185,7 +178,7 @@ config/polyphony = 1
 config/samples = SubResource( 3 )
 config/pitch_random = 0.0
 
-[node name="hp" parent="." instance=ExtResource( 15 )]
+[node name="hp" parent="." instance=ExtResource( 14 )]
 
 max_health = 10.0
 
