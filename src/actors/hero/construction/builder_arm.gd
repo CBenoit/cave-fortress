@@ -31,10 +31,10 @@ func _fixed_process(delta):
 	var mouse_pos = get_global_mouse_pos()
 
 	# in the grid of the tilemap
-	preview_block.set_global_pos(Vector2(closest_multiple(mouse_pos.x, TilemapsConstants.TILE_SIZE), closest_multiple(mouse_pos.y, TilemapsConstants.TILE_SIZE)))
+	preview_block.set_global_pos(Vector2(closest_multiple(mouse_pos.x, SolidTiles.TILE_SIZE), closest_multiple(mouse_pos.y, SolidTiles.TILE_SIZE)))
 
 	# distance between the player and placement position
-	var distance = (preview_block.get_global_pos() + Vector2(TilemapsConstants.TILE_SIZE / 2, TilemapsConstants.TILE_SIZE / 2) - get_global_pos()).length()
+	var distance = (preview_block.get_global_pos() + Vector2(SolidTiles.TILE_SIZE / 2, SolidTiles.TILE_SIZE / 2) - get_global_pos()).length()
 	var tile_at_pos = solids_tilemap.get_cellv(solids_tilemap.world_to_map(mouse_pos))
 
 	# TODO: maybe add raycasting?

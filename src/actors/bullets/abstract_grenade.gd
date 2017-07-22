@@ -34,7 +34,7 @@ func _fixed_process(delta):
 func explode():
 	# explosion logic
 	var center = get_pos()
-	var tile_size = TilemapsConstants.TILE_SIZE
+	var tile_size = SolidTiles.TILE_SIZE
 	var n = ceil(radius/tile_size) #maximum number of tiles in line reached by the explosion
 
 	for x in range(center.x - n*tile_size, center.x + n*tile_size, tile_size):

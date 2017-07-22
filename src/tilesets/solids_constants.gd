@@ -1,5 +1,7 @@
 extends Node
 
+const TILE_SIZE = 32
+
 const TILE_EMPTY = -1
 const TILE_STONE = 0
 const TILE_DIRT = 1
