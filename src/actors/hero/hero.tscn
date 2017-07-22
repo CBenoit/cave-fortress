@@ -100,7 +100,9 @@ samples/cri9 = {
 "sample": ExtResource( 13 )
 }
 
-[node name="hero" type="KinematicBody2D"]
+[node name="hero" type="KinematicBody2D" groups=[
+"damageable",
+]]
 
 input/pickable = false
 shapes/0/shape = SubResource( 1 )
@@ -180,6 +182,6 @@ config/pitch_random = 0.0
 
 [node name="hp" parent="." instance=ExtResource( 14 )]
 
-max_health = 10.0
+max_health = 100.0
 
 

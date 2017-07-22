@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=1]
+[gd_scene load_steps=8 format=1]
 
 [ext_resource path="res://actors/bullets/abstract_grenade.gd" type="Script" id=1]
 [ext_resource path="res://effects/explosion_effect.tscn" type="PackedScene" id=2]
@@ -18,6 +18,11 @@ samples/grenade_collide = {
 "priority": 0,
 "sample": ExtResource( 4 )
 }
+
+[sub_resource type="CircleShape2D" id=3]
+
+custom_solver_bias = 0.0
+radius = 10.0
 
 [node name="grenade" type="RigidBody2D" groups=[
 "grenade",
@@ -70,6 +75,23 @@ config/pitch_random = 0.0
 
 transform/scale = Vector2( 0.4, 0.4 )
 shape = SubResource( 1 )
+trigger = false
+_update_shape_index = 0
+
+[node name="explosion_area" type="Area2D" parent="."]
+
+input/pickable = true
+shapes/0/shape = SubResource( 3 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="shape" type="CollisionShape2D" parent="explosion_area"]
+
+shape = SubResource( 3 )
 trigger = false
 _update_shape_index = 0
 

@@ -86,7 +86,10 @@ func _die():
 	camera_anim.play("shaking")
 
 func _pre_fixed_process(delta):
-	if not build_mode:
+	if build_mode:
+		if Input.is_action_pressed("secondary_action"):
+			weapon.remove_block()
+	else:
 		if weapon.mode == weapon.AUTOMATIC_MODE:
 			if Input.is_action_pressed("attack"):
 				weapon.fire()

@@ -17,6 +17,9 @@ var tile_creation_switch = [
 	SolidTiles.TILE_STEEL
 ]
 var picked_tile = 0
+var mouse_pos
+var tile_at_pos
+var distance
 var can_build = false
 var timestamp_last_build = 0
 
@@ -28,14 +31,14 @@ func _ready():
 	set_fixed_process(true)
 
 func _fixed_process(delta):
-	var mouse_pos = get_global_mouse_pos()
+	mouse_pos = get_global_mouse_pos()
 
 	# in the grid of the tilemap
 	preview_block.set_global_pos(Vector2(closest_multiple(mouse_pos.x, SolidTiles.TILE_SIZE), closest_multiple(mouse_pos.y, SolidTiles.TILE_SIZE)))
 
 	# distance between the player and placement position
-	var distance = (preview_block.get_global_pos() + Vector2(SolidTiles.TILE_SIZE / 2, SolidTiles.TILE_SIZE / 2) - get_global_pos()).length()
-	var tile_at_pos = solids_tilemap.get_cellv(solids_tilemap.world_to_map(mouse_pos))
+	distance = (preview_block.get_global_pos() + Vector2(SolidTiles.TILE_SIZE / 2, SolidTiles.TILE_SIZE / 2) - get_global_pos()).length()
+	tile_at_pos = solids_tilemap.get_cellv(solids_tilemap.world_to_map(mouse_pos))
 
 	# TODO: maybe add raycasting?
 	if (tile_at_pos == SolidTiles.TILE_EMPTY and distance < reach):
@@ -53,6 +56,10 @@ func create_block():
 		timestamp_last_build = OS.get_ticks_msec()
 		#build_sound.play("zap")
 		solids_tilemap.set_cellv(solids_tilemap.world_to_map(preview_block.get_pos()), tile_creation_switch[picked_tile])
+
+func remove_block():
+	if distance < reach:
+		solids_tilemap.damage_tile(solids_tilemap.world_to_map(mouse_pos),0.07*SolidTiles.TILE_HEALTH[tile_at_pos])
 
 func change_picked_tile(step): # step should be either 1 or -1, will be used in the tile switch
 	# because just -1 % 3 gives -1 and not 2, so we add +3.

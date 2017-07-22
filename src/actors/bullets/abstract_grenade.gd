@@ -9,11 +9,15 @@ export(PackedScene) var explosion_effect_scn
 var solids_tilemap
 var sound_emitter
 var previous_angle
+var explosion_area
 
 func _ready():
 	previous_angle = get_linear_velocity().angle()
 	solids_tilemap = get_node("../../solids")
 	sound_emitter = get_node("sound_emitter")
+
+	explosion_area = get_node("explosion_area")
+	get_node("explosion_area/shape").get_shape().set_radius(radius)
 
 	set_fixed_process(true)
 
@@ -34,6 +38,8 @@ func _fixed_process(delta):
 func explode():
 	# explosion logic
 	var center = get_pos()
+
+	# damaging the tiles
 	var tile_size = SolidTiles.TILE_SIZE
 	var n = ceil(radius/tile_size) #maximum number of tiles in line reached by the explosion
 
@@ -45,6 +51,12 @@ func explode():
 			if (l < radius): # deals the damage if within the radius of the explosion
 				# damages = power in the center and half of it at the rim, linear scaling
 				solids_tilemap.damage_tile(solids_tilemap.world_to_map(vertex),power - (power/2)*(l/radius))
+
+	# damaging entities
+	for entity in explosion_area.get_overlapping_bodies():
+		if "damageable" in entity.get_groups():
+			var distance = (entity.get_pos() - center).length()
+			entity.hp.take_damage(power - (power/2)*(distance/radius))
 
 	# spawn the explosion effect
 	var effect = explosion_effect_scn.instance()

@@ -11,3 +11,5 @@ func _on_colliding():
 			collider.damage_tile(collider.world_to_map(collision_pos), power)
 		elif grp == "grenade":
 			collider.apply_impulse(Vector2(0, 0), Vector2(cos(orientation) * speed * power, -sin(orientation) * speed * power))
+		elif grp == "damageable":
+			collider.hp.take_damage(power)

@@ -9,7 +9,9 @@
 custom_solver_bias = 0.0
 extents = Vector2( 10, 10 )
 
-[node name="enemy" type="KinematicBody2D"]
+[node name="enemy" type="KinematicBody2D" groups=[
+"damageable",
+]]
 
 input/pickable = false
 shapes/0/shape = SubResource( 1 )
@@ -19,7 +21,7 @@ collision/layers = 1
 collision/mask = 1
 collision/margin = 0.08
 script/script = ExtResource( 1 )
-movement_speed = 128
+movement_speed = 68
 gravity = 313.6
 jump_power = 150
 
