@@ -1,4 +1,4 @@
-extends "../creature/creature.gd"
+extends "../creature.gd"
 
 var hero
 var solids

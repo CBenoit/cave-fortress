@@ -1,4 +1,4 @@
-extends "../creature/creature.gd"
+extends "../creature.gd"
 
 signal weapon_changed(new_weapon)
 
