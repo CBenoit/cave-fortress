@@ -19,9 +19,11 @@ var weapons_scn = [
 	preload("res://actors/hero/weapons/grenade_launcher.tscn"),
 	preload("res://actors/hero/weapons/build_gun.tscn")
 ]
+var weapons = []
 
 # build attributes
 var builder_arm_scn = preload("construction/builder_arm.tscn")
+var builder_arm
 var build_mode = false
 
 # other
@@ -43,6 +45,8 @@ func _ready():
 	connect("take_fall_damage", self, "handle_fall_damage")
 	hp.connect("on_damage", self, "handle_damage")
 
+	_instanciate_weapons()
+
 func _input(event):
 	if event.is_action_pressed("mode_change"):
 		switch_build_mode()
@@ -61,10 +65,10 @@ func _input(event):
 
 		# weapon switching
 		if event.is_action_pressed("next_weapon"):
-			picked_weapon = (picked_weapon + 1) % weapons_scn.size()
+			picked_weapon = (picked_weapon + 1) % weapons.size()
 			change_weapon_by_weapon_idx(picked_weapon)
 		elif event.is_action_pressed("previous_weapon"):
-			picked_weapon = (picked_weapon - 1) % weapons_scn.size()
+			picked_weapon = (picked_weapon - 1) % weapons.size()
 			change_weapon_by_weapon_idx(picked_weapon)
 
 func _process(delta):
@@ -101,8 +105,8 @@ func _pre_fixed_process(delta):
 	set_jump(Input.is_action_pressed("jump"))
 
 func change_weapon_by_weapon_idx(weapon_idx):
-	weapon.queue_free()
-	weapon = weapons_scn[weapon_idx].instance()
+	remove_child(weapon)
+	weapon = weapons[weapon_idx]
 	add_child(weapon)
 	emit_signal("weapon_changed", weapon)
 
@@ -112,8 +116,8 @@ func switch_build_mode():
 		change_weapon_by_weapon_idx(picked_weapon)
 		build_mode = false
 	else:
-		weapon.queue_free()
-		weapon = builder_arm_scn.instance()
+		remove_child(weapon)
+		weapon = builder_arm
 		add_child(weapon)
 		build_mode = true
 		emit_signal("weapon_changed", weapon)
@@ -134,3 +138,8 @@ func play_hurt_sound():
 	var pick = round(rand_range(0.5,10.5))
 	if not sound_voice.is_voice_active(0):
 		sound_voice.play("cri" + str(pick))
+
+func _instanciate_weapons():
+	builder_arm = builder_arm_scn.instance()
+	for scn in weapons_scn:
+		weapons.append(scn.instance())
