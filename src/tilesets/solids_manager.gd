@@ -5,13 +5,18 @@ var fissures_scn = preload("./fissures/fissures.tscn")
 var tiles_damages = {}
 
 func damage_tile(tile_pos, damages):
+	if damages <= 0:
+		print("[WARNING] Attempted to deal 0 damage to tile at position", tile_pos, ".")
+		return
+
 	if get_cellv(tile_pos) == SolidTiles.TILE_EMPTY:
-		return # should not happen...
+		return
 
 	if tiles_damages.has(tile_pos):
 		tiles_damages[tile_pos].decrease_tile_health(damages)
 		if tiles_damages[tile_pos].get_tile_health() <= 0:
 			set_cellv(tile_pos, SolidTiles.TILE_EMPTY)
+			tiles_damages[tile_pos].queue_free()
 			tiles_damages.erase(tile_pos) # free the memory
 	else:
 		var this_tile_max_health = SolidTiles.TILE_HEALTH[get_cellv(tile_pos)]
