@@ -18,7 +18,7 @@ func _ready():
 	solids_tilemap = get_node("content/solids")
 	background_tilemap = get_node("content/ParallaxBackground/ParallaxLayer/background")
 	hero = get_node("content/entities/hero")
-	hud = get_node("HUD")
+	hud = get_node("game_hud")
 
 	var hero_camera = get_node("content/entities/hero/camera")
 	hero_camera.set_limit(MARGIN_LEFT, topleft_level_area.get_pos().x)
@@ -31,7 +31,8 @@ func _ready():
 	update_hud()
 
 	# connect signals
-	hero.connect("weapon_changed", hud, "current_weapon_changed")
+	hero.connect("weapon_changed", hud.debug_infos, "current_weapon_changed")
+	hero.hp.connect("on_damage", hud.debug_infos, "hp_changed")
 
 func fill_outside_base(): #filling the map outside the base area
 	for x in range(topleft_level_area.get_pos().x, bottomright_level_area.get_pos().x, 32):
@@ -72,4 +73,5 @@ func get_neighbour_tiles(tile_pos):
 # update the HUD state with current information
 # as signal update individual parts, this should only be called once at the start.
 func update_hud():
-	hud.current_weapon_changed(hero.weapon)
+	hud.debug_infos.current_weapon_changed(hero.weapon)
+	hud.debug_infos.hp_changed(hero.hp)
