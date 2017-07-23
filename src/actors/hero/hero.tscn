@@ -15,7 +15,7 @@
 [ext_resource path="res://actors/hero/cri8.smp" type="Sample" id=13]
 [ext_resource path="res://actors/hero/cri9.smp" type="Sample" id=14]
 
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
 extents = Vector2( 8, 27 )
@@ -83,7 +83,7 @@ samples/cri9 = {
 "sample": ExtResource( 14 )
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=3]
 
 resource/name = "damage"
 length = 0.3
@@ -99,8 +99,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 0.246094, 0.246094, 1 ), Color( 1, 1, 1, 1 ) ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("camera:offset")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = {
+"times": FloatArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": FloatArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( -5, 0 ), Vector2( 5, 0 ), Vector2( 0, 0 ) ]
+}
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=4]
 
 resource/name = "death"
 length = 0.4
@@ -116,13 +126,23 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ) ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("camera:offset")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = {
+"times": FloatArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": FloatArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( -10, 5 ), Vector2( 0, -5 ), Vector2( 10, 5 ), Vector2( 0, 0 ) ]
+}
 
 [node name="hero" type="KinematicBody2D" groups=[
 "damageable",
 ]]
 
 input/pickable = false
-shapes/0/shape = SubResource( 3 )
+shapes/0/shape = SubResource( 1 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 5 )
 shapes/0/trigger = false
 collision/layers = 1
@@ -136,7 +156,7 @@ jump_power = 150
 [node name="collision" type="CollisionShape2D" parent="."]
 
 transform/pos = Vector2( 0, 5 )
-shape = SubResource( 3 )
+shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
 
@@ -195,8 +215,8 @@ config/pitch_random = 0.0
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/damage = SubResource( 4 )
-anims/death = SubResource( 5 )
+anims/damage = SubResource( 3 )
+anims/death = SubResource( 4 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]

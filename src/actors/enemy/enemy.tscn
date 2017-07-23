@@ -9,7 +9,7 @@
 custom_solver_bias = 0.0
 extents = Vector2( 10, 10 )
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=2]
 
 resource/name = "damage"
 length = 0.3
@@ -26,7 +26,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 0.246094, 0.246094, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=3]
 
 resource/name = "death"
 length = 0.4
@@ -78,8 +78,8 @@ texture = ExtResource( 3 )
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/damage = SubResource( 4 )
-anims/death = SubResource( 5 )
+anims/damage = SubResource( 2 )
+anims/death = SubResource( 3 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
