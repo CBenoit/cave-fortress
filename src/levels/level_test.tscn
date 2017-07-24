@@ -17,6 +17,14 @@ transform/pos = Vector2( 256, 128 )
 
 transform/pos = Vector2( -532.128, -192.464 )
 
+[node name="enemy1" parent="content/entities" instance=ExtResource( 2 )]
+
+transform/pos = Vector2( -487.236, -193.824 )
+
+[node name="enemy2" parent="content/entities" instance=ExtResource( 2 )]
+
+transform/pos = Vector2( -575.66, -192.464 )
+
 [node name="topleft_base_area" parent="."]
 
 transform/pos = Vector2( -736, -480 )

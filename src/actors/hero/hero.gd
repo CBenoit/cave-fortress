@@ -17,7 +17,7 @@ var weapons_scn = [
 	preload("res://actors/hero/weapons/basic_weapon.tscn"),
 	preload("res://actors/hero/weapons/shotgun.tscn"),
 	preload("res://actors/hero/weapons/grenade_launcher.tscn"),
-	preload("res://actors/hero/weapons/build_gun.tscn")
+	preload("res://actors/hero/weapons/power_gun.tscn")
 ]
 var weapons = []
 
@@ -27,6 +27,7 @@ var builder_arm
 var build_mode = false
 
 # other
+var time_pressed = 0
 var killed = false
 
 func _ready():
@@ -62,6 +63,13 @@ func _input(event):
 		if weapon.mode == weapon.SEMI_AUTO_MODE:
 			if event.is_action_released("attack"):
 				weapon.fire()
+		if weapon.mode == weapon.HAS_INTENSITY:
+			if event.is_action_pressed("attack"):
+				time_pressed = OS.get_ticks_msec()
+			if event.is_action_released("attack"):
+				release_intensity_attack()
+
+
 
 		# weapon switching
 		if event.is_action_pressed("next_weapon"):
@@ -143,3 +151,12 @@ func _instanciate_weapons():
 	builder_arm = builder_arm_scn.instance()
 	for scn in weapons_scn:
 		weapons.append(scn.instance())
+
+func release_intensity_attack():
+	var ratio = (OS.get_ticks_msec() - time_pressed)/900.0 # we set the maximum intensity for 0.9 seconds
+	print(ratio)
+	if ratio >= 1:
+		weapon.fire()
+	else:
+		weapon.intensity = ratio
+		weapon.fire()

@@ -3,7 +3,7 @@ extends RigidBody2D
 export(bool) var on_colliding = false
 export(float,0,10,0.1) var timer = 5
 export(int,1,200,1) var power = 30
-export(float,32,320,1) var radius = 100
+export(float,0,320,1) var radius = 100
 export(PackedScene) var explosion_effect_scn
 
 var solids_tilemap

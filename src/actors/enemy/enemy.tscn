@@ -44,7 +44,9 @@ tracks/0/keys = {
 }
 
 [node name="enemy" type="KinematicBody2D" groups=[
+"enemy",
 "damageable",
+"pushable",
 ]]
 
 input/pickable = false

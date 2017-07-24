@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=1]
+
+[ext_resource path="res://actors/hero/weapons/abstract_grenade_weapon.tscn" type="PackedScene" id=1]
+[ext_resource path="res://actors/hero/weapons/build_gun.tex" type="Texture" id=2]
+[ext_resource path="res://actors/bullets/dynamite.tscn" type="PackedScene" id=3]
+
+[sub_resource type="SampleLibrary" id=1]
+
+
+[node name="weapon" instance=ExtResource( 1 )]
+
+texture = ExtResource( 2 )
+offset = Vector2( 16, 1 )
+name = "dynamite"
+fire_interval_sec = 0.5
+bullet_scn = ExtResource( 3 )
+mode = 2
+velocity = 400.0
+
+[node name="fire_position" parent="."]
+
+transform/pos = Vector2( 23.0732, -0.408375 )
+
+[node name="fire_sound" parent="."]
+
+config/samples = SubResource( 1 )
+
+

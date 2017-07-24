@@ -2,14 +2,14 @@ extends Sprite
 
 const AUTOMATIC_MODE = 0
 const SEMI_AUTO_MODE = 1
-const HAS_INTENSSITY = 2
+const HAS_INTENSITY = 2
 
 export(String) var name = "unknown"
 export(float, 0.01, 15, 0.01) var fire_interval_sec = 0.1
 export(float, 0, 2, 0.02) var fire_angle = 0
 export(int,1,20,1) var bullet_num = 1
 export(PackedScene) var bullet_scn
-export(int, "Automatic", "Semi-auto","has intensity") var mode
+export(int, "Automatic", "Semi-auto","has intensity") var mode = AUTOMATIC_MODE
 
 var fire_sound
 var fire_position

@@ -1,0 +1,43 @@
+[gd_scene load_steps=5 format=1]
+
+[ext_resource path="res://actors/hero/weapons/abstract_weapon.tscn" type="PackedScene" id=1]
+[ext_resource path="res://actors/hero/weapons/sword1.tex" type="Texture" id=2]
+[ext_resource path="res://actors/hero/weapons/sword.gd" type="Script" id=3]
+
+[sub_resource type="RectangleShape2D" id=2]
+
+custom_solver_bias = 0.0
+extents = Vector2( 10, 7.11726 )
+
+[node name="sword" instance=ExtResource( 1 )]
+
+texture = ExtResource( 2 )
+offset = Vector2( 5, 14 )
+script/script = ExtResource( 3 )
+name = "sword"
+fire_interval_sec = 0.3
+mode = 1
+strike_damage = 10
+
+[node name="strike_area" type="Area2D" parent="."]
+
+transform/pos = Vector2( 7.28425, 19.2864 )
+transform/scale = Vector2( 2.41347, 1.82037 )
+input/pickable = true
+shapes/0/shape = SubResource( 2 )
+shapes/0/transform = Matrix32( 0.759816, 0, 0, 2.58707, 7.23148, -7.26181 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="strike_area"]
+
+transform/pos = Vector2( 7.23148, -7.26181 )
+transform/scale = Vector2( 0.759816, 2.58707 )
+shape = SubResource( 2 )
+trigger = false
+_update_shape_index = 0
+
+

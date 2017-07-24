@@ -17,8 +17,4 @@ velocity = 500.0
 
 transform/pos = Vector2( 30.9835, 0.104675 )
 
-[node name="fire_sound" parent="."]
-
-visibility/visible = false
-
 

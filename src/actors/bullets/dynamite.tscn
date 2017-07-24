@@ -2,11 +2,12 @@
 
 [ext_resource path="res://actors/bullets/abstract_grenade.tscn" type="PackedScene" id=1]
 
-[node name="grenade" instance=ExtResource( 1 )]
+[node name="dynamite" instance=ExtResource( 1 )]
 
-mass = 10.0
+bounce = 0.2
+gravity_scale = 3.0
 on_colliding = false
-timer = 3.0
-power = 70
+power = 100
+radius = 150.0
 
 
