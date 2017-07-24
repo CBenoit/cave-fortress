@@ -85,4 +85,19 @@ playback/speed = 1.0
 blend_times = [  ]
 autoplay = ""
 
+[node name="thought" type="Label" parent="."]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -27.0
+margin/top = -30.0
+margin/right = 24.0
+margin/bottom = -16.0
+text = "Thought"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
 
