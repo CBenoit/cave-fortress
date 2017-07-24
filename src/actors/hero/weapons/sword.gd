@@ -7,13 +7,14 @@ func _ready():
 	strike_area = get_node("strike_area")
 
 func _create_bullets():
+	var wielder_team = get_node("..").team
 	for entity in strike_area.get_overlapping_bodies():
-		var gp = entity.get_groups()
-		if "enemy" in gp:
-			entity.hp.take_damage(strike_damage)
-		if "pushable" in gp:
-			push(entity)
-
+		var grps = entity.get_groups()
+		if "damageable" in grps:
+			if entity.team != wielder_team:
+				entity.hp.take_damage(strike_damage)
+			if "pushable" in grps:
+				push(entity)
 
 func push(object):
 	var pos = get_pos()

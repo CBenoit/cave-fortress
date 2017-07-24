@@ -14,10 +14,11 @@ var sound_voice
 # weapons attributes
 var picked_weapon = 0
 var weapons_scn = [
-	preload("res://actors/hero/weapons/basic_weapon.tscn"),
-	preload("res://actors/hero/weapons/shotgun.tscn"),
-	preload("res://actors/hero/weapons/grenade_launcher.tscn"),
-	preload("res://actors/hero/weapons/bubble_gun.tscn")
+	preload("weapons/basic_weapon.tscn"),
+	preload("weapons/shotgun.tscn"),
+	preload("weapons/grenade_launcher.tscn"),
+	preload("weapons/bubble_gun.tscn"),
+	preload("weapons/sword.tscn")
 ]
 var weapons = []
 
@@ -63,13 +64,11 @@ func _input(event):
 		if weapon.mode == weapon.SEMI_AUTO_MODE:
 			if event.is_action_released("attack"):
 				weapon.fire()
-		if weapon.mode == weapon.HAS_INTENSITY:
+		elif weapon.mode == weapon.HAS_INTENSITY:
 			if event.is_action_pressed("attack"):
 				time_pressed = OS.get_ticks_msec()
 			if event.is_action_released("attack"):
 				release_intensity_attack()
-
-
 
 		# weapon switching
 		if event.is_action_pressed("next_weapon"):

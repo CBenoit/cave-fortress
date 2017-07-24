@@ -4,7 +4,7 @@
 [ext_resource path="res://actors/hero/weapons/sword1.tex" type="Texture" id=2]
 [ext_resource path="res://actors/hero/weapons/sword.gd" type="Script" id=3]
 
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10, 7.11726 )
@@ -24,7 +24,7 @@ strike_damage = 10
 transform/pos = Vector2( 7.28425, 19.2864 )
 transform/scale = Vector2( 2.41347, 1.82037 )
 input/pickable = true
-shapes/0/shape = SubResource( 2 )
+shapes/0/shape = SubResource( 1 )
 shapes/0/transform = Matrix32( 0.759816, 0, 0, 2.58707, 7.23148, -7.26181 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -36,7 +36,7 @@ angular_damp = 1.0
 
 transform/pos = Vector2( 7.23148, -7.26181 )
 transform/scale = Vector2( 0.759816, 2.58707 )
-shape = SubResource( 2 )
+shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
 

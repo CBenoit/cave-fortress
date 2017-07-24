@@ -44,9 +44,8 @@ tracks/0/keys = {
 }
 
 [node name="enemy" type="KinematicBody2D" groups=[
-"enemy",
-"damageable",
 "pushable",
+"damageable",
 ]]
 
 input/pickable = false
@@ -60,6 +59,7 @@ script/script = ExtResource( 1 )
 movement_speed = 128
 gravity = 313.6
 jump_power = 150
+team = 2
 
 [node name="collision" type="CollisionShape2D" parent="."]
 

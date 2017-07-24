@@ -9,6 +9,7 @@ const MIN_AIRBONE_TIME_FALL_DAMAGE = 2
 export var movement_speed = 128
 export var gravity = 313.6
 export var jump_power = 150
+export(int, "Unknown", "Ally", "Enemy") var team
 
 # nodes
 var hp
