@@ -17,7 +17,7 @@ var weapons_scn = [
 	preload("res://actors/hero/weapons/basic_weapon.tscn"),
 	preload("res://actors/hero/weapons/shotgun.tscn"),
 	preload("res://actors/hero/weapons/grenade_launcher.tscn"),
-	preload("res://actors/hero/weapons/power_gun.tscn")
+	preload("res://actors/hero/weapons/bubble_gun.tscn")
 ]
 var weapons = []
 
@@ -154,7 +154,6 @@ func _instanciate_weapons():
 
 func release_intensity_attack():
 	var ratio = (OS.get_ticks_msec() - time_pressed)/900.0 # we set the maximum intensity for 0.9 seconds
-	print(ratio)
 	if ratio >= 1:
 		weapon.fire()
 	else:
