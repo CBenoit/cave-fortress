@@ -42,12 +42,15 @@ func _fixed_process(delta):
 
 	# TODO: maybe add raycasting?
 	if (tile_at_pos == SolidTiles.TILE_EMPTY and distance < reach):
+		preview_block.set_opacity(0.8)
 		preview_block.set_modulate(Color(0.2, 1, 0.2)) # adding a layer of green over the block if it can be placed
 		can_build = true
-	elif (distance < reach):
-		preview_block.set_modulate(Color(1, 0.2, 0.2)) # red if within reach but can't place block
+	elif (distance < reach): # destruction mode
+		preview_block.set_opacity(0.2)
+		preview_block.set_modulate(Color(5, 0.2, 0.2)) # red if within reach but can't place block
 		can_build = false
 	else:
+		preview_block.set_opacity(0.2)
 		preview_block.set_modulate(Color(0.6, 0.6, 0.6)) # grey if out of reach
 		can_build = false
 

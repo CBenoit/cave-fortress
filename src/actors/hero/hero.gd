@@ -127,9 +127,11 @@ func switch_build_mode():
 		emit_signal("weapon_changed", weapon)
 
 func handle_head_damage():
+	sound_voice.play("bone break")
 	hp.take_damage(1)
 
 func handle_fall_damage():
+	sound_voice.play("bone break")
 	hp.take_damage((velocity.y - MIN_VELOCITY_FALL_DAMAGE) / 10.0)
 
 func handle_damage(hp):

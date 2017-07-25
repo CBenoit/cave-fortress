@@ -1,19 +1,20 @@
-[gd_scene load_steps=19 format=1]
+[gd_scene load_steps=20 format=1]
 
 [ext_resource path="res://actors/hero/hero.gd" type="Script" id=1]
 [ext_resource path="res://utils/hp.tscn" type="PackedScene" id=2]
 [ext_resource path="res://actors/hero/weapons/basic_weapon.tscn" type="PackedScene" id=3]
 [ext_resource path="res://actors/hero/hero.tex" type="Texture" id=4]
-[ext_resource path="res://actors/hero/cri1.smp" type="Sample" id=5]
-[ext_resource path="res://actors/hero/cri10.smp" type="Sample" id=6]
-[ext_resource path="res://actors/hero/cri2.smp" type="Sample" id=7]
-[ext_resource path="res://actors/hero/cri3.smp" type="Sample" id=8]
-[ext_resource path="res://actors/hero/cri4.smp" type="Sample" id=9]
-[ext_resource path="res://actors/hero/cri5.smp" type="Sample" id=10]
-[ext_resource path="res://actors/hero/cri6.smp" type="Sample" id=11]
-[ext_resource path="res://actors/hero/cri7.smp" type="Sample" id=12]
-[ext_resource path="res://actors/hero/cri8.smp" type="Sample" id=13]
-[ext_resource path="res://actors/hero/cri9.smp" type="Sample" id=14]
+[ext_resource path="res://actors/hero/bone break.smp" type="Sample" id=5]
+[ext_resource path="res://actors/hero/cri1.smp" type="Sample" id=6]
+[ext_resource path="res://actors/hero/cri10.smp" type="Sample" id=7]
+[ext_resource path="res://actors/hero/cri2.smp" type="Sample" id=8]
+[ext_resource path="res://actors/hero/cri3.smp" type="Sample" id=9]
+[ext_resource path="res://actors/hero/cri4.smp" type="Sample" id=10]
+[ext_resource path="res://actors/hero/cri5.smp" type="Sample" id=11]
+[ext_resource path="res://actors/hero/cri6.smp" type="Sample" id=12]
+[ext_resource path="res://actors/hero/cri7.smp" type="Sample" id=13]
+[ext_resource path="res://actors/hero/cri8.smp" type="Sample" id=14]
+[ext_resource path="res://actors/hero/cri9.smp" type="Sample" id=15]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -22,65 +23,71 @@ extents = Vector2( 8, 27 )
 
 [sub_resource type="SampleLibrary" id=2]
 
-samples/cri1 = {
+"samples/bone break" = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
 "sample": ExtResource( 5 )
 }
-samples/cri10 = {
+samples/cri1 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
 "sample": ExtResource( 6 )
 }
-samples/cri2 = {
+samples/cri10 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
 "sample": ExtResource( 7 )
 }
-samples/cri3 = {
+samples/cri2 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
 "sample": ExtResource( 8 )
 }
-samples/cri4 = {
+samples/cri3 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
 "sample": ExtResource( 9 )
 }
-samples/cri5 = {
+samples/cri4 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
 "sample": ExtResource( 10 )
 }
-samples/cri6 = {
+samples/cri5 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
 "sample": ExtResource( 11 )
 }
-samples/cri7 = {
+samples/cri6 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
 "sample": ExtResource( 12 )
 }
-samples/cri8 = {
+samples/cri7 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
 "sample": ExtResource( 13 )
 }
-samples/cri9 = {
+samples/cri8 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
 "sample": ExtResource( 14 )
+}
+samples/cri9 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 15 )
 }
 
 [sub_resource type="Animation" id=3]

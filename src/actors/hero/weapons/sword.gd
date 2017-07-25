@@ -13,5 +13,5 @@ func _create_bullets(intensity):
 		if "damageable" in grps:
 			if entity.team != wielder_team:
 				entity.hp.take_damage(strike_damage)
-			if "pushable" in grps:
-				entity.push(Vector2(cos(get_rot()) * strike_damage * 10, -100))
+				if "pushable" in grps:
+					entity.push(Vector2(cos(get_rot()) * strike_damage * 10, -100))

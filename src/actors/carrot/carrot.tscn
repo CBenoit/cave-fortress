@@ -1,0 +1,57 @@
+[gd_scene load_steps=5 format=1]
+
+[ext_resource path="res://actors/carrot/carrot.gd" type="Script" id=1]
+[ext_resource path="res://actors/carrot/carrot.tex" type="Texture" id=2]
+[ext_resource path="res://utils/hp.tscn" type="PackedScene" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+custom_solver_bias = 0.0
+extents = Vector2( 10, 12.3001 )
+
+[node name="carrot" type="KinematicBody2D" groups=[
+"damageable",
+]]
+
+visibility/behind_parent = true
+input/pickable = false
+shapes/0/shape = SubResource( 1 )
+shapes/0/transform = Matrix32( 3.93218, 0, 0, 3.7788, 0.0360902, -46.3549 )
+shapes/0/trigger = false
+collision/layers = 1
+collision/mask = 1
+collision/margin = 0.08
+script/script = ExtResource( 1 )
+movement_speed = 128
+gravity = 313.6
+jump_power = 150
+team = 1
+
+[node name="Sprite" type="Sprite" parent="."]
+
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+transform/pos = Vector2( 0.0360902, -46.3549 )
+transform/scale = Vector2( 3.93218, 3.7788 )
+shape = SubResource( 1 )
+trigger = false
+_update_shape_index = 0
+
+[node name="hp" parent="." instance=ExtResource( 3 )]
+
+max_health = 300.0
+
+[node name="hit_sound" type="SamplePlayer2D" parent="."]
+
+params/volume_db = 0.0
+params/pitch_scale = 1.0
+params/attenuation/min_distance = 1.0
+params/attenuation/max_distance = 2048.0
+params/attenuation/distance_exp = 1.0
+config/polyphony = 1
+config/samples = null
+config/pitch_random = 0.0
+
+
