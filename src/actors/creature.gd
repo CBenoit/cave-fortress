@@ -6,6 +6,9 @@ const JUMP_INFLUENCE_MAX_TIME = 0.15
 const MIN_JUMP_SPEED_HEAD_DAMAGE = 140
 const MIN_VELOCITY_FALL_DAMAGE = 400
 
+const SLIDE_STOP_VELOCITY = 1.0 # One pixel per second
+const SLIDE_STOP_MIN_TRAVEL = 1.0 # One pixel
+
 export var movement_speed = 128
 export var gravity = 313.6
 export var jump_power = 150
@@ -71,28 +74,29 @@ func _fixed_process(delta):
 	# move and consume motion
 	motion = move(motion)
 
-	var floor_velocity = Vector2()
 	if(is_colliding()):
 		var n = get_collision_normal()
 
 		if (n.x == 0 and n.y < 0):
 			# If the normal strictly goes "up", then: on floor
 			if velocity.y > MIN_VELOCITY_FALL_DAMAGE:
-				emit_signal("take_fall_damage")
+				_take_fall_damage()
 			on_air_time = 0
-			floor_velocity = get_collider_velocity()
 			jumping = false
 			pushed = false
 		elif jumping and n.y > 0 and velocity.y < -MIN_JUMP_SPEED_HEAD_DAMAGE:
-			emit_signal("take_head_damage")
+			_take_head_damage()
 
-		x_jump_velocity = 0
-		motion = n.slide(motion)
-		velocity = n.slide(velocity)
-		move(motion)
-
-	# move with floor
-	move(floor_velocity * delta)
+		if on_air_time == 0 \
+				and get_travel().length() < SLIDE_STOP_MIN_TRAVEL \
+				and abs(velocity.x) < SLIDE_STOP_VELOCITY:
+			revert_motion()
+			velocity.y = 0.0
+		else:
+			x_jump_velocity = 0
+			motion = n.slide(motion)
+			velocity = n.slide(velocity)
+			move(motion)
 
 	if on_air_time < JUMP_MAX_AIRBORNE_TIME and jump and not jumping:
 		velocity.y = -jump_power
@@ -113,6 +117,12 @@ func _post_fixed_process(delta):
 	pass
 
 func _die():
+	pass
+
+func _take_head_damage():
+	pass
+
+func _take_fall_damage():
 	pass
 
 func push(direction):

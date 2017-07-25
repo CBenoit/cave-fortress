@@ -21,7 +21,6 @@ var dig_timestamp = 0
 var attack_timestamp = 0
 
 func _ready():
-	connect("take_fall_damage", self, "_handle_fall_damage")
 	hp.connect("on_damage", self, "_handle_damage")
 
 	brain.set_goal_value(Brain.GOAL_DESTROY_CARROTS, 45)
@@ -61,7 +60,7 @@ func _update_goals():
 	brain.set_goal_value(Brain.GOAL_KILL_PLAYER, kill_player_goal_value)
 	# TODO: GOAL_FIND_ALLIES
 
-func _handle_fall_damage():
+func _take_fall_damage():
 	hp.take_damage((velocity.y - MIN_VELOCITY_FALL_DAMAGE) / 10.0)
 
 func _handle_damage(hp):
