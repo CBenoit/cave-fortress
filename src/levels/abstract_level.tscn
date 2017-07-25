@@ -72,6 +72,8 @@ tile_data = IntArray(  )
 
 [node name="hero" parent="content/entities" instance=ExtResource( 6 )]
 
+[node name="waves" type="Node" parent="content"]
+
 [node name="topleft_level_area" type="Position2D" parent="."]
 
 transform/pos = Vector2( -1504, -1024 )

@@ -145,8 +145,9 @@ tracks/1/keys = {
 }
 
 [node name="hero" type="KinematicBody2D" groups=[
-"damageable",
 "pushable",
+"damageable",
+"creature",
 ]]
 
 input/pickable = false
