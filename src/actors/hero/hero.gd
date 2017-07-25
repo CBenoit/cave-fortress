@@ -18,7 +18,7 @@ var weapons_scn = [
 	preload("weapons/shotgun.tscn"),
 	preload("weapons/grenade_launcher.tscn"),
 	preload("weapons/bubble_gun.tscn"),
-	preload("weapons/uzi.tscn")
+	preload("weapons/sword.tscn")
 ]
 var weapons = []
 
