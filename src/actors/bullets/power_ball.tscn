@@ -1,12 +1,17 @@
-[gd_scene load_steps=3 format=1]
+[gd_scene load_steps=4 format=1]
 
 [ext_resource path="res://actors/bullets/abstract_grenade.tscn" type="PackedScene" id=1]
 [ext_resource path="res://effects/power_explosion.tscn" type="PackedScene" id=2]
 
+[sub_resource type="CircleShape2D" id=1]
+
+custom_solver_bias = 0.0
+radius = 10.0
+
 [node name="grenade" instance=ExtResource( 1 )]
 
 bounce = 1.0
-gravity_scale = 0.0
+gravity_scale = -0.1
 timer = 10.0
 radius = 15.0
 explosion_effect_scn = ExtResource( 2 )
@@ -14,5 +19,14 @@ explosion_effect_scn = ExtResource( 2 )
 [node name="Sprite" parent="."]
 
 modulate = Color( 0.0811089, 0.597656, 0.0770416, 1 )
+
+[node name="CollisionShape2D" parent="."]
+
+transform/scale = Vector2( 1, 1 )
+shape = SubResource( 1 )
+
+[node name="shape" parent="explosion_area"]
+
+transform/scale = Vector2( 0.7, 0.7 )
 
 

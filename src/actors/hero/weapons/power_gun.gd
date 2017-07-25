@@ -6,7 +6,7 @@ func _create_bullets(intensity):
 
 	grenade.get_node("Sprite").set_scale(5*intensity*Vector2(1,1))
 	var collision_shape = grenade.get_node("CollisionShape2D")
-	collision_shape.get_shape().set_radius(5*intensity*10) # 10 was picked by trials
+	collision_shape.set_scale(5*intensity*Vector2(0.7,0.7))
 	grenade.power = grenade.power*intensity*10
 	grenade.radius = grenade.radius*intensity*10
 
