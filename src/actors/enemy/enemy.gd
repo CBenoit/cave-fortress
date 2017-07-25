@@ -57,7 +57,8 @@ func _die():
 
 func _update_goals():
 	brain.set_goal_value(Brain.GOAL_SURVIVE, 100 * (hp.max_health - hp.health) / hp.max_health)
-	brain.set_goal_value(Brain.GOAL_KILL_PLAYER, 12000 / get_pos().distance_to(hero.get_pos()))
+	var kill_player_goal_value = 13000 / get_pos().distance_to(hero.get_pos()) + 10 * (hero.hp.max_health - hero.hp.health) / hero.hp.max_health
+	brain.set_goal_value(Brain.GOAL_KILL_PLAYER, kill_player_goal_value)
 	# TODO: GOAL_FIND_ALLIES
 
 func _handle_fall_damage():
@@ -92,7 +93,7 @@ func _go_to_pos(pos):
 				set_jump(true)
 
 func _dig():
-	if dig_timestamp + 500 < OS.get_ticks_msec():
+	if dig_timestamp + 350 < OS.get_ticks_msec():
 		dig_timestamp = OS.get_ticks_msec()
 
 		var dig_pos
@@ -111,6 +112,7 @@ func _hit():
 		attack_timestamp = OS.get_ticks_msec()
 
 		hero.hp.take_damage(5)
+		hero.push(Vector2(cos(get_pos().angle_to_point(hero.get_pos()) + PI / 2) * 150, -50))
 
 func can_jump():
 	return solids.get_cellv(solids.world_to_map(get_pos() + Vector2(0, -SolidTiles.TILE_SIZE))) == SolidTiles.TILE_EMPTY

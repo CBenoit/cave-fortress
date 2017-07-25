@@ -20,6 +20,7 @@ var on_air_time = 0
 var jumping = false
 var jump_time = 0 # relative to airbone time
 var x_jump_velocity = 0
+var pushed = false
 
 # wanted movements
 var go_left = false
@@ -54,7 +55,7 @@ func _fixed_process(delta):
 			velocity.x = x_jump_velocity + movement_speed / 2
 		else:
 			velocity.x = x_jump_velocity
-	else:
+	elif on_air_time < JUMP_MAX_AIRBORNE_TIME and not pushed:
 		if go_left:
 			velocity.x = -movement_speed
 		elif go_right:
@@ -81,6 +82,7 @@ func _fixed_process(delta):
 			on_air_time = 0
 			floor_velocity = get_collider_velocity()
 			jumping = false
+			pushed = false
 		elif jumping and n.y > 0 and velocity.y < -MIN_JUMP_SPEED_HEAD_DAMAGE:
 			emit_signal("take_head_damage")
 
@@ -112,3 +114,10 @@ func _post_fixed_process(delta):
 
 func _die():
 	pass
+
+func push(direction):
+	pushed = true
+	velocity.x = direction.x
+	velocity.y = direction.y
+	x_jump_velocity = velocity.x
+	move(Vector2(0, -5))

@@ -58,12 +58,14 @@ func explode():
 
 	# damaging entities
 	for entity in explosion_area.get_overlapping_bodies():
+		var distance = (entity.get_pos() - center).length()
 		for grp in entity.get_groups():
 			if grp == "damageable":
-				var distance = (entity.get_pos() - center).length()
 				entity.hp.take_damage(power - (power/2)*(distance/radius))
 			elif grp == "grenade":
 				entity.explode()
+			elif grp == "pushable":
+				entity.push(Vector2(cos(get_pos().angle_to_point(entity.get_pos()) + PI / 2) * power * 100 / distance, -power * 100 / distance))
 
 	# spawn the explosion effect
 	var effect = explosion_effect_scn.instance()
