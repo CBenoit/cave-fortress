@@ -15,6 +15,11 @@ onready var anim = get_node("anim")
 onready var brain = Brain.new()
 var current_action = null
 
+# other
+
+var dig_timestamp = 0
+var attack_timestamp = 0
+
 func _ready():
 	connect("take_fall_damage", self, "_handle_fall_damage")
 	hp.connect("on_damage", self, "_handle_damage")
@@ -46,7 +51,6 @@ func _decide():
 		current_action = null
 	else:
 		get_node("thought").set_text("Uh...?")
-		current_action = null
 
 func _die():
 	queue_free()
@@ -63,7 +67,10 @@ func _handle_damage(hp):
 	anim.play("damage")
 
 func _action_attack_player():
-	_go_to_pos(hero.get_pos())
+	if can_hit():
+		_hit()
+	else:
+		_go_to_pos(hero.get_pos())
 
 func _action_attack_carrot():
 	_go_to_pos(Vector2(0, 0))
@@ -85,16 +92,25 @@ func _go_to_pos(pos):
 				set_jump(true)
 
 func _dig():
-	var dig_pos
-	if go_right:
-		dig_pos = get_pos() + Vector2(SolidTiles.TILE_SIZE, 0)
-	elif go_left:
-		dig_pos = get_pos() + Vector2(-SolidTiles.TILE_SIZE, 0)
-	else:
-		dig_pos = get_pos() + Vector2(0, SolidTiles.TILE_SIZE)
+	if dig_timestamp + 500 < OS.get_ticks_msec():
+		dig_timestamp = OS.get_ticks_msec()
 
-	var tile_pos = solids.world_to_map(dig_pos)
-	solids.damage_tile(tile_pos, 1)
+		var dig_pos
+		if go_right:
+			dig_pos = get_pos() + Vector2(SolidTiles.TILE_SIZE, 0)
+		elif go_left:
+			dig_pos = get_pos() + Vector2(-SolidTiles.TILE_SIZE, 0)
+		else:
+			dig_pos = get_pos() + Vector2(0, SolidTiles.TILE_SIZE)
+
+		var tile_pos = solids.world_to_map(dig_pos)
+		solids.damage_tile(tile_pos, 7)
+
+func _hit():
+	if attack_timestamp + 750 < OS.get_ticks_msec():
+		attack_timestamp = OS.get_ticks_msec()
+
+		hero.hp.take_damage(5)
 
 func can_jump():
 	return solids.get_cellv(solids.world_to_map(get_pos() + Vector2(0, -SolidTiles.TILE_SIZE))) == SolidTiles.TILE_EMPTY
@@ -104,3 +120,6 @@ func blocked_on_right():
 
 func blocked_on_left():
 	return solids.get_cellv(solids.world_to_map(get_pos() + Vector2(-SolidTiles.TILE_SIZE, 0))) != SolidTiles.TILE_EMPTY
+
+func can_hit():
+	return get_pos().distance_to(hero.get_pos()) < 45
