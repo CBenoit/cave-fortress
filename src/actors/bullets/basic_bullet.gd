@@ -10,7 +10,7 @@ func _on_colliding():
 				collision_pos += Vector2(cos(orientation), -sin(orientation)) * SolidTiles.TILE_SIZE / 4
 			collider.damage_tile(collider.world_to_map(collision_pos), power / 2.5)
 		elif grp == "grenade":
-			collider.apply_impulse(Vector2(0, 0), Vector2(cos(orientation) * speed * power, -sin(orientation) * speed * power))
+			collider.explode()
 		elif grp == "damageable":
 			if team == collider.team:
 				add_collision_exception_with(collider)

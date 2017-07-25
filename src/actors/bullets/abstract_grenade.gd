@@ -11,6 +11,8 @@ var sound_emitter
 var previous_angle
 var explosion_area
 
+var already_exploded = false
+
 func _ready():
 	previous_angle = get_linear_velocity().angle()
 	solids_tilemap = get_node("../../solids")
@@ -24,19 +26,21 @@ func _ready():
 func _fixed_process(delta):
 	timer -= delta
 
-	if ( timer < 0):#if the time is out, boom
+	if (timer < 0): # if the time is out, boom
 		explode()
-		queue_free()
 	elif bounced():
 		sound_emitter.play("grenade_collide")
 		if on_colliding: #if the grenade is to explode on hit.. and collides, boom
 			explode()
-			queue_free()
 
 	previous_angle = get_linear_velocity().angle()
 
 func explode():
-	# explosion logic
+	if already_exploded: # to avoid infinite loop between grenades
+		return
+
+	already_exploded = true
+
 	var center = get_pos()
 
 	# damaging the tiles
@@ -54,9 +58,12 @@ func explode():
 
 	# damaging entities
 	for entity in explosion_area.get_overlapping_bodies():
-		if "damageable" in entity.get_groups():
-			var distance = (entity.get_pos() - center).length()
-			entity.hp.take_damage(power - (power/2)*(distance/radius))
+		for grp in entity.get_groups():
+			if grp == "damageable":
+				var distance = (entity.get_pos() - center).length()
+				entity.hp.take_damage(power - (power/2)*(distance/radius))
+			elif grp == "grenade":
+				entity.explode()
 
 	# spawn the explosion effect
 	var effect = explosion_effect_scn.instance()
@@ -64,6 +71,8 @@ func explode():
 	effect.set_scale(Vector2(radius / 7, radius / 7))
 	get_node("../").add_child(effect)
 	effect.activate()
+
+	queue_free()
 
 func bounced():
 	if abs(get_linear_velocity().y) < 20 and abs(get_linear_velocity().x) < 20:
