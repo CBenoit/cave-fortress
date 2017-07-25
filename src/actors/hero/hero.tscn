@@ -4,17 +4,17 @@
 [ext_resource path="res://utils/hp.tscn" type="PackedScene" id=2]
 [ext_resource path="res://actors/hero/weapons/basic_weapon.tscn" type="PackedScene" id=3]
 [ext_resource path="res://actors/hero/hero.tex" type="Texture" id=4]
-[ext_resource path="res://actors/hero/bone break.smp" type="Sample" id=5]
-[ext_resource path="res://actors/hero/cri1.smp" type="Sample" id=6]
-[ext_resource path="res://actors/hero/cri10.smp" type="Sample" id=7]
-[ext_resource path="res://actors/hero/cri2.smp" type="Sample" id=8]
-[ext_resource path="res://actors/hero/cri3.smp" type="Sample" id=9]
-[ext_resource path="res://actors/hero/cri4.smp" type="Sample" id=10]
-[ext_resource path="res://actors/hero/cri5.smp" type="Sample" id=11]
-[ext_resource path="res://actors/hero/cri6.smp" type="Sample" id=12]
-[ext_resource path="res://actors/hero/cri7.smp" type="Sample" id=13]
-[ext_resource path="res://actors/hero/cri8.smp" type="Sample" id=14]
-[ext_resource path="res://actors/hero/cri9.smp" type="Sample" id=15]
+[ext_resource path="res://actors/hero/cri1.smp" type="Sample" id=5]
+[ext_resource path="res://actors/hero/cri10.smp" type="Sample" id=6]
+[ext_resource path="res://actors/hero/cri2.smp" type="Sample" id=7]
+[ext_resource path="res://actors/hero/cri3.smp" type="Sample" id=8]
+[ext_resource path="res://actors/hero/cri4.smp" type="Sample" id=9]
+[ext_resource path="res://actors/hero/cri5.smp" type="Sample" id=10]
+[ext_resource path="res://actors/hero/cri6.smp" type="Sample" id=11]
+[ext_resource path="res://actors/hero/cri7.smp" type="Sample" id=12]
+[ext_resource path="res://actors/hero/cri8.smp" type="Sample" id=13]
+[ext_resource path="res://actors/hero/cri9.smp" type="Sample" id=14]
+[ext_resource path="res://actors/hero/bone break.smp" type="Sample" id=15]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -27,75 +27,74 @@ samples/cri1 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
-"sample": ExtResource( 6 )
+"sample": ExtResource( 5 )
 }
 samples/cri10 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
-"sample": ExtResource( 7 )
+"sample": ExtResource( 6 )
 }
 samples/cri2 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
-"sample": ExtResource( 8 )
+"sample": ExtResource( 7 )
 }
 samples/cri3 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
-"sample": ExtResource( 9 )
+"sample": ExtResource( 8 )
 }
 samples/cri4 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
-"sample": ExtResource( 10 )
+"sample": ExtResource( 9 )
 }
 samples/cri5 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
-"sample": ExtResource( 11 )
+"sample": ExtResource( 10 )
 }
 samples/cri6 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
-"sample": ExtResource( 12 )
+"sample": ExtResource( 11 )
 }
 samples/cri7 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
-"sample": ExtResource( 13 )
+"sample": ExtResource( 12 )
 }
 samples/cri8 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
-"sample": ExtResource( 14 )
+"sample": ExtResource( 13 )
 }
 samples/cri9 = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 14 )
+}
+
+[sub_resource type="SampleLibrary" id=3]
+
+samples/bone_break = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
 "sample": ExtResource( 15 )
 }
 
-[sub_resource type="SampleLibrary" id=5]
+[sub_resource type="Animation" id=4]
 
-samples/bone_break = {
-"db": 0.0,
-"pitch": 1.0,
-"priority": 0,
-"sample": ExtResource( 5 )
-}
-
-[sub_resource type="Animation" id=3]
-
-resource/name = "damage"
 length = 0.3
 loop = false
 step = 0.1
@@ -120,9 +119,8 @@ tracks/1/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( -5, 0 ), Vector2( 5, 0 ), Vector2( 0, 0 ) ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=5]
 
-resource/name = "death"
 length = 0.4
 loop = false
 step = 0.1
@@ -230,7 +228,7 @@ params/attenuation/min_distance = 1.0
 params/attenuation/max_distance = 2048.0
 params/attenuation/distance_exp = 1.0
 config/polyphony = 1
-config/samples = SubResource( 5 )
+config/samples = SubResource( 3 )
 config/pitch_random = 0.0
 
 [node name="anim" type="AnimationPlayer" parent="."]
@@ -238,8 +236,8 @@ config/pitch_random = 0.0
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/damage = SubResource( 3 )
-anims/death = SubResource( 4 )
+anims/damage = SubResource( 4 )
+anims/death = SubResource( 5 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]

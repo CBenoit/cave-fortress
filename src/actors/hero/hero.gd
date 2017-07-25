@@ -37,8 +37,6 @@ func _ready():
 	set_process_input(true)
 	set_process(true)
 
-	connect("take_head_damage", self, "handle_head_damage")
-	connect("take_fall_damage", self, "handle_fall_damage")
 	hp.connect("on_damage", self, "handle_damage")
 
 	_instanciate_weapons()
