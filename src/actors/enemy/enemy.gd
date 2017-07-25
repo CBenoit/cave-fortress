@@ -57,7 +57,7 @@ func _update_goals():
 	# TODO: GOAL_FIND_ALLIES
 
 func _handle_fall_damage():
-	hp.take_damage((on_air_time - MIN_AIRBONE_TIME_FALL_DAMAGE) * 10)
+	hp.take_damage((velocity.y - MIN_VELOCITY_FALL_DAMAGE) / 10.0)
 
 func _handle_damage(hp):
 	anim.play("damage")

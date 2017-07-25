@@ -18,7 +18,7 @@ var weapons_scn = [
 	preload("weapons/shotgun.tscn"),
 	preload("weapons/grenade_launcher.tscn"),
 	preload("weapons/bubble_gun.tscn"),
-	preload("weapons/sword.tscn")
+	preload("weapons/uzi.tscn")
 ]
 var weapons = []
 
@@ -133,7 +133,7 @@ func handle_head_damage():
 	hp.take_damage(1)
 
 func handle_fall_damage():
-	hp.take_damage((on_air_time - MIN_AIRBONE_TIME_FALL_DAMAGE) * 10)
+	hp.take_damage((velocity.y - MIN_VELOCITY_FALL_DAMAGE) / 10.0)
 
 func handle_damage(hp):
 	play_hurt_sound()

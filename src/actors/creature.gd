@@ -4,7 +4,7 @@ const JUMP_MAX_AIRBORNE_TIME = 0.1
 const JUMP_INFLUENCE_START_TIME = 0.05
 const JUMP_INFLUENCE_MAX_TIME = 0.15
 const MIN_JUMP_SPEED_HEAD_DAMAGE = 140
-const MIN_AIRBONE_TIME_FALL_DAMAGE = 2
+const MIN_VELOCITY_FALL_DAMAGE = 400
 
 export var movement_speed = 128
 export var gravity = 313.6
@@ -76,7 +76,7 @@ func _fixed_process(delta):
 
 		if (n.x == 0 and n.y < 0):
 			# If the normal strictly goes "up", then: on floor
-			if on_air_time > MIN_AIRBONE_TIME_FALL_DAMAGE:
+			if velocity.y > MIN_VELOCITY_FALL_DAMAGE:
 				emit_signal("take_fall_damage")
 			on_air_time = 0
 			floor_velocity = get_collider_velocity()
