@@ -22,6 +22,9 @@ name = "machine gun"
 fire_interval_sec = 0.15
 bullet_scn = ExtResource( 3 )
 mode = 0
+min_intensity = 1.0
+max_intensity = 1.0
+full_intensity_time = 0.0
 
 [node name="fire_position" parent="."]
 

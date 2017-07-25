@@ -28,7 +28,7 @@ var builder_arm
 var build_mode = false
 
 # other
-var time_pressed = 0
+var attack_pressed_timestamp = 0
 var killed = false
 
 func _ready():
@@ -61,14 +61,11 @@ func _input(event):
 		elif event.is_action_pressed("previous_weapon"):
 			weapon.change_picked_tile(-1)
 	else:
-		if weapon.mode == weapon.SEMI_AUTO_MODE:
-			if event.is_action_released("attack"):
-				weapon.fire()
-		elif weapon.mode == weapon.HAS_INTENSITY:
+		if weapon.mode == weapon.SEMI_AUTO_MODE :
 			if event.is_action_pressed("attack"):
-				time_pressed = OS.get_ticks_msec()
-			if event.is_action_released("attack"):
-				release_intensity_attack()
+				attack_pressed_timestamp = OS.get_ticks_msec()
+			elif event.is_action_released("attack"):
+				weapon.fire((OS.get_ticks_msec() - attack_pressed_timestamp) / 1000.0)
 
 		# weapon switching
 		if event.is_action_pressed("next_weapon"):
@@ -105,7 +102,7 @@ func _pre_fixed_process(delta):
 	else:
 		if weapon.mode == weapon.AUTOMATIC_MODE:
 			if Input.is_action_pressed("attack"):
-				weapon.fire()
+				weapon.fire(0)
 
 	set_go_left(Input.is_action_pressed("move_left"))
 	set_go_right(Input.is_action_pressed("move_right"))
@@ -150,11 +147,3 @@ func _instanciate_weapons():
 	builder_arm = builder_arm_scn.instance()
 	for scn in weapons_scn:
 		weapons.append(scn.instance())
-
-func release_intensity_attack():
-	var ratio = (OS.get_ticks_msec() - time_pressed)/900.0 # we set the maximum intensity for 0.9 seconds
-	if ratio >= 1:
-		weapon.fire()
-	else:
-		weapon.intensity = ratio
-		weapon.fire()

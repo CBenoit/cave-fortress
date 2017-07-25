@@ -1,10 +1,8 @@
 extends "./abstract_weapon.gd"
 
-export(float,0,1000,1) var velocity = 300
+export(float, 0, 1000, 1) var velocity = 300
 
-var intensity = 1 # ratio of the maximum speed the grenade will be fired/launched(used for handgrenades)
-
-func _create_bullets():
+func _create_bullets(intensity):
 	var grenade = bullet_scn.instance()
 	grenade.set_pos(fire_position.get_global_pos())
 

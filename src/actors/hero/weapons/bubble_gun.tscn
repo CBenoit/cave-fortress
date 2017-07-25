@@ -22,7 +22,10 @@ offset = Vector2( 16, 1 )
 script/script = ExtResource( 3 )
 name = "bubble gun"
 bullet_scn = ExtResource( 4 )
-mode = 2
+mode = 1
+min_intensity = 0.25
+full_intensity_time = 1.0
+velocity = 100.0
 
 [node name="fire_position" parent="."]
 

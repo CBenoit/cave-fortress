@@ -7,10 +7,13 @@
 script/script = ExtResource( 1 )
 name = "unknown"
 fire_interval_sec = 0.1
-fire_angle = 0
+fire_angle = 0.0
 bullet_num = 1
 bullet_scn = null
 mode = null
+min_intensity = 1.0
+max_intensity = 1.0
+full_intensity_time = 0.0
 
 [node name="fire_position" type="Position2D" parent="."]
 

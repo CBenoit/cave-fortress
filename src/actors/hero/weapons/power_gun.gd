@@ -1,6 +1,6 @@
 extends "./abstract_grenade_weapon.gd"
 
-func _create_bullets():
+func _create_bullets(intensity):
 	var grenade = bullet_scn.instance()
 	grenade.set_pos(fire_position.get_global_pos())
 
@@ -12,7 +12,7 @@ func _create_bullets():
 
 	var theta = get_rot()
 	var axis = Vector2(cos(theta),-sin(theta))
-	grenade.set_axis_velocity(axis*velocity*intensity)
+	grenade.set_axis_velocity(axis*velocity*(1/intensity))
 	grenade.add_collision_exception_with(get_node(".."))
 
 	get_node("../..").add_child(grenade)

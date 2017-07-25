@@ -14,7 +14,9 @@ offset = Vector2( 16, 1 )
 name = "dynamite"
 fire_interval_sec = 0.5
 bullet_scn = ExtResource( 3 )
-mode = 2
+mode = 1
+min_intensity = 0.1
+full_intensity_time = 0.5
 velocity = 400.0
 
 [node name="fire_position" parent="."]
