@@ -3,13 +3,15 @@ extends "../creature.gd"
 signal weapon_changed(new_weapon)
 
 # nodes attributes
-var body_sprite
-var arm_right_position
-var arm_left_position
-var weapon
-var camera
-var anim
-var sound_voice
+
+onready var body_sprite = get_node("body")
+onready var arm_right_position = get_node("body/arm_right")
+onready var arm_left_position = get_node("body/arm_left")
+onready var weapon = get_node("weapon")
+onready var camera = get_node("camera")
+onready var anim = get_node("anim")
+onready var sound_voice = get_node("voice")
+onready var sound_bones = get_node("bones")
 
 # weapons attributes
 var picked_weapon = 0
@@ -32,14 +34,6 @@ var attack_pressed_timestamp = 0
 var killed = false
 
 func _ready():
-	body_sprite = get_node("body")
-	arm_right_position = get_node("body/arm_right")
-	arm_left_position = get_node("body/arm_left")
-	weapon = get_node("weapon")
-	camera = get_node("camera")
-	anim = get_node("anim")
-	sound_voice = get_node("voice")
-
 	set_process_input(true)
 	set_process(true)
 
@@ -126,12 +120,14 @@ func switch_build_mode():
 		build_mode = true
 		emit_signal("weapon_changed", weapon)
 
-func handle_head_damage():
-	sound_voice.play("bone break")
+func _take_head_damage():
+	play_hurt_sound()
+	sound_bones.play("bone_break")
 	hp.take_damage(1)
 
-func handle_fall_damage():
-	sound_voice.play("bone break")
+func _take_fall_damage():
+	play_hurt_sound()
+	sound_bones.play("bone_break")
 	hp.take_damage((velocity.y - MIN_VELOCITY_FALL_DAMAGE) / 10.0)
 
 func handle_damage(hp):

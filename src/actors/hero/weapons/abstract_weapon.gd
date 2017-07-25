@@ -27,7 +27,6 @@ func _ready():
 	solids_tilemap = get_node("../../../solids")
 
 func fire(time_pressed):
-	print(time_pressed)
 	if solids_tilemap.get_cellv(solids_tilemap.world_to_map(fire_position.get_global_pos())) != SolidTiles.TILE_EMPTY:
 		return # do not shoot from inside walls…
 
