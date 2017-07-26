@@ -9,6 +9,7 @@ var moles = [
 var garrison = []
 var alive = false
 
+signal lost_a_mole()
 signal dead()
 
 # mole healed by the healing_area
@@ -86,6 +87,7 @@ func add_to_queue(mole_idx, quantity):
 
 func mole_number_update():
 	mole_count -= 1
+	emit_signal("lost_a_mole")
 	if (mole_count == 0 and garrison_left() == 0): # a rift is dead if no moles are attached to it and no garrison
 		alive = false
 		set_fixed_process(false)

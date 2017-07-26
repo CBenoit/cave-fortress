@@ -9,6 +9,7 @@ var solids_tilemap
 var background_tilemap
 var hero
 var hud
+var wave
 
 func _ready():
 	topleft_level_area = get_node("topleft_level_area")
@@ -19,6 +20,7 @@ func _ready():
 	background_tilemap = get_node("content/ParallaxBackground/ParallaxLayer/background")
 	hero = get_node("content/entities/hero")
 	hud = get_node("game_hud")
+	wave = get_node("content/wave")
 
 	var hero_camera = get_node("content/entities/hero/camera")
 	hero_camera.set_limit(MARGIN_LEFT, topleft_level_area.get_pos().x)
@@ -33,6 +35,8 @@ func _ready():
 	# connect signals
 	hero.connect("weapon_changed", hud.debug_infos, "current_weapon_changed")
 	hero.hp.connect("on_damage", hud.debug_infos, "hp_changed")
+	hero.hp.connect("on_damage", hud, "hp_changed")
+	wave.connect("count_update",hud,"wave_update")
 
 func fill_outside_base(): #filling the map outside the base area
 	for x in range(topleft_level_area.get_pos().x, bottomright_level_area.get_pos().x, 32):

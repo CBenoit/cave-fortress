@@ -18,6 +18,8 @@ var available_mole = [10]
 var wave_number = 0
 var wave_mode = GARRISON_EXHAUSTION
 
+var max_mole_count
+var mole_count
 # the rifts throughout the map
 var rifts
 var rift_scn = preload("./rift.tscn")
@@ -25,14 +27,18 @@ var rift_scn = preload("./rift.tscn")
 var alive_rifts # number of rifts alive
 
 signal no_rift() # emitted when there are no rift alive
-
+signal count_update(ratio)
 
 func _ready():
+	max_mole_count = get_available_moles()
+	mole_count = max_mole_count
+
 	rifts = get_children()
 	alive_rifts = rifts.size()
 
 	for rift in rifts:
 		rift.connect("dead",self,"dead_rift")
+		rift.connect("lost_a_mole",self,"update_mole_count")
 
 	connect("no_rift",self,"wave_end")
 
@@ -80,5 +86,18 @@ func dead_rift():
 	if alive_rifts == 0:
 		emit_signal("no_rift")
 
+# others
+
+func get_available_moles():
+	var S = 0
+	for mole in available_mole:
+		S += mole
+	return S
+
+func update_mole_count():
+	mole_count -= 1
+	var ratio = mole_count / float(max_mole_count)
+	emit_signal("count_update",ratio)
+
 func wave_end():
-	print("The moles are vanquished!!! Praise the rabbit! Praise the carrot")
+	print("The moles are vanquished!!! Praise the rabbit! Praise the carrot!")
