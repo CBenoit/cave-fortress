@@ -1,11 +1,12 @@
-[gd_scene load_steps=7 format=1]
+[gd_scene load_steps=8 format=1]
 
 [ext_resource path="res://levels/abstract_level.gd" type="Script" id=1]
 [ext_resource path="res://musics/background_music.ogg" type="AudioStream" id=2]
 [ext_resource path="res://hud/game_hud.tscn" type="PackedScene" id=3]
 [ext_resource path="res://tilesets/tileset_background.tres" type="TileSet" id=4]
 [ext_resource path="res://tilesets/solids_manager.tscn" type="PackedScene" id=5]
-[ext_resource path="res://actors/hero/hero.tscn" type="PackedScene" id=6]
+[ext_resource path="res://gameflow/wave.tscn" type="PackedScene" id=6]
+[ext_resource path="res://actors/hero/hero.tscn" type="PackedScene" id=7]
 
 [node name="root" type="Node"]
 
@@ -68,11 +69,11 @@ tile_data = IntArray(  )
 
 [node name="solids" parent="content" instance=ExtResource( 5 )]
 
+[node name="wave" parent="content" instance=ExtResource( 6 )]
+
 [node name="entities" type="Node2D" parent="content"]
 
-[node name="hero" parent="content/entities" instance=ExtResource( 6 )]
-
-[node name="waves" type="Node" parent="content"]
+[node name="hero" parent="content/entities" instance=ExtResource( 7 )]
 
 [node name="topleft_level_area" type="Position2D" parent="."]
 

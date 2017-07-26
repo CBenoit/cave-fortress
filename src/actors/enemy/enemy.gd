@@ -20,6 +20,7 @@ var current_action = null
 var dig_timestamp = 0
 var attack_timestamp = 0
 
+
 func _ready():
 	hp.connect("on_damage", self, "_handle_damage")
 
