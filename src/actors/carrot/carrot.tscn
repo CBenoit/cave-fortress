@@ -7,7 +7,7 @@
 [sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
-extents = Vector2( 10, 12.3001 )
+extents = Vector2( 9, 9 )
 
 [sub_resource type="StyleBoxFlat" id=2]
 
@@ -42,7 +42,7 @@ draw_bg = true
 visibility/behind_parent = true
 input/pickable = false
 shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Matrix32( 3.93218, 0, 0, 3.7788, 0.0360902, -46.3549 )
+shapes/0/transform = Matrix32( 3.93218, 0, 0, 3.7788, -2.96391, -34.3549 )
 shapes/0/trigger = false
 collision/layers = 1
 collision/mask = 1
@@ -59,7 +59,7 @@ texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 
-transform/pos = Vector2( 0.0360902, -46.3549 )
+transform/pos = Vector2( -2.96391, -34.3549 )
 transform/scale = Vector2( 3.93218, 3.7788 )
 shape = SubResource( 1 )
 trigger = false
