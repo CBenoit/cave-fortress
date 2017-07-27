@@ -25,9 +25,7 @@ stream/buffering_ms = 500
 
 [node name="game_hud" parent="." instance=ExtResource( 3 )]
 
-[node name="carrots" type="Node2D" parent="."]
-
-[node name="content" type="Node2D" parent="."]
+[node name="content" type="Node" parent="."]
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="content"]
 
@@ -67,11 +65,13 @@ collision/mask = 1
 occluder/light_mask = 1
 tile_data = IntArray(  )
 
+[node name="carrots" type="Node" parent="content"]
+
 [node name="solids" parent="content" instance=ExtResource( 5 )]
 
 [node name="wave" parent="content" instance=ExtResource( 6 )]
 
-[node name="entities" type="Node2D" parent="content"]
+[node name="entities" type="Node" parent="content"]
 
 [node name="hero" parent="content/entities" instance=ExtResource( 7 )]
 

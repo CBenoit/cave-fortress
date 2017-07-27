@@ -38,7 +38,7 @@ func _ready():
 	hero.hp.connect("on_damage", hud, "hp_changed")
 	wave.connect("count_update",hud,"wave_update")
 
-func fill_outside_base(): #filling the map outside the base area
+func fill_outside_base(): # filling the map outside the base area
 	for x in range(topleft_level_area.get_pos().x, bottomright_level_area.get_pos().x, 32):
 		for y in range(topleft_level_area.get_pos().y, bottomright_level_area.get_pos().y, 32):
 			var pos = Vector2(x, y)
