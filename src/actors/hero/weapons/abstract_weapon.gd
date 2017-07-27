@@ -6,6 +6,7 @@ enum {
 }
 
 export(String) var name = "unknown"
+#export(int,
 export(float, 0.01, 15, 0.01) var fire_interval_sec = 0.1
 export(float, 0, 2, 0.02) var fire_angle = 0.0
 export(int,1,20,1) var bullet_num = 1
@@ -21,6 +22,8 @@ var solids_tilemap
 
 var timestamp_last_shot = 0
 
+signal shot(time_pressed)
+
 func _ready():
 	fire_sound = get_node("fire_sound")
 	fire_position = get_node("fire_position")
@@ -33,6 +36,7 @@ func fire(time_pressed):
 	if timestamp_last_shot + fire_interval_sec * 1000 <= OS.get_ticks_msec():
 		timestamp_last_shot = OS.get_ticks_msec()
 		fire_sound.play("fire")
+		emit_signal("shot",time_pressed)
 
 		# calculate intensity
 		var intensity

@@ -15,14 +15,30 @@ onready var sound_bones = get_node("bones")
 
 # weapons attributes
 var picked_weapon = 0
-var weapons_scn = [
-	preload("weapons/basic_weapon.tscn"),
-	preload("weapons/shotgun.tscn"),
-	preload("weapons/grenade_launcher.tscn"),
-	preload("weapons/bubble_gun.tscn"),
-	preload("weapons/sword.tscn")
+
+enum { ID, WEAPON}
+var carried_weapons = [
+	[Weapons.PISTOL, Weapons.weapons_scn[Weapons.PISTOL].instance()],
+	[Weapons.UZI, Weapons.weapons_scn[Weapons.UZI].instance()],
+	[Weapons.SHOTGUN, Weapons.weapons_scn[Weapons.SHOTGUN].instance()],
+	[Weapons.GRENADE_LAUNCHER, Weapons.weapons_scn[Weapons.GRENADE_LAUNCHER].instance()],
+	[Weapons.BUBBLE_GUN, Weapons.weapons_scn[Weapons.BUBBLE_GUN].instance()]
 ]
-var weapons = []
+
+enum { AMMO, MAX_AMMO}
+
+var ammunition = [
+	[0,-1], # pistol
+	[30,30], # dirt gun
+	[250,250], # uzi
+	[2,25], # shotgun
+	[150,150], # machine gun
+	[15,15], # grenade launcher
+	[20,20], # timed grenade launcher
+	[5,5], # dynamite
+	[50,50], # bubble gun
+	[0,-1]  # sword
+]
 
 # build attributes
 var builder_arm_scn = preload("construction/builder_arm.tscn")
@@ -57,14 +73,20 @@ func _input(event):
 			if event.is_action_pressed("attack"):
 				attack_pressed_timestamp = OS.get_ticks_msec()
 			elif event.is_action_released("attack"):
-				weapon.fire((OS.get_ticks_msec() - attack_pressed_timestamp) / 1000.0)
+				var time_pressed = (OS.get_ticks_msec() - attack_pressed_timestamp) / 1000.0
+				var used_ammunition = required_ammunition(time_pressed)
+
+				if used_ammunition <= ammunition[carried_weapons[picked_weapon][ID]][AMMO]:
+					weapon.fire(time_pressed)
+				else:
+					weapon.fire_sound.play("empty_magazine")
 
 		# weapon switching
 		if event.is_action_pressed("next_weapon"):
-			picked_weapon = (picked_weapon + 1) % weapons.size()
+			picked_weapon = (picked_weapon + 1) % carried_weapons.size()
 			change_weapon_by_weapon_idx(picked_weapon)
 		elif event.is_action_pressed("previous_weapon"):
-			picked_weapon = (picked_weapon - 1) % weapons.size()
+			picked_weapon = (picked_weapon - 1) % carried_weapons.size()
 			change_weapon_by_weapon_idx(picked_weapon)
 
 func _process(delta):
@@ -102,7 +124,7 @@ func _pre_fixed_process(delta):
 
 func change_weapon_by_weapon_idx(weapon_idx):
 	remove_child(weapon)
-	weapon = weapons[weapon_idx]
+	weapon = carried_weapons[weapon_idx][WEAPON]
 	add_child(weapon)
 	emit_signal("weapon_changed", weapon)
 
@@ -139,7 +161,44 @@ func play_hurt_sound():
 	if not sound_voice.is_voice_active(0):
 		sound_voice.play("cri" + str(pick))
 
+# weapon related functions
 func _instanciate_weapons():
 	builder_arm = builder_arm_scn.instance()
-	for scn in weapons_scn:
-		weapons.append(scn.instance())
+	for weapons in carried_weapons:
+		weapons[WEAPON].connect("shot",self,"update_ammunition")
+
+func required_ammunition(time_pressed):
+	if ammunition[carried_weapons[picked_weapon][ID]][MAX_AMMO] != -1:
+		if carried_weapons[picked_weapon][ID] != Weapons.BUBBLE_GUN:
+			return 1
+		else:
+			return (1 + (time_pressed - floor(time_pressed) )/ 0.25)
+	else:
+		return 0
+
+func update_ammunition(time_pressed):
+	ammunition[carried_weapons[picked_weapon][ID]][AMMO] -= required_ammunition(time_pressed)
+
+func add_ammunition(weapon_id, quantity):
+	if (ammunition[weapon_id][AMMO] + quantity) >= ammunition[weapon_id][MAX_AMMO]:
+		ammunition[weapon_id][AMMO] = ammunition[weapon_id][MAX_AMMO]
+	else:
+		ammunition[weapon_id][AMMO] += quantity
+
+func add_weapon(weapon_id):
+	var new_weapon = Weapons.weapons_scn[weapon_id].instance()
+	new_weapon.connect("shot",self,"update_ammunition")
+	carried_weapons.append(new_weapon)
+
+func remove_weapon(weapon_id):
+	for weapons in carried_weapons:
+		if weapons[ID] == weapon_id:
+			weapons[WEAPON].queue_free()
+			carried_weapons.erase(weapons)
+
+
+func has_weapon(weapon_id):
+	for weapons in carried_weapons:
+		if weapons[ID] == weapon_id:
+			return true
+	return false
