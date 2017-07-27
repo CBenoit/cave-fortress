@@ -44,8 +44,6 @@ func _ready():
 	healing_area.connect("body_exit",self,"stop_healing")
 	timer.connect("timeout",self,"queue_spawn")
 
-	create_rift_room()
-
 func _fixed_process(delta):
 
 	for mole in healed_mole:

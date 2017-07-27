@@ -58,6 +58,8 @@ func fill_outside_base(): # filling the map outside the base area
 
 				solids_tilemap.set_cellv(tile_pos, selected_tile)
 
+	wave.create_rift_rooms()
+
 func generate_background(): # generates the background
 	for x in range(topleft_level_area.get_pos().x, bottomright_level_area.get_pos().x, 32):
 		for y in range(topleft_level_area.get_pos().y, bottomright_level_area.get_pos().y, 32):

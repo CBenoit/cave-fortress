@@ -20,8 +20,7 @@ var wave_mode = GARRISON_EXHAUSTION
 
 var max_mole_count
 var mole_count
-# the rifts throughout the map
-var rifts
+var rifts # the rifts throughout the map
 var rift_scn = preload("./rift.tscn")
 
 var alive_rifts # number of rifts alive
@@ -101,3 +100,8 @@ func update_mole_count():
 
 func wave_end():
 	print("The moles are vanquished!!! Praise the rabbit! Praise the carrot!")
+
+func create_rift_rooms():
+	for rift in rifts:
+		rift.create_rift_room()
+
