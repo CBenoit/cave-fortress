@@ -11,6 +11,7 @@ var alive = false
 
 signal lost_a_mole()
 signal dead()
+signal mole_spawned(mole)
 
 # mole healed by the healing_area
 var healing_area
@@ -61,6 +62,8 @@ func queue_spawn(): # spawn the first mole in the queue
 
 	spawn_queue.remove(0)
 	mole_count += 1
+
+	emit_signal("mole_spawned", mole)
 
 	if spawn_queue.size() == 0:
 		change_queue_status()

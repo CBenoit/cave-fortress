@@ -74,7 +74,7 @@ func _fixed_process(delta):
 	# move and consume motion
 	motion = move(motion)
 
-	if(is_colliding()):
+	if is_colliding():
 		var n = get_collision_normal()
 
 		if (n.x == 0 and n.y < 0):

@@ -27,6 +27,7 @@ var alive_rifts # number of rifts alive
 
 signal no_rift() # emitted when there are no rift alive
 signal count_update(ratio)
+signal mole_spawned(mole)
 
 func _ready():
 	max_mole_count = get_available_moles()
@@ -36,8 +37,9 @@ func _ready():
 	alive_rifts = rifts.size()
 
 	for rift in rifts:
-		rift.connect("dead",self,"dead_rift")
-		rift.connect("lost_a_mole",self,"update_mole_count")
+		rift.connect("dead", self, "dead_rift")
+		rift.connect("lost_a_mole", self, "update_mole_count")
+		rift.connect("mole_spawned", self, "_mole_spawned")
 
 	connect("no_rift",self,"wave_end")
 
@@ -105,3 +107,5 @@ func create_rift_rooms():
 	for rift in rifts:
 		rift.create_rift_room()
 
+func _mole_spawned(mole):
+	emit_signal("mole_spawned", mole)

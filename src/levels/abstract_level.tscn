@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=1]
+[gd_scene load_steps=9 format=1]
 
 [ext_resource path="res://levels/abstract_level.gd" type="Script" id=1]
 [ext_resource path="res://musics/background_music.ogg" type="AudioStream" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://tilesets/solids_manager.tscn" type="PackedScene" id=5]
 [ext_resource path="res://gameflow/wave.tscn" type="PackedScene" id=6]
 [ext_resource path="res://actors/hero/hero.tscn" type="PackedScene" id=7]
+[ext_resource path="res://ai/master_mind.tscn" type="PackedScene" id=8]
 
 [node name="root" type="Node"]
 
@@ -90,5 +91,7 @@ transform/pos = Vector2( -896, -416 )
 [node name="bottomright_base_area" type="Position2D" parent="."]
 
 transform/pos = Vector2( 896, 416 )
+
+[node name="master_mind" parent="." instance=ExtResource( 8 )]
 
 

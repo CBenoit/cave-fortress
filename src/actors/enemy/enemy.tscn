@@ -44,9 +44,9 @@ tracks/0/keys = {
 }
 
 [node name="enemy" type="KinematicBody2D" groups=[
-"damageable",
+"pushable",
 "creature",
-"pushable"
+"damageable",
 ]]
 
 input/pickable = false
@@ -61,6 +61,14 @@ movement_speed = 128
 gravity = 313.6
 jump_power = 150
 team = 2
+
+[node name="head" type="Position2D" parent="."]
+
+transform/pos = Vector2( 0.209347, -8.23369 )
+
+[node name="foots" type="Position2D" parent="."]
+
+transform/pos = Vector2( 0, 7.99075 )
 
 [node name="collision" type="CollisionShape2D" parent="."]
 

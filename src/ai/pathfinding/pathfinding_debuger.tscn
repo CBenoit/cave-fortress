@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=1]
+
+[ext_resource path="res://ai/pathfinding/pathfinding_debuger.gd" type="Script" id=1]
+
+[node name="pathfinding_debuger" type="Node2D"]
+
+script/script = ExtResource( 1 )
+node_path_solids_tilemap = null
+node_path_from_node = null
+
+
