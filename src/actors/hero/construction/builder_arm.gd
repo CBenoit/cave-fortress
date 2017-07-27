@@ -58,11 +58,13 @@ func create_block():
 	if timestamp_last_build + build_lapse * 1000 <= OS.get_ticks_msec() and can_build:
 		timestamp_last_build = OS.get_ticks_msec()
 		#build_sound.play("zap")
-		solids_tilemap.set_cellv(solids_tilemap.world_to_map(preview_block.get_pos()), tile_creation_switch[picked_tile])
+		solids_tilemap.build_tile(solids_tilemap.world_to_map(preview_block.get_pos()), tile_creation_switch[picked_tile])
 
 func remove_block():
 	if distance < reach:
-		solids_tilemap.damage_tile(solids_tilemap.world_to_map(mouse_pos),0.07*SolidTiles.TILE_HEALTH[tile_at_pos])
+		var tile_pos = solids_tilemap.world_to_map(mouse_pos)
+		if solids_tilemap.get_cellv(tile_pos) != SolidTiles.TILE_EMPTY:
+			solids_tilemap.damage_tile(solids_tilemap.world_to_map(mouse_pos),0.07*SolidTiles.TILE_HEALTH[tile_at_pos])
 
 func change_picked_tile(step): # step should be either 1 or -1, will be used in the tile switch
 	# because just -1 % 3 gives -1 and not 2, so we add +3.

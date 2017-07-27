@@ -1,9 +1,14 @@
 extends TileMap
 
+# other scenes
+
 var fissures_scn = preload("./fissures/fissures.tscn")
 var block_destruction_effect_scn = preload("res://effects/block_destruction.tscn")
 
 var tiles_damages = {}
+
+func build_tile(tile_pos, tile_type):
+	set_cellv(tile_pos, tile_type)
 
 func damage_tile(tile_pos, damages):
 	if damages <= 0:
