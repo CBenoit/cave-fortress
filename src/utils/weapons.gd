@@ -13,6 +13,8 @@ enum {
 	SWORD
 }
 
+const MAX_CARRIED = 7
+
 var name_to_id = {
 	"pistol":0,
 	"dirt gun":1,

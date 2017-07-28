@@ -1,13 +1,11 @@
 extends Control
 
-var current_weapon_label
 var fps_label
 var hp_label
 
 func _ready():
-	current_weapon_label = get_node("vbox/current_weapon")
 	fps_label = get_node("vbox/fps")
-	hp_label = get_node("vbox/hp")
+
 
 	set_process(!is_hidden())
 	set_process_input(true)

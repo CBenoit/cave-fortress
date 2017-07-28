@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=1]
+
+[ext_resource path="res://actors/object/pickable_item.tscn" type="PackedScene" id=1]
+[ext_resource path="res://actors/object/heal_item.gd" type="Script" id=2]
+
+[node name="heal_item" instance=ExtResource( 1 )]
+
+script/script = ExtResource( 2 )
+quantity = 25
+
+[node name="sprite" parent="."]
+
+frame = 2
+
+

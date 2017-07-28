@@ -56,6 +56,7 @@ func _ready():
 
 	hp.connect("on_damage", self, "handle_damage")
 
+	_instanciate_weapons()
 
 func _input(event):
 	if event.is_action_pressed("mode_change"):
@@ -170,11 +171,6 @@ func _instanciate_weapons():
 	for weapons in carried_weapons:
 		weapons[WEAPON].connect("shot",self,"update_ammunition")
 
-	emit_signal(
-	"weapon_status_update",
-	weapon.name,
-	ammunition[carried_weapons[picked_weapon][ID]][AMMO],
-	ammunition[carried_weapons[picked_weapon][ID]][MAX_AMMO])
 
 func required_ammunition(time_pressed):
 	if ammunition[carried_weapons[picked_weapon][ID]][MAX_AMMO] != -1:
@@ -202,11 +198,16 @@ func add_ammunition(weapon_id, quantity):
 		ammunition[weapon_id][AMMO] = ammunition[weapon_id][MAX_AMMO]
 	else:
 		ammunition[weapon_id][AMMO] += quantity
+	emit_signal(
+	"weapon_status_update",
+	weapon.name,
+	ammunition[carried_weapons[picked_weapon][ID]][AMMO],
+	ammunition[carried_weapons[picked_weapon][ID]][MAX_AMMO])
 
 func add_weapon(weapon_id):
 	var new_weapon = Weapons.weapons_scn[weapon_id].instance()
 	new_weapon.connect("shot",self,"update_ammunition")
-	carried_weapons.append(new_weapon)
+	carried_weapons.append([weapon_id,new_weapon])
 
 func remove_weapon(weapon_id):
 	for weapons in carried_weapons:

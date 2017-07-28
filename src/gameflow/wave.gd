@@ -37,6 +37,7 @@ func _ready():
 	alive_rifts = rifts.size()
 
 	connect("no_rift",self,"wave_end")
+	instanciate_rifts()
 
 	# test
 	add_garrison_to_rift(0,ENEMY,5)
@@ -86,6 +87,10 @@ func dead_rift():
 	if alive_rifts == 0:
 		emit_signal("no_rift")
 
+func create_rift_rooms():
+	for rift in rifts:
+		rift.create_rift_room()
+
 # others
 
 func get_available_moles():
@@ -106,9 +111,9 @@ func wave_end():
 func _mole_spawned(mole):
 	emit_signal("mole_spawned", mole)
 
-func _instanciate_rifts():
+func instanciate_rifts():
 	for rift in rifts:
 		rift.connect("dead", self, "dead_rift")
 		rift.connect("lost_a_mole", self, "update_mole_count")
 		rift.connect("mole_spawned", self, "_mole_spawned")
-		rift.create_rift_room()
+	create_rift_rooms()

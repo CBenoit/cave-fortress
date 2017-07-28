@@ -34,9 +34,10 @@ func _ready():
 	# connect signals
 	hero.connect("weapon_status_update",hud,"update_weapon_hud")
 	hero.hp.connect("on_damage", hud, "hp_changed")
+	hero.hp.connect("on_heal", hud, "hp_changed")
 	wave.connect("count_update",hud,"wave_update")
 
-	instanciate()
+	update_hud()
 
 func fill_outside_base(): # filling the map outside the base area
 	for x in range(topleft_level_area.get_pos().x, bottomright_level_area.get_pos().x, 32):
@@ -57,7 +58,7 @@ func fill_outside_base(): # filling the map outside the base area
 					selected_tile = SolidTiles.TILE_STEEL
 
 				solids_tilemap.set_cellv(tile_pos, selected_tile)
-
+	wave.create_rift_rooms()
 
 func generate_background(): # generates the background
 	for x in range(topleft_level_area.get_pos().x, bottomright_level_area.get_pos().x, 32):
@@ -77,7 +78,6 @@ func get_neighbour_tiles(tile_pos):
 
 
 # instanciate several components of the games that requires to be done after everything is ready
-func instanciate():
-	wave._instanciate_rifts()
-	hero._instanciate_weapons()
+func update_hud():
+	hero.update_ammunition(0)
 

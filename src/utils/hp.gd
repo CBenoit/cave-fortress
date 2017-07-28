@@ -7,6 +7,7 @@ var health
 
 signal killed()
 signal on_damage(hp)
+signal on_heal(hp)
 
 func _ready():
 	health = max_health
@@ -26,3 +27,4 @@ func restore_hp(value):
 		health = max_health
 	else:
 		health += value
+	emit_signal("on_heal", self)
