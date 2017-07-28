@@ -32,7 +32,7 @@ transform/pos = Vector2( -1144.97, -796.837 )
 
 [node name="rift2" parent="content/wave" instance=ExtResource( 3 )]
 
-transform/pos = Vector2( 1263.54, 734.417 )
+transform/pos = Vector2( 1263.54, 0 )
 
 [node name="hero" parent="content/entities"]
 

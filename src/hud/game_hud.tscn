@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=1]
+[gd_scene load_steps=8 format=1]
 
 [ext_resource path="res://hud/game_hud.gd" type="Script" id=1]
 [ext_resource path="res://hud/debug_infos.tscn" type="PackedScene" id=2]
 [ext_resource path="res://hud/under.tex" type="Texture" id=3]
 [ext_resource path="res://hud/over.tex" type="Texture" id=4]
 [ext_resource path="res://hud/progress.tex" type="Texture" id=5]
+[ext_resource path="res://hud/dpcomic.fnt" type="BitmapFont" id=6]
 
 [sub_resource type="StyleBoxFlat" id=1]
 
@@ -72,5 +73,62 @@ range/value = 100.0
 range/exp_edit = false
 range/rounded = false
 percent/visible = false
+
+[node name="weapon_box" type="VBoxContainer" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 52.0
+margin/top = 471.0
+margin/right = 118.0
+margin/bottom = 564.0
+alignment = 0
+
+[node name="weapon_name" type="Label" parent="weapon_box"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 66.0
+margin/bottom = 14.0
+custom_fonts/font = ExtResource( 6 )
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="current_ammo" type="Label" parent="weapon_box"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 18.0
+margin/right = 66.0
+margin/bottom = 32.0
+custom_fonts/font = ExtResource( 6 )
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="max_ammo" type="Label" parent="weapon_box"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 36.0
+margin/right = 66.0
+margin/bottom = 59.0
+custom_fonts/font = ExtResource( 6 )
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
 
 

@@ -30,13 +30,13 @@ func _ready():
 
 	fill_outside_base()
 	generate_background()
-	update_hud()
 
 	# connect signals
-	hero.connect("weapon_changed", hud.debug_infos, "current_weapon_changed")
-	hero.hp.connect("on_damage", hud.debug_infos, "hp_changed")
+	hero.connect("weapon_status_update",hud,"update_weapon_hud")
 	hero.hp.connect("on_damage", hud, "hp_changed")
 	wave.connect("count_update",hud,"wave_update")
+
+	instanciate()
 
 func fill_outside_base(): # filling the map outside the base area
 	for x in range(topleft_level_area.get_pos().x, bottomright_level_area.get_pos().x, 32):
@@ -58,7 +58,6 @@ func fill_outside_base(): # filling the map outside the base area
 
 				solids_tilemap.set_cellv(tile_pos, selected_tile)
 
-	wave.create_rift_rooms()
 
 func generate_background(): # generates the background
 	for x in range(topleft_level_area.get_pos().x, bottomright_level_area.get_pos().x, 32):
@@ -76,8 +75,9 @@ func get_neighbour_tiles(tile_pos):
 			solids_tilemap.get_cell(tile_pos.x, tile_pos.y - 1),
 			solids_tilemap.get_cell(tile_pos.x, tile_pos.y + 1)]
 
-# update the HUD state with current information
-# as signal update individual parts, this should only be called once at the start.
-func update_hud():
-	hud.debug_infos.current_weapon_changed(hero.weapon)
-	hud.debug_infos.hp_changed(hero.hp)
+
+# instanciate several components of the games that requires to be done after everything is ready
+func instanciate():
+	wave._instanciate_rifts()
+	hero._instanciate_weapons()
+

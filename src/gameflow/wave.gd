@@ -36,11 +36,6 @@ func _ready():
 	rifts = get_children()
 	alive_rifts = rifts.size()
 
-	for rift in rifts:
-		rift.connect("dead", self, "dead_rift")
-		rift.connect("lost_a_mole", self, "update_mole_count")
-		rift.connect("mole_spawned", self, "_mole_spawned")
-
 	connect("no_rift",self,"wave_end")
 
 	# test
@@ -71,6 +66,10 @@ func add_garrison_to_rift(rift_idx, mole_idx, quantity):
 func add_rift(pos):
 	var new_rift = rift_scn.instance()
 	new_rift.set_pos(pos)
+	new_rift.connect("dead", self, "dead_rift")
+	new_rift.connect("lost_a_mole", self, "update_mole_count")
+	new_rift.connect("mole_spawned", self, "_mole_spawned")
+	new_rift.create_rift_room()
 	add_child(new_rift)
 
 	rifts.append(new_rift)
@@ -103,9 +102,13 @@ func update_mole_count():
 func wave_end():
 	print("The moles are vanquished!!! Praise the rabbit! Praise the carrot!")
 
-func create_rift_rooms():
-	for rift in rifts:
-		rift.create_rift_room()
 
 func _mole_spawned(mole):
 	emit_signal("mole_spawned", mole)
+
+func _instanciate_rifts():
+	for rift in rifts:
+		rift.connect("dead", self, "dead_rift")
+		rift.connect("lost_a_mole", self, "update_mole_count")
+		rift.connect("mole_spawned", self, "_mole_spawned")
+		rift.create_rift_room()

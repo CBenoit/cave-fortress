@@ -177,8 +177,6 @@ max_health = 100.0
 
 [node name="weapon" parent="." instance=ExtResource( 3 )]
 
-transform/pos = Vector2( 26.0489, -8.74123 )
-
 [node name="body" type="Sprite" parent="."]
 
 texture = ExtResource( 4 )

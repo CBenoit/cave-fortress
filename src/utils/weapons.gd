@@ -13,7 +13,7 @@ enum {
 	SWORD
 }
 
-var name_to_idx = {
+var name_to_id = {
 	"pistol":0,
 	"dirt gun":1,
 	"uzi":2,
@@ -24,6 +24,19 @@ var name_to_idx = {
 	"dynamite":7,
 	"bubble gun":8,
 	"sword":9
+}
+
+var id_to_name = {
+	0:"pistol",
+	1:"dirt gun",
+	2:"uzi",
+	3:"shotgun",
+	4:"machine gun",
+	5:"grenade launcher",
+	6:"timed grenade launcher",
+	7:"dynamite",
+	8:"bubble gun",
+	9:"sword"
 }
 
 var weapons_scn = [

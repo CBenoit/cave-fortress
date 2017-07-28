@@ -1,6 +1,5 @@
 extends "../creature.gd"
 
-signal weapon_changed(new_weapon)
 
 # nodes attributes
 
@@ -19,9 +18,9 @@ var picked_weapon = 0
 enum { ID, WEAPON}
 var carried_weapons = [
 	[Weapons.PISTOL, Weapons.weapons_scn[Weapons.PISTOL].instance()],
-	[Weapons.UZI, Weapons.weapons_scn[Weapons.UZI].instance()],
+	[Weapons.MACHINE_GUN, Weapons.weapons_scn[Weapons.MACHINE_GUN].instance()],
 	[Weapons.SHOTGUN, Weapons.weapons_scn[Weapons.SHOTGUN].instance()],
-	[Weapons.GRENADE_LAUNCHER, Weapons.weapons_scn[Weapons.GRENADE_LAUNCHER].instance()],
+	[Weapons.DYNAMITE, Weapons.weapons_scn[Weapons.DYNAMITE].instance()],
 	[Weapons.BUBBLE_GUN, Weapons.weapons_scn[Weapons.BUBBLE_GUN].instance()]
 ]
 
@@ -31,7 +30,7 @@ var ammunition = [
 	[0,-1], # pistol
 	[30,30], # dirt gun
 	[250,250], # uzi
-	[2,25], # shotgun
+	[25,25], # shotgun
 	[150,150], # machine gun
 	[15,15], # grenade launcher
 	[20,20], # timed grenade launcher
@@ -39,6 +38,8 @@ var ammunition = [
 	[50,50], # bubble gun
 	[0,-1]  # sword
 ]
+
+signal weapon_status_update(name, ammo, maximum_ammo)
 
 # build attributes
 var builder_arm_scn = preload("construction/builder_arm.tscn")
@@ -55,7 +56,6 @@ func _ready():
 
 	hp.connect("on_damage", self, "handle_damage")
 
-	_instanciate_weapons()
 
 func _input(event):
 	if event.is_action_pressed("mode_change"):
@@ -79,7 +79,8 @@ func _input(event):
 				if used_ammunition <= ammunition[carried_weapons[picked_weapon][ID]][AMMO]:
 					weapon.fire(time_pressed)
 				else:
-					weapon.fire_sound.play("empty_magazine")
+					if(!weapon.fire_sound.is_voice_active(0)): # 0 is the number of the sound "fire"
+						weapon.fire_sound.play("empty_magazine")
 
 		# weapon switching
 		if event.is_action_pressed("next_weapon"):
@@ -122,24 +123,6 @@ func _pre_fixed_process(delta):
 	set_go_right(Input.is_action_pressed("move_right"))
 	set_jump(Input.is_action_pressed("jump"))
 
-func change_weapon_by_weapon_idx(weapon_idx):
-	remove_child(weapon)
-	weapon = carried_weapons[weapon_idx][WEAPON]
-	add_child(weapon)
-	emit_signal("weapon_changed", weapon)
-
-func switch_build_mode():
-	if build_mode:
-		weapon.clear_preview_block()
-		change_weapon_by_weapon_idx(picked_weapon)
-		build_mode = false
-	else:
-		remove_child(weapon)
-		weapon = builder_arm
-		add_child(weapon)
-		build_mode = true
-		emit_signal("weapon_changed", weapon)
-
 func _take_head_damage():
 	play_hurt_sound()
 	sound_bones.play("bone_break")
@@ -162,22 +145,57 @@ func play_hurt_sound():
 		sound_voice.play("cri" + str(pick))
 
 # weapon related functions
+func change_weapon_by_weapon_idx(weapon_idx):
+	remove_child(weapon)
+	weapon = carried_weapons[weapon_idx][WEAPON]
+	add_child(weapon)
+	emit_signal("weapon_status_update", weapon.name,
+	ammunition[carried_weapons[picked_weapon][ID]][AMMO],
+	ammunition[carried_weapons[picked_weapon][ID]][MAX_AMMO])
+
+func switch_build_mode():
+	if build_mode:
+		weapon.clear_preview_block()
+		change_weapon_by_weapon_idx(picked_weapon)
+		build_mode = false
+	else:
+		remove_child(weapon)
+		weapon = builder_arm
+		add_child(weapon)
+		build_mode = true
+		emit_signal("weapon_status_update", weapon.name, 0,-1)
+
 func _instanciate_weapons():
 	builder_arm = builder_arm_scn.instance()
 	for weapons in carried_weapons:
 		weapons[WEAPON].connect("shot",self,"update_ammunition")
+
+	emit_signal(
+	"weapon_status_update",
+	weapon.name,
+	ammunition[carried_weapons[picked_weapon][ID]][AMMO],
+	ammunition[carried_weapons[picked_weapon][ID]][MAX_AMMO])
 
 func required_ammunition(time_pressed):
 	if ammunition[carried_weapons[picked_weapon][ID]][MAX_AMMO] != -1:
 		if carried_weapons[picked_weapon][ID] != Weapons.BUBBLE_GUN:
 			return 1
 		else:
-			return (1 + (time_pressed - floor(time_pressed) )/ 0.25)
+			if time_pressed >= weapon.full_intensity_time:
+				return 5
+			else:
+				return round(1 + 4*time_pressed/weapon.full_intensity_time)
 	else:
 		return 0
 
 func update_ammunition(time_pressed):
 	ammunition[carried_weapons[picked_weapon][ID]][AMMO] -= required_ammunition(time_pressed)
+
+	emit_signal(
+	"weapon_status_update",
+	weapon.name,
+	ammunition[carried_weapons[picked_weapon][ID]][AMMO],
+	ammunition[carried_weapons[picked_weapon][ID]][MAX_AMMO])
 
 func add_ammunition(weapon_id, quantity):
 	if (ammunition[weapon_id][AMMO] + quantity) >= ammunition[weapon_id][MAX_AMMO]:

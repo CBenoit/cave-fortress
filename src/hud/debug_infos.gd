@@ -20,8 +20,4 @@ func _input(event):
 func _process(delta):
 	fps_label.set_text("FPS: %d" % Performance.get_monitor(Performance.TIME_FPS))
 
-func current_weapon_changed(new_weapon):
-	current_weapon_label.set_text("Weapon name: %s" % new_weapon.name)
 
-func hp_changed(new_hp):
-	hp_label.set_text("HP: %d" % new_hp.health)
