@@ -9,4 +9,8 @@ func _ready():
 func _pick(collider):
 	if collider.ammunition[weapon_id][collider.AMMO] < collider.ammunition[weapon_id][collider.MAX_AMMO]:
 		collider.add_ammunition(weapon_id, quantity)
-		to_free = true
+
+		get_node("../").add_child(sound_effect)
+		sound_effect.picked_sound.play("weapon_pick")
+
+		queue_free()

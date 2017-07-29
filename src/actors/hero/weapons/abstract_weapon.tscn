@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=1]
+[gd_scene load_steps=3 format=1]
 
 [ext_resource path="res://actors/hero/weapons/abstract_weapon.gd" type="Script" id=1]
+[ext_resource path="res://effects/gun_spark.tscn" type="PackedScene" id=2]
 
 [node name="weapon" type="Sprite"]
 
@@ -10,6 +11,7 @@ fire_interval_sec = 0.1
 fire_angle = 0.0
 bullet_num = 1
 bullet_scn = null
+spark_scn = ExtResource( 2 )
 mode = null
 min_intensity = 1.0
 max_intensity = 1.0

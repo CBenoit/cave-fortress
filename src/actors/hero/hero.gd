@@ -39,6 +39,8 @@ var ammunition = [
 	[0,-1]  # sword
 ]
 
+var weapon_crate_scn = preload("res://actors/object/weapon_crate.tscn")
+
 signal weapon_status_update(name, ammo, maximum_ammo)
 
 # build attributes
@@ -90,6 +92,9 @@ func _input(event):
 		elif event.is_action_pressed("previous_weapon"):
 			picked_weapon = (picked_weapon - 1) % carried_weapons.size()
 			change_weapon_by_weapon_idx(picked_weapon)
+		# weapon throw
+		if event.is_action_pressed("throw_weapon"):
+			throw_weapon()
 
 func _process(delta):
 	_update_arm_rotation()
@@ -215,6 +220,23 @@ func remove_weapon(weapon_id):
 			weapons[WEAPON].queue_free()
 			carried_weapons.erase(weapons)
 
+func throw_weapon():
+	if carried_weapons[picked_weapon][ID] != Weapons.PISTOL:
+		# creating the crate and throwing it
+		var weapon_crate = weapon_crate_scn.instance()
+		weapon_crate.weapon_id = carried_weapons[picked_weapon][ID]
+		weapon_crate.set_pos(get_pos())
+		weapon_crate.add_collision_exception_with(self)
+		var theta = Vector2(-get_local_mouse_pos().y,get_local_mouse_pos().x).angle()
+		var throw_direction = Vector2(cos(theta),-sin(theta))
+
+		weapon_crate.set_axis_velocity(throw_direction*150)
+
+		get_node("../../objects").add_child(weapon_crate)
+		# removing the thrown weapon from the carrieds ones and switching to previous weapon
+		picked_weapon = (picked_weapon - 1) % carried_weapons.size()
+		change_weapon_by_weapon_idx(picked_weapon)
+		remove_weapon(weapon_crate.weapon_id)
 
 func has_weapon(weapon_id):
 	for weapons in carried_weapons:

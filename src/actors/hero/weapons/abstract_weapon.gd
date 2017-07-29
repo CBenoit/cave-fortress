@@ -6,28 +6,24 @@ enum {
 }
 
 export(String) var name = "unknown"
-#export(int,
 export(float, 0.01, 15, 0.01) var fire_interval_sec = 0.1
 export(float, 0, 2, 0.02) var fire_angle = 0.0
 export(int,1,20,1) var bullet_num = 1
 export(PackedScene) var bullet_scn
+export(PackedScene) var spark_scn = preload("res://effects/gun_spark.tscn")
 export(int, "Automatic", "Semi-auto") var mode  = AUTOMATIC_MODE
 export(float, 0, 1, 0.01) var min_intensity = 1.0
 export(float, 0, 1, 0.01) var max_intensity = 1.0
 export(float, 0, 1, 0.01) var full_intensity_time = 0.0
 
-var fire_sound
-var fire_position
-var solids_tilemap
+
+onready var fire_sound = get_node("fire_sound")
+onready var fire_position = get_node("fire_position")
+onready var solids_tilemap = get_node("../../../solids")
 
 var timestamp_last_shot = 0
 
 signal shot(time_pressed)
-
-func _ready():
-	fire_sound = get_node("fire_sound")
-	fire_position = get_node("fire_position")
-	solids_tilemap = get_node("../../../solids")
 
 func fire(time_pressed):
 	if solids_tilemap.get_cellv(solids_tilemap.world_to_map(fire_position.get_global_pos())) != SolidTiles.TILE_EMPTY:
@@ -37,6 +33,12 @@ func fire(time_pressed):
 		timestamp_last_shot = OS.get_ticks_msec()
 		fire_sound.play("fire")
 		emit_signal("shot",time_pressed)
+
+		# create spark effect
+		var spark = spark_scn.instance()
+		get_node("../..").add_child(spark)
+		spark.set_pos(fire_position.get_global_pos())
+		spark.activate()
 
 		# calculate intensity
 		var intensity

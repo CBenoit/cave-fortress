@@ -8,8 +8,11 @@ func _ready():
 
 func _pick(collider):
 
-	if collider.carried_weapons.size() < Weapons.MAX_CARRIED:
+	if collider.carried_weapons.size() < Weapons.MAX_CARRIED and not collider.has_weapon(weapon_id):
 		collider.add_weapon(weapon_id)
-		to_free = true
+
+		get_node("../").add_child(sound_effect)
+		sound_effect.picked_sound.play("weapon_pick")
+		queue_free()
 	else: # should be displayed in an announcement label of the HUD
 		print("You are carrying too many weapons")

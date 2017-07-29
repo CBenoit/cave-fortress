@@ -1,5 +1,7 @@
 extends Node2D
 
+
+
 func _ready():
 	get_node("expire_timeout").connect("timeout", self, "queue_free")
 
@@ -8,3 +10,4 @@ func _ready():
 # as the the sound node is not yet added to the graph too).
 func activate():
 	_on_activate()
+

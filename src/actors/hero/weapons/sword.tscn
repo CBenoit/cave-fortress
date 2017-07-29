@@ -19,6 +19,10 @@ fire_interval_sec = 0.3
 mode = 1
 strike_damage = 10
 
+[node name="fire_position" parent="."]
+
+transform/pos = Vector2( 23.6601, 9.32063 )
+
 [node name="strike_area" type="Area2D" parent="."]
 
 transform/pos = Vector2( 7.28425, 19.2864 )

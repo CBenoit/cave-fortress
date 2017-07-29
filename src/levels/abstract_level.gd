@@ -79,5 +79,7 @@ func get_neighbour_tiles(tile_pos):
 
 # instanciate several components of the games that requires to be done after everything is ready
 func update_hud():
+	# update ammunition requires time_pressed, we set it to 0 here
+	# the spawn weapon is the pistol with infinite ammo, therefore no ammo is lost
 	hero.update_ammunition(0)
 

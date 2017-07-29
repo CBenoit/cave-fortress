@@ -1,0 +1,42 @@
+[gd_scene load_steps=6 format=1]
+
+[ext_resource path="res://effects/abstract_effect.tscn" type="PackedScene" id=1]
+[ext_resource path="res://effects/picked_effect.gd" type="Script" id=2]
+[ext_resource path="res://effects/food.smp" type="Sample" id=3]
+[ext_resource path="res://effects/weapon_pick.smp" type="Sample" id=4]
+
+[sub_resource type="SampleLibrary" id=1]
+
+samples/food = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 3 )
+}
+samples/weapon_pick = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 4 )
+}
+
+[node name="picked_effect" instance=ExtResource( 1 )]
+
+script/script = ExtResource( 2 )
+
+[node name="expire_timeout" parent="."]
+
+wait_time = 2.0
+
+[node name="picked_sound" type="SamplePlayer2D" parent="."]
+
+params/volume_db = 0.0
+params/pitch_scale = 1.0
+params/attenuation/min_distance = 1.0
+params/attenuation/max_distance = 2048.0
+params/attenuation/distance_exp = 1.0
+config/polyphony = 1
+config/samples = SubResource( 1 )
+config/pitch_random = 0.0
+
+

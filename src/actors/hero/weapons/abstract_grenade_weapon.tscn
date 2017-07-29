@@ -16,9 +16,6 @@ samples/shot1 = {
 [node name="weapon" instance=ExtResource( 1 )]
 
 script/script = ExtResource( 2 )
-min_intensity = 1.0
-max_intensity = 1.0
-full_intensity_time = 0.0
 velocity = 300
 
 [node name="fire_sound" parent="."]

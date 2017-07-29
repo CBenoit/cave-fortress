@@ -17,7 +17,7 @@ velocity = 600.0
 
 [node name="fire_position" parent="."]
 
-transform/pos = Vector2( 29.7216, -0.138885 )
+transform/pos = Vector2( 30.8327, -4.99989 )
 
 [node name="fire_sound" parent="."]
 

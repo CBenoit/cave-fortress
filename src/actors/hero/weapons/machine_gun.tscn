@@ -32,7 +32,7 @@ mode = 0
 
 [node name="fire_position" parent="."]
 
-transform/pos = Vector2( 30.6193, 0 )
+transform/pos = Vector2( 30.9672, -4.75527 )
 
 [node name="fire_sound" parent="."]
 
