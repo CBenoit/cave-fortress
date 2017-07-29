@@ -20,7 +20,7 @@ transform/pos = Vector2( 15.8309, 15.8327 )
 transform/scale = Vector2( 0.505283, 0.505227 )
 input/pickable = true
 shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Matrix32( 3.1693, 0, 0, 3.14958, 0.334843, 0.599192 )
+shapes/0/transform = Matrix32( 3.07833, 0, 0, 3.07436, 0.620566, -0.101061 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
@@ -29,8 +29,8 @@ angular_damp = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="placing_zone"]
 
-transform/pos = Vector2( 0.334843, 0.599192 )
-transform/scale = Vector2( 3.1693, 3.14958 )
+transform/pos = Vector2( 0.620566, -0.101061 )
+transform/scale = Vector2( 3.07833, 3.07436 )
 shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
