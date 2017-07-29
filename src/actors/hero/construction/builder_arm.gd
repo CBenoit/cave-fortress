@@ -9,6 +9,7 @@ var solids_tilemap
 
 var preview_block_scn = preload("preview_block.tscn")
 var preview_block
+var placing_zone
 
 # used to order the tile switch and display a correct preview
 var tile_creation_switch = [
@@ -26,6 +27,7 @@ var timestamp_last_build = 0
 func _ready():
 	solids_tilemap = get_node("../../../solids")
 	preview_block = preview_block_scn.instance()
+	placing_zone = preview_block.get_node("placing_zone")
 	get_node("../../../../content").add_child(preview_block)
 
 	set_fixed_process(true)
@@ -44,7 +46,12 @@ func _fixed_process(delta):
 	if (tile_at_pos == SolidTiles.TILE_EMPTY and distance < reach):
 		preview_block.set_opacity(0.8)
 		preview_block.set_modulate(Color(0.2, 1, 0.2)) # adding a layer of green over the block if it can be placed
+
+		# preventing to build into a creature
+		var entities = placing_zone.get_overlapping_bodies()
 		can_build = true
+		if entities.size() > 0:
+			can_build = false
 	elif (distance < reach): # destruction mode
 		preview_block.set_opacity(0.2)
 		preview_block.set_modulate(Color(5, 0.2, 0.2)) # red if within reach but can't place block

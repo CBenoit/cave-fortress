@@ -37,6 +37,7 @@ draw_bg = true
 
 [node name="carrot" type="KinematicBody2D" groups=[
 "damageable",
+"creature",
 ]]
 
 visibility/behind_parent = true
