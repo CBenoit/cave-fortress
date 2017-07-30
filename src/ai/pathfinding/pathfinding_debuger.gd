@@ -29,6 +29,7 @@ func _input(event):
 			solids_tilemap.world_to_map(from_node.get_pos()),
 			solids_tilemap.world_to_map(get_local_mouse_pos()),
 			2,
+			false,
 			30
 		)
 

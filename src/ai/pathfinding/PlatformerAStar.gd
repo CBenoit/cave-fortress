@@ -10,18 +10,15 @@ func _init(solids):
 	_solids = solids
 
 # "from" and "to" should be Vector2 representing tilemap position
-func query_path(from, to, max_jump_heigth, max_iter):
+func query_path(from, to, max_jump_heigth, is_on_ground, max_iter):
 	var open_list = PQ.new(funcref(self, "_comparator_less"))
 	var closed_list = {}
 
 	var best_candidate
-	best_candidate = PathNode.new(from, null, 0)
-	# Normally that should be that:
-	#if _on_ground(from):
-	#	best_candidate = PathNode.new(from, null, 0)
-	#else:
-	#	best_candidate = PathNode.new(from, null, max_jump_heigth * 2)
-	# but it gives less good results with the AI framework.
+	if is_on_ground:
+		best_candidate = PathNode.new(from, null, 0)
+	else:
+		best_candidate = PathNode.new(from, null, max_jump_heigth * 2)
 	best_candidate.current_cost = SolidTiles.PATH_COST[_solids.get_cellv(from)]
 	best_candidate.update_cost_evaluation(_heuristic(best_candidate, to))
 
@@ -88,8 +85,21 @@ func query_path(from, to, max_jump_heigth, max_iter):
 	var path = [best_candidate.tile_pos]
 	var current = best_candidate
 	while current.parent != null:
+		var prev = current
 		current = current.parent
-		path.push_front(current.tile_pos)
+		if _solids.get_cellv(current.tile_pos) != SolidTiles.TILE_EMPTY:
+			path.push_front(current.tile_pos)
+			continue
+
+		if current.parent == null: # starting node
+			path.push_front(current.tile_pos)
+			break
+
+		if (current.parent.jump_length != 0 and current.jump_length == 0) \
+				or (current.jump_length == 2 and current.parent.jump_length != 0) \
+				or (current.jump_length == 0 and prev.jump_length != 0) \
+				or (current.jump_length == max_jump_heigth * 2):
+			path.push_front(current.tile_pos)
 
 	return path
 

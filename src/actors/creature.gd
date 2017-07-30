@@ -58,7 +58,7 @@ func _fixed_process(delta):
 			velocity.x = x_jump_velocity + movement_speed / 2
 		else:
 			velocity.x = x_jump_velocity
-	elif on_air_time < JUMP_MAX_AIRBORNE_TIME and not pushed:
+	elif not pushed:
 		if go_left:
 			velocity.x = -movement_speed
 		elif go_right:

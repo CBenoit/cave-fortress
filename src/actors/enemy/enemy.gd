@@ -17,169 +17,61 @@ onready var solids = get_node("../../solids")
 onready var anim = get_node("anim")
 onready var head = get_node("head")
 onready var foots = get_node("foots")
+onready var close_range = get_node("close_range")
 
 # AI
 
 onready var brain = Brain.new()
 var current_action = null
+
+onready var path_target = hero
+var last_pathfinding_target = null
+var performing_pathfinding = false
 var path_query
 var path = []
 var current_waypoint_idx = 0
-
-# other
-
-var dig_timestamp = 0
-var attack_timestamp = 0
+var last_pathfinding_timestamp = 0
+var waypoint_found_timestamp = 0
 
 var attack_target
 var closest_carrot
 var closest_rift
 var closest_ally
 
+# other
+
+var dig_timestamp = 0
+var attack_timestamp = 0
+
 func _ready():
 	hp.connect("on_damage", self, "_handle_damage")
 
-func _pre_fixed_process(delta):
+# action part
+
+func update_action():
 	if current_action != null:
 		if not _follow_path():
 			current_action.call_func()
 
-func update_ai(astar):
-	_update_closest_ally()
-	_update_closest_rift()
-	_update_closest_carrot()
-	_update_goals()
-	var action = brain.choose_action()
-
-	if action == Brain.ACTION_ATTACK_CARROT:
-		get_node("thought").set_text("Attack carrot!")
-		if closest_carrot == null:
-			attack_target = hero
-			current_action = funcref(self, "_action_attack_player")
-		else:
-			attack_target = closest_carrot
-			current_action = funcref(self, "_action_attack_carrot")
-		_init_path_follower(astar, attack_target)
-	elif action == Brain.ACTION_ATTACK_PLAYER:
-		get_node("thought").set_text("Attack player!")
-		attack_target = hero
-		current_action = funcref(self, "_action_attack_player")
-		_init_path_follower(astar, attack_target)
-	elif action == Brain.ACTION_FLEE:
-		get_node("thought").set_text("Flee!")
-		_init_path_follower(astar, closest_rift)
-		current_action = funcref(self, "_action_flee")
-	elif action == Brain.ACTION_FOLLOW_ALLIES:
-		get_node("thought").set_text("Need allies!")
-		current_action = funcref(self, "_action_follow_allies")
-	else:
-		get_node("thought").set_text("Uh...?")
-
-func _die():
-	queue_free()
-
-func _update_goals():
-	var destroy_carrot_value = 30 + 10000 / distance_to(closest_carrot)
-	brain.set_goal_value(Brain.GOAL_DESTROY_CARROTS, destroy_carrot_value)
-
-	brain.set_goal_value(Brain.GOAL_SURVIVE, 100 * (hp.max_health - hp.health) / hp.max_health)
-
-	var kill_player_goal_value = 13000 / distance_to(hero) + 10 * (hero.hp.max_health - hero.hp.health) / hero.hp.max_health
-	brain.set_goal_value(Brain.GOAL_KILL_PLAYER, kill_player_goal_value)
-
-	# TODO: GOAL_FIND_ALLIES
-
-func _take_fall_damage():
-	hp.take_damage((velocity.y - MIN_VELOCITY_FALL_DAMAGE) / 10.0)
-
-func _handle_damage(hp):
-	anim.play("damage")
-
-func _action_attack_player():
-	if can_melee():
-		melee_attack_target()
-	else:
-		_approximate_go_to_pos(attack_target.get_pos())
-
-func _action_attack_carrot():
+func _action_attack_target():
 	if can_melee():
 		melee_attack_target()
 	else:
 		_approximate_go_to_pos(attack_target.get_pos())
 
 func _action_flee():
-	_action_attack_player()
-
-func _action_follow_allies():
-	var closest_ally = find_closest_ally()
-	if closest_ally != null:
-		_approximate_go_to_pos(closest_ally)
-	else:
-		current_action = funcref(self, "_action_flee")
-
-func _process(delta):
-	path_query = path_query.resume()
-	if typeof(path_query) == TYPE_ARRAY:
-		path = path_query
-		path_query = null
-		set_process(false)
-
-func _init_path_follower(astar, attack_target):
-	current_waypoint_idx = 0
-	path_query = astar.query_path(
-		solids.world_to_map(foots.get_global_pos()),
-		solids.world_to_map(attack_target.get_global_pos()),
-		2,
-		30
-	)
-
-	if typeof(path_query) == TYPE_ARRAY:
-		path = path_query
-	else:
-		set_process(true)
-
-func _follow_path():
-	if path.empty():
-		return false
-
-	if distance_to(attack_target) < 128:
-		path.empty()
-		return false
-
-	var next_waypoint = solids.map_to_world(path[current_waypoint_idx]) + Vector2(SolidTiles.TILE_SIZE / 2, SolidTiles.TILE_SIZE / 2)
-	while get_pos().distance_to(next_waypoint) < 16:
-		current_waypoint_idx += 1
-		if current_waypoint_idx >= path.size():
-			path.clear()
-			return false
-		next_waypoint = solids.map_to_world(path[current_waypoint_idx]) + Vector2(SolidTiles.TILE_SIZE / 2, SolidTiles.TILE_SIZE / 2)
-
-	set_go_left(false)
-	set_go_right(false)
-	set_jump(false)
-
-	if foots.get_global_pos().x < next_waypoint.x - 3:
-		set_go_right(true)
-	elif foots.get_global_pos().x > next_waypoint.x + 3:
-		set_go_left(true)
-
-	if foots.get_global_pos().y > next_waypoint.y + 16:
-		set_jump(true)
-
-	if solids.get_cellv(path[current_waypoint_idx]) != SolidTiles.TILE_EMPTY:
-		dig_at(path[current_waypoint_idx])
-
-	return true
+	_approximate_go_to_pos(closest_rift.get_pos())
 
 func _approximate_go_to_pos(pos):
 	set_go_left(false)
 	set_go_right(false)
+	set_jump(false)
+
 	if foots.get_global_pos().x < pos.x - 32:
 		set_go_right(true)
 	elif foots.get_global_pos().x > pos.x + 32:
 		set_go_left(true)
 
-	set_jump(false)
 	if head.get_global_pos().y < pos.y - 32:
 		_approximate_dig()
 	elif go_right or go_left:
@@ -190,6 +82,23 @@ func _approximate_go_to_pos(pos):
 	elif head.get_global_pos().y > pos.y + 64:
 		set_jump(true)
 		_approximate_dig()
+
+	if closest_ally != null:
+		_avoid_ally(closest_ally)
+
+var ally_collide_counter = randi()
+func _avoid_ally(ally):
+	if distance_to(ally) < 46:
+		if go_right and ally.get_pos().x > get_pos().x:
+			set_go_right(false)
+			ally_collide_counter += 1
+		elif go_left and ally.get_pos().x < get_pos().x:
+			set_go_left(false)
+			ally_collide_counter += 1
+
+		if ally_collide_counter % 10 == 0:
+			set_jump(true)
+			_approximate_dig()
 
 func _approximate_dig():
 	var dig_pos = solids.world_to_map(get_pos())
@@ -220,6 +129,182 @@ func melee_attack_target():
 			elif grp == "pushable":
 				attack_target.push(Vector2(cos(get_pos().angle_to_point(hero.get_pos()) + PI / 2) * 150, -50))
 
+# AI decision part
+
+func update_decision():
+	_update_closest_ally()
+	_update_closest_rift()
+	_update_closest_carrot()
+
+	_update_goals()
+
+	update_chosen_action(brain.choose_action())
+
+func update_chosen_action(action):
+	if action == Brain.ACTION_ATTACK_CARROT:
+		if closest_carrot == null:
+			update_chosen_action(Brain.ACTION_ATTACK_PLAYER)
+			return
+
+		get_node("thought").set_text("Attack carrot!")
+		attack_target = closest_carrot
+		path_target = attack_target
+		current_action = funcref(self, "_action_attack_target")
+	elif action == Brain.ACTION_ATTACK_PLAYER:
+		get_node("thought").set_text("Attack player!")
+		attack_target = hero
+		path_target = attack_target
+		current_action = funcref(self, "_action_attack_target")
+	elif action == Brain.ACTION_FLEE:
+		if closest_rift == null or distance_to(hero) < 150:
+			update_chosen_action(Brain.ACTION_ATTACK_PLAYER)
+			return
+
+		get_node("thought").set_text("Flee!")
+		attack_target = hero
+		path_target = closest_rift
+		current_action = funcref(self, "_action_flee")
+	else:
+		get_node("thought").set_text("Uh...? " + str(action))
+
+func _update_goals():
+	if closest_carrot != null:
+		var destroy_carrot_value = 30 + 10000 / distance_to(closest_carrot)
+		brain.set_goal_value(Brain.GOAL_DESTROY_CARROTS, destroy_carrot_value)
+	else:
+		brain.set_goal_value(Brain.GOAL_DESTROY_CARROTS, 0)
+
+	var find_allies_value
+	var survive_value = 100 * (hp.max_health - hp.health) / hp.max_health
+	if closest_ally == null:
+		survive_value += 5
+	brain.set_goal_value(Brain.GOAL_SURVIVE, survive_value)
+
+	var kill_player_goal_value = 13000.0 / distance_to(hero) + 10 * (hero.hp.max_health - hero.hp.health) / hero.hp.max_health
+	brain.set_goal_value(Brain.GOAL_KILL_PLAYER, kill_player_goal_value)
+
+func _update_closest_carrot():
+	if closest_carrot != null:
+		closest_carrot.hp.disconnect("killed", self, "_handle_closest_carrot_killed")
+	closest_carrot = find_closest_among(get_node("../../carrots").get_children())
+	if closest_carrot != null:
+		closest_carrot.hp.connect("killed", self, "_handle_closest_carrot_killed")
+
+func _handle_closest_carrot_killed():
+	closest_carrot = null
+
+func _update_closest_rift():
+	if closest_rift != null:
+		closest_rift.hp.disconnect("killed", self, "_handle_closest_rift_killed")
+	closest_rift = find_closest_among(get_node("../../wave").get_children())
+	if closest_rift != null:
+		closest_rift.hp.connect("killed", self, "_handle_closest_rift_killed")
+
+func _handle_closest_rift_killed():
+	closest_rift = null
+
+func _update_closest_ally():
+	var near_allies = []
+	for entity in close_range.get_overlapping_bodies():
+		if entity != self and "creature" in entity.get_groups() and entity.team == team:
+			near_allies.append(entity)
+	if closest_ally != null:
+		closest_ally.hp.disconnect("killed", self, "_handle_closest_ally_killed")
+	closest_ally = find_closest_among(near_allies)
+	if closest_ally != null:
+		closest_ally.hp.connect("killed", self, "_handle_closest_ally_killed")
+
+func _handle_closest_ally_killed():
+	closest_ally = null
+
+# pathfinding part
+
+func update_path(astar):
+	if path.empty() or path_target != last_pathfinding_target \
+			or last_pathfinding_timestamp + min(distance_to(path_target) * 10, 10000) < OS.get_ticks_msec():
+		last_pathfinding_target = path_target
+		last_pathfinding_timestamp = OS.get_ticks_msec()
+		path_query = astar.query_path(
+			solids.world_to_map(foots.get_global_pos()),
+			solids.world_to_map(path_target.get_global_pos()),
+			2,
+			on_air_time < JUMP_MAX_AIRBORNE_TIME and not jumping,
+			60
+		)
+
+		if typeof(path_query) == TYPE_ARRAY:
+			path = path_query
+			_set_current_waypoint_in_path()
+		else:
+			performing_pathfinding = true
+
+func process_path():
+	if performing_pathfinding:
+		path_query = path_query.resume()
+		if typeof(path_query) == TYPE_ARRAY:
+			path = path_query
+			_set_current_waypoint_in_path()
+			performing_pathfinding = false
+
+func _convert_waypoint(tile_waypoint):
+	return solids.map_to_world(tile_waypoint) + Vector2(SolidTiles.TILE_SIZE / 2, SolidTiles.TILE_SIZE / 2)
+
+func _set_current_waypoint_in_path():
+	current_waypoint_idx = 0
+	var current_waypoint = _convert_waypoint(path[current_waypoint_idx])
+	while get_pos().distance_to(current_waypoint) > 16:
+		current_waypoint_idx += 1
+		if current_waypoint_idx >= path.size():
+			path.clear()
+			return
+		current_waypoint = _convert_waypoint(path[current_waypoint_idx])
+
+func _follow_path():
+	if path.empty():
+		return false
+
+	if distance_to(attack_target) < melee_attack_reach:
+		path.clear()
+		return false
+
+	var current_waypoint = _convert_waypoint(path[current_waypoint_idx])
+	while (get_pos().distance_to(current_waypoint) < 18 \
+			and (not on_ground_tile(current_waypoint) or on_air_time < JUMP_MAX_AIRBORNE_TIME and not jumping)):
+		waypoint_found_timestamp = OS.get_ticks_msec()
+		current_waypoint_idx += 1
+		if current_waypoint_idx >= path.size():
+			path.clear()
+			return false
+		current_waypoint = _convert_waypoint(path[current_waypoint_idx])
+
+	if waypoint_found_timestamp + 3000 < OS.get_ticks_msec():
+		path.clear()
+		return false
+
+	set_go_right(false)
+	set_go_left(false)
+	set_jump(false)
+	if foots.get_global_pos().x < current_waypoint.x - 4:
+		set_go_right(true)
+	elif foots.get_global_pos().x > current_waypoint.x + 4:
+		set_go_left(true)
+
+	if foots.get_global_pos().y > current_waypoint.y + 16:
+		set_jump(true)
+
+	if solids.get_cellv(path[current_waypoint_idx]) != SolidTiles.TILE_EMPTY:
+		dig_at(path[current_waypoint_idx])
+
+	#if closest_ally != null:
+	#	_avoid_ally(closest_ally)
+
+	return true
+
+# other
+
+func on_ground_tile(pos):
+	return solids.get_cellv(solids.world_to_map(pos) + Vector2(0, 1)) != SolidTiles.TILE_EMPTY
+
 func at_ceiling():
 	return solids.get_cellv(solids.world_to_map(head.get_global_pos()) + Vector2(0, -1)) != SolidTiles.TILE_EMPTY
 
@@ -247,11 +332,13 @@ func find_closest_among(entities):
 			closest = entity
 	return closest
 
-func _update_closest_carrot():
-	closest_carrot = find_closest_among(get_node("../../carrots").get_children())
+# creature part
 
-func _update_closest_rift():
-	closest_rift = find_closest_among(get_node("../../wave").get_children())
+func _take_fall_damage():
+	hp.take_damage((velocity.y - MIN_VELOCITY_FALL_DAMAGE) / 10.0)
 
-func _update_closest_ally():
-	pass # TODO
+func _handle_damage(hp):
+	anim.play("damage")
+
+func _die():
+	queue_free()

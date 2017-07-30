@@ -13,7 +13,6 @@ func _ready():
 
 
 func _post_fixed_process(delta):
-
 	set_pos(Vector2(carrot_x,get_pos().y))
 
 
