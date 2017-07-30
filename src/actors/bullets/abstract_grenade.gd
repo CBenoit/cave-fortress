@@ -13,6 +13,8 @@ var explosion_area
 
 var already_exploded = false
 
+signal hit(damage)
+
 func _ready():
 	previous_angle = get_linear_velocity().angle()
 	solids_tilemap = get_node("../../solids")
@@ -59,9 +61,17 @@ func explode():
 	# damaging entities
 	for entity in explosion_area.get_overlapping_bodies():
 		var distance = (entity.get_pos() - center).length()
-		for grp in entity.get_groups():
+		var gp = entity.get_groups()
+		for grp in gp:
 			if grp == "damageable":
-				entity.hp.take_damage(power - (power/2)*(distance/radius))
+				var damage = power - (power/2)*(distance/radius)
+
+				if "creature" in gp:
+					if entity.team == Team.ENEMY:
+						emit_signal("hit", hp_removed(entity, damage))
+
+					entity.hp.take_damage(damage)
+
 			elif grp == "grenade":
 				entity.explode()
 			elif grp == "pushable":
@@ -85,3 +95,10 @@ func bounced():
 		return false
 
 	return true
+
+
+func hp_removed(entity, damage):
+	if damage > entity.hp.health:
+		return entity.hp.health
+	else:
+		return damage

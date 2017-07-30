@@ -16,6 +16,8 @@ func _on_colliding():
 				add_collision_exception_with(collider)
 				return false # cancel the collision
 			else:
+				emit_signal("hit",hp_removed(collider, power))
 				collider.hp.take_damage(power)
+
 
 	return true

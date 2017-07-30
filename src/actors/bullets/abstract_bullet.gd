@@ -9,6 +9,8 @@ export(PackedScene) var impact_effect_scn
 var time_alive = 0
 var team = Team.UNKNOWN
 
+signal hit(damage)
+
 func _ready():
 	set_fixed_process(true)
 
@@ -36,3 +38,10 @@ func _on_colliding():
 func advance(force):
 	var direction = Vector2(cos(orientation), -sin(orientation))
 	move(direction * force)
+
+# used to share the damage dealth to the enemy
+func hp_removed(entity, damage):
+	if damage > entity.hp.health:
+		return entity.hp.health
+	else:
+		return damage

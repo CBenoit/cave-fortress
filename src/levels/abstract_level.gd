@@ -36,6 +36,8 @@ func _ready():
 	hero.hp.connect("on_damage", hud, "hp_changed")
 	hero.hp.connect("on_heal", hud, "hp_changed")
 	wave.connect("count_update",hud,"wave_update")
+	wave.connect("no_rift",self,"wave_end")
+
 
 	update_hud()
 
@@ -82,4 +84,9 @@ func update_hud():
 	# update ammunition requires time_pressed, we set it to 0 here
 	# the spawn weapon is the pistol with infinite ammo, therefore no ammo is lost
 	hero.update_ammunition(0)
+	hud.money_display(hero.money)
 
+func wave_end(reward):
+	hero.add_money(reward)
+	hero.convert_dealt_damage()
+	hud.money_display(hero.money)

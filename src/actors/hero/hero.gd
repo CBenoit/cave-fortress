@@ -20,7 +20,7 @@ var carried_weapons = [
 	[Weapons.PISTOL, Weapons.weapons_scn[Weapons.PISTOL].instance()],
 	[Weapons.MACHINE_GUN, Weapons.weapons_scn[Weapons.MACHINE_GUN].instance()],
 	[Weapons.SHOTGUN, Weapons.weapons_scn[Weapons.SHOTGUN].instance()],
-	[Weapons.DYNAMITE, Weapons.weapons_scn[Weapons.DYNAMITE].instance()],
+	[Weapons.GRENADE_LAUNCHER, Weapons.weapons_scn[Weapons.GRENADE_LAUNCHER].instance()],
 	[Weapons.BUBBLE_GUN, Weapons.weapons_scn[Weapons.BUBBLE_GUN].instance()]
 ]
 
@@ -47,6 +47,11 @@ signal weapon_status_update(name, ammo, maximum_ammo)
 var builder_arm_scn = preload("construction/builder_arm.tscn")
 var builder_arm
 var build_mode = false
+
+# money attributes
+
+var money = 0
+var dealt_damage = 0
 
 # other
 var attack_pressed_timestamp = 0
@@ -77,13 +82,8 @@ func _input(event):
 				attack_pressed_timestamp = OS.get_ticks_msec()
 			elif event.is_action_released("attack"):
 				var time_pressed = (OS.get_ticks_msec() - attack_pressed_timestamp) / 1000.0
-				var used_ammunition = required_ammunition(time_pressed)
 
-				if used_ammunition <= ammunition[carried_weapons[picked_weapon][ID]][AMMO]:
-					weapon.fire(time_pressed)
-				else:
-					if(!weapon.fire_sound.is_voice_active(0)): # 0 is the number of the sound "fire"
-						weapon.fire_sound.play("empty_magazine")
+				shoot(time_pressed)
 
 		# weapon switching
 		if event.is_action_pressed("next_weapon"):
@@ -123,7 +123,7 @@ func _pre_fixed_process(delta):
 	else:
 		if weapon.mode == weapon.AUTOMATIC_MODE:
 			if Input.is_action_pressed("attack"):
-				weapon.fire(0)
+				shoot(0)
 
 	set_go_left(Input.is_action_pressed("move_left"))
 	set_go_right(Input.is_action_pressed("move_right"))
@@ -151,6 +151,17 @@ func play_hurt_sound():
 		sound_voice.play("cri" + str(pick))
 
 # weapon related functions
+
+func shoot(time_pressed):
+	var used_ammunition = required_ammunition(time_pressed)
+
+	if used_ammunition <= ammunition[carried_weapons[picked_weapon][ID]][AMMO]:
+		weapon.fire(time_pressed)
+	else:
+		if(!weapon.fire_sound.is_voice_active(0)): # 0 is the number of the sound "fire"
+			weapon.fire_sound.play("empty_magazine")
+
+
 func change_weapon_by_weapon_idx(weapon_idx):
 	remove_child(weapon)
 	weapon = carried_weapons[weapon_idx][WEAPON]
@@ -243,3 +254,15 @@ func has_weapon(weapon_id):
 		if weapons[ID] == weapon_id:
 			return true
 	return false
+
+# money functions
+
+func add_money(value):
+	money += value
+
+func add_dealt_damage(value):
+	dealt_damage += value
+
+func convert_dealt_damage():
+	money = round(money + dealt_damage / 10.0)
+	dealt_damage = 0

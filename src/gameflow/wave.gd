@@ -5,6 +5,9 @@ enum {
 	ENEMY
 }
 
+var mole_value = [6]
+var wave_reward
+
 # wave modes
 enum {
 	GARRISON_EXHAUSTION,
@@ -25,7 +28,7 @@ var rift_scn = preload("./rift.tscn")
 
 var alive_rifts # number of rifts alive
 
-signal no_rift() # emitted when there are no rift alive
+signal no_rift(reward) # emitted when there are no rift alive
 signal count_update(ratio)
 signal mole_spawned(mole)
 
@@ -33,10 +36,11 @@ func _ready():
 	max_mole_count = get_available_moles()
 	mole_count = max_mole_count
 
+	wave_reward = evaluate_available_mole()
+
 	rifts = get_children()
 	alive_rifts = rifts.size()
 
-	connect("no_rift",self,"wave_end")
 	instanciate_rifts()
 
 	# test
@@ -85,13 +89,19 @@ func add_damageable_rift(pos):
 func dead_rift():
 	alive_rifts -= 1
 	if alive_rifts == 0:
-		emit_signal("no_rift")
+		emit_signal("no_rift", wave_reward)
 
 func create_rift_rooms():
 	for rift in rifts:
 		rift.create_rift_room()
 
 # others
+
+func evaluate_available_mole():
+	var S = 0
+	for i in range(available_mole.size()):
+		S += available_mole[i]*mole_value[i]
+	return S
 
 func get_available_moles():
 	var S = 0
@@ -103,9 +113,6 @@ func update_mole_count():
 	mole_count -= 1
 	var ratio = mole_count / float(max_mole_count)
 	emit_signal("count_update",ratio)
-
-func wave_end():
-	print("The moles are vanquished!!! Praise the rabbit! Praise the carrot!")
 
 
 func _mole_spawned(mole):

@@ -1,18 +1,23 @@
-[gd_scene load_steps=5 format=1]
+[gd_scene load_steps=6 format=1]
 
 [ext_resource path="res://actors/object/pickable_item.gd" type="Script" id=1]
 [ext_resource path="res://actors/object/pickable_items.tex" type="Texture" id=2]
 [ext_resource path="res://actors/object/dpcomic.fnt" type="BitmapFont" id=3]
 
-[sub_resource type="RectangleShape2D" id=1]
+[sub_resource type="RectangleShape2D" id=2]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10, 10 )
 
+[sub_resource type="RectangleShape2D" id=1]
+
+custom_solver_bias = 0.0
+extents = Vector2( 10, 9.33578 )
+
 [node name="pickable_item" type="RigidBody2D"]
 
 input/pickable = false
-shapes/0/shape = SubResource( 1 )
+shapes/0/shape = SubResource( 2 )
 shapes/0/transform = Matrix32( 1.59366, 0, 0, 1.59694, -0.136337, 0.0072323 )
 shapes/0/trigger = false
 collision/layers = 1
@@ -59,7 +64,7 @@ max_lines_visible = -1
 
 transform/pos = Vector2( -0.136337, 0.0072323 )
 transform/scale = Vector2( 1.59366, 1.59694 )
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 trigger = false
 _update_shape_index = 0
 
@@ -67,7 +72,7 @@ _update_shape_index = 0
 
 input/pickable = true
 shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Matrix32( 3.10532, 0, 0, 2.02516, 1.84396, -3.98189 )
+shapes/0/transform = Matrix32( 3.10532, 0, 0, 2.02516, 0.108387, -2.87743 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
@@ -76,7 +81,7 @@ angular_damp = 1.0
 
 [node name="CollisionShape" type="CollisionShape2D" parent="pick_zone"]
 
-transform/pos = Vector2( 1.84396, -3.98189 )
+transform/pos = Vector2( 0.108387, -2.87743 )
 transform/scale = Vector2( 3.10532, 2.02516 )
 shape = SubResource( 1 )
 trigger = false

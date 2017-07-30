@@ -53,11 +53,15 @@ func _create_bullets(intensity):
 	# default behaviour: bullets taking into account the given fire angle
 	# doesn't take into account intensity
 	var bullets = []
+	var parent = get_parent()
+
 	for i in range(bullet_num):
 		bullets.append(bullet_scn.instance())
 		bullets[i].orientation = get_rot() + rand_range(-fire_angle / 2, fire_angle / 2)
 		bullets[i].set_pos(fire_position.get_global_pos())
-		bullets[i].team = get_node("..").team
+		bullets[i].team = parent.team
+		if parent.team == Team.ALLY:
+			bullets[i].connect("hit",parent,"add_dealt_damage")
 		for j in range(i): # removing collisions with previously created bullets
 			bullets[i].add_collision_exception_with(bullets[j])
 		get_node("../..").add_child(bullets[i]) # add the bullets to the node "entities" in abstract_level

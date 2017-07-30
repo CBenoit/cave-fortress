@@ -6,12 +6,16 @@ onready var wave_progress = get_node("wave_progress")
 onready var weapon_name = get_node("weapon_box/weapon_name")
 onready var current_ammo = get_node("weapon_box/current_ammo")
 onready var max_ammo = get_node("weapon_box/max_ammo")
+onready var money_amount = get_node("money_amount")
 
 func hp_changed(new_hp):
 	health_bar.set_value(new_hp.health)
 
 func wave_update(ratio):
 	wave_progress.set_value(100*ratio)
+
+func money_display(money):
+	money_amount.set_text("x %d" % money)
 
 func update_weapon_hud( name, ammo, maximum_ammo):
 	weapon_name.set_text("%s" % name)

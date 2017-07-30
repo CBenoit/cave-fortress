@@ -1,8 +1,11 @@
 extends "./abstract_grenade_weapon.gd"
 
+
+
 func _create_bullets(intensity):
 	var grenade = bullet_scn.instance()
 	grenade.set_pos(fire_position.get_global_pos())
+	grenade.connect("hit",get_parent(),"add_dealt_damage")
 
 	grenade.get_node("Sprite").set_scale(5*intensity*Vector2(1,1))
 	var collision_shape = grenade.get_node("CollisionShape2D")

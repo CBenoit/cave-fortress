@@ -68,9 +68,9 @@ tile_data = IntArray(  )
 
 [node name="carrots" type="Node" parent="content"]
 
-[node name="objects" type="Node" parent="content"]
-
 [node name="solids" parent="content" instance=ExtResource( 5 )]
+
+[node name="objects" type="Node" parent="content"]
 
 [node name="wave" parent="content" instance=ExtResource( 6 )]
 
