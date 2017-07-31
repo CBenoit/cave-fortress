@@ -11,6 +11,7 @@ var alive = false
 
 signal lost_a_mole()
 signal dead()
+signal alive()
 signal mole_spawned(mole)
 
 # mole healed by the healing_area
@@ -106,8 +107,10 @@ func change_queue_status():
 
 func add_to_garrison(mole_idx, quantity):
 	garrison[mole_idx] += quantity
-	alive = true
-	set_fixed_process(true)
+	if not alive:
+		alive = true
+		emit_signal("alive")
+		set_fixed_process(true)
 
 func initiate_garrison():
 	for mole in moles:

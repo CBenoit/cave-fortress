@@ -15,7 +15,7 @@ func _on_colliding():
 			if team == collider.team:
 				add_collision_exception_with(collider)
 				return false # cancel the collision
-			else:
+			elif collider.hp.health > 0: # shotgun has shown problematic for dealt_damage calculation
 				emit_signal("hit",hp_removed(collider, power))
 				collider.hp.take_damage(power)
 

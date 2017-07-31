@@ -1,11 +1,8 @@
 extends Node
 
-# list of the enemies
-enum {
-	ENEMY
-}
-
-var mole_value = [6]
+var mole_value = [
+	6 # ENEMY
+]
 var wave_reward
 
 # wave modes
@@ -15,39 +12,29 @@ enum {
 }
 
 # list of the available enemies with the available number at the corresponding index
-var available_mole = [10]
+var available_mole = []
 
 # wave
-var wave_number = 0
 var wave_mode = GARRISON_EXHAUSTION
 
-var max_mole_count
+var max_mole_count = 0
 var mole_count
 var rifts # the rifts throughout the map
 var rift_scn = preload("./rift.tscn")
 
-var alive_rifts # number of rifts alive
+var alive_rifts = 0 # number of rifts alive
 
 signal no_rift(reward) # emitted when there are no rift alive
 signal count_update(ratio)
 signal mole_spawned(mole)
 
 func _ready():
-	max_mole_count = get_available_moles()
-	mole_count = max_mole_count
 
-	wave_reward = evaluate_available_mole()
 
 	rifts = get_children()
-	alive_rifts = rifts.size()
 
 	instanciate_rifts()
 
-	# test
-	add_garrison_to_rift(0,ENEMY,5)
-	add_garrison_to_rift(1,ENEMY,5)
-	spawn_from_rift(0,ENEMY,5)
-	spawn_from_rift(1,ENEMY,5)
 
 # moles management
 func spawn_from_rift(rift_idx, mole_idx, quantity): # spawned units have to be in rift's garrison
@@ -72,11 +59,12 @@ func add_rift(pos):
 	var new_rift = rift_scn.instance()
 	new_rift.set_pos(pos)
 	new_rift.connect("dead", self, "dead_rift")
+	new_rift.connect("alive",self,"add_alive_rift")
 	new_rift.connect("lost_a_mole", self, "update_mole_count")
 	new_rift.connect("mole_spawned", self, "_mole_spawned")
-	new_rift.create_rift_room()
 	add_child(new_rift)
 
+	new_rift.create_rift_room()
 	rifts.append(new_rift)
 
 func add_damageable_rift(pos):
@@ -85,10 +73,14 @@ func add_damageable_rift(pos):
 	new_rift.set_pos(pos)
 	add_child(new_rift)
 
+func add_alive_rift():
+	alive_rifts += 1
 
 func dead_rift():
+	print("boom")
 	alive_rifts -= 1
 	if alive_rifts == 0:
+		print("fini")
 		emit_signal("no_rift", wave_reward)
 
 func create_rift_rooms():
@@ -97,21 +89,27 @@ func create_rift_rooms():
 
 # others
 
-func evaluate_available_mole():
-	var S = 0
+func evaluate_reward():
+	wave_reward = 0
 	for i in range(available_mole.size()):
-		S += available_mole[i]*mole_value[i]
-	return S
+		wave_reward += available_mole[i]*mole_value[i]
+	return wave_reward
 
-func get_available_moles():
+func evaluate_available_moles():
 	var S = 0
 	for mole in available_mole:
 		S += mole
 	return S
 
+func initiate_mole_count():
+	max_mole_count = evaluate_available_moles()
+	mole_count = max_mole_count
+
+
 func update_mole_count():
 	mole_count -= 1
 	var ratio = mole_count / float(max_mole_count)
+
 	emit_signal("count_update",ratio)
 
 
@@ -121,6 +119,7 @@ func _mole_spawned(mole):
 func instanciate_rifts():
 	for rift in rifts:
 		rift.connect("dead", self, "dead_rift")
+		rift.connect("alive",self,"add_alive_rift")
 		rift.connect("lost_a_mole", self, "update_mole_count")
 		rift.connect("mole_spawned", self, "_mole_spawned")
 	create_rift_rooms()

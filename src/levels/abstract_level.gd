@@ -1,6 +1,5 @@
 extends Node
 
-var current_wave = 0
 var topleft_level_area
 var bottomright_level_area
 var topleft_base_area
@@ -33,6 +32,7 @@ func _ready():
 
 	# connect signals
 	hero.connect("weapon_status_update",hud,"update_weapon_hud")
+	hero.connect("ready_for_wave",self,"wave_start")
 	hero.hp.connect("on_damage", hud, "hp_changed")
 	hero.hp.connect("on_heal", hud, "hp_changed")
 	wave.connect("count_update",hud,"wave_update")
@@ -85,8 +85,40 @@ func update_hud():
 	# the spawn weapon is the pistol with infinite ammo, therefore no ammo is lost
 	hero.update_ammunition(0)
 	hud.money_display(hero.money)
+	hud.wave_update(0)
+
+# wave management ===================
+
+# list of the enemies
+enum {
+	ENEMY
+}
+
+var current_wave = 0
+var wave_activated = false
+
+func wave_start():
+	if not wave_activated:
+		fill_outside_base()
+		hud.wave_update(1) # 1 as the ratio remaining_moles / total_moles
+		hero.can_build = false
+		if hero.build_mode == true:
+			hero.switch_build_mode()
+		_launch_wave()
+		wave_activated = true
+
 
 func wave_end(reward):
-	hero.add_money(reward)
-	hero.convert_dealt_damage()
-	hud.money_display(hero.money)
+	# with mastermind there could be no rift alive and yet still enemies to be added
+	if wave.evaluate_available_moles() == 0:
+		hero.can_build = true
+		hero.add_money(reward)
+		hero.convert_dealt_damage()
+		hud.money_display(hero.money)
+		hero.hp.health = hero.hp.max_health
+
+		current_wave += 1
+		wave_activated = false
+
+func _launch_wave():
+	pass

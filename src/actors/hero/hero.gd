@@ -47,6 +47,7 @@ signal weapon_status_update(name, ammo, maximum_ammo)
 var builder_arm_scn = preload("construction/builder_arm.tscn")
 var builder_arm
 var build_mode = false
+var can_build= true
 
 # money attributes
 
@@ -57,6 +58,8 @@ var dealt_damage = 0
 var attack_pressed_timestamp = 0
 var killed = false
 
+signal ready_for_wave()
+
 func _ready():
 	set_process_input(true)
 	set_process(true)
@@ -66,7 +69,7 @@ func _ready():
 	_instanciate_weapons()
 
 func _input(event):
-	if event.is_action_pressed("mode_change"):
+	if event.is_action_pressed("mode_change") and can_build:
 		switch_build_mode()
 
 	if build_mode:
@@ -95,6 +98,10 @@ func _input(event):
 		# weapon throw
 		if event.is_action_pressed("throw_weapon"):
 			throw_weapon()
+
+	# wave launching
+	if event.is_action_pressed("ready_for_wave"):
+		emit_signal("ready_for_wave")
 
 func _process(delta):
 	_update_arm_rotation()
@@ -262,6 +269,7 @@ func add_money(value):
 
 func add_dealt_damage(value):
 	dealt_damage += value
+	print(dealt_damage)
 
 func convert_dealt_damage():
 	money = round(money + dealt_damage / 10.0)
