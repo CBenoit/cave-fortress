@@ -33,7 +33,6 @@ var ammunition = [
 	[25,25], # shotgun
 	[150,150], # machine gun
 	[15,15], # grenade launcher
-	[20,20], # timed grenade launcher
 	[5,5], # dynamite
 	[50,50], # bubble gun
 	[0,-1]  # sword
@@ -98,6 +97,10 @@ func _input(event):
 		# weapon throw
 		if event.is_action_pressed("throw_weapon"):
 			throw_weapon()
+		# secondary action
+		if event.is_action_pressed("secondary_action"):
+			weapon._secondary()
+
 
 	# wave launching
 	if event.is_action_pressed("ready_for_wave"):
@@ -221,6 +224,18 @@ func add_ammunition(weapon_id, quantity):
 		ammunition[weapon_id][AMMO] = ammunition[weapon_id][MAX_AMMO]
 	else:
 		ammunition[weapon_id][AMMO] += quantity
+	emit_signal(
+	"weapon_status_update",
+	weapon.name,
+	ammunition[carried_weapons[picked_weapon][ID]][AMMO],
+	ammunition[carried_weapons[picked_weapon][ID]][MAX_AMMO])
+
+func remove_ammunition(weapon_id, quantity):
+	if ammunition[weapon_id][AMMO] >= quantity:
+		ammunition[weapon_id][AMMO] -= quantity
+	else:
+		ammunition[weapon_id][AMMO] = 0
+
 	emit_signal(
 	"weapon_status_update",
 	weapon.name,

@@ -21,10 +21,11 @@ func _launch_wave():
 		wave.available_mole = [
 			5 # ENEMY
 		]
-		wave.evaluate_available_moles()
+		wave.initiate_mole_count()
 		wave.evaluate_reward()
 
 		wave.add_garrison_to_rift(0,ENEMY,3)
 		wave.add_garrison_to_rift(1,ENEMY,2)
 		wave.spawn_from_rift(0,ENEMY,3)
 		wave.spawn_from_rift(1,ENEMY,2)
+

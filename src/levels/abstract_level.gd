@@ -110,6 +110,7 @@ func wave_start():
 
 func wave_end(reward):
 	# with mastermind there could be no rift alive and yet still enemies to be added
+	print(wave.evaluate_available_moles())
 	if wave.evaluate_available_moles() == 0:
 		hero.can_build = true
 		hero.add_money(reward)

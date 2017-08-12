@@ -65,3 +65,6 @@ func _create_bullets(intensity):
 		for j in range(i): # removing collisions with previously created bullets
 			bullets[i].add_collision_exception_with(bullets[j])
 		get_node("../..").add_child(bullets[i]) # add the bullets to the node "entities" in abstract_level
+
+func _secondary():
+	print("b")
