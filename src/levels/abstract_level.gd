@@ -91,7 +91,7 @@ func update_hud():
 
 # list of the enemies
 enum {
-	ENEMY
+	WEAKLING
 }
 
 var current_wave = 0

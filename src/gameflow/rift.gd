@@ -2,7 +2,7 @@ extends Sprite
 
 # list of all the enemies
 var moles = [
-	preload("res://actors/enemy/enemy.tscn")
+	preload("res://actors/enemy/weakling.tscn")
 ]
 
 # list containing the number of mole in the garrison
@@ -47,7 +47,6 @@ func _ready():
 	timer.connect("timeout",self,"queue_spawn")
 
 func _fixed_process(delta):
-
 	for mole in healed_mole:
 		var mole_hp = mole.hp.max_health
 		mole.hp.restore_hp(0.01*mole_hp)
@@ -75,7 +74,7 @@ func add_to_queue(mole_idx, quantity):
 		for i in range(quantity):
 			spawn_queue.append(moles[mole_idx])
 		garrison[mole_idx] -= quantity
-	elif(mole_garrison != 0 and quantity >=  mole_garrison):
+	elif(mole_garrison != 0 and quantity >= mole_garrison):
 		for i in range(mole_garrison):
 			spawn_queue.append(moles[mole_idx])
 		garrison[mole_idx] = 0
@@ -129,7 +128,7 @@ func empty_garrison():
  # heal functions =================
 func heal_mole(mole):
 	if "creature" in mole.get_groups(): # checking if the mole is not a filthy tilemap
-		if (mole.team == 2): # checking if the mole is not a rabbit
+		if (mole.team == Team.ENEMY): # checking if the mole is not a rabbit
 			healed_mole.append(mole)
 
 func stop_healing(mole):

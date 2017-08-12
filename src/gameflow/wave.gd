@@ -1,7 +1,7 @@
 extends Node
 
 var mole_value = [
-	6 # ENEMY
+	6 # WEAKLING
 ]
 var wave_reward
 
@@ -29,12 +29,8 @@ signal count_update(ratio)
 signal mole_spawned(mole)
 
 func _ready():
-
-
 	rifts = get_children()
-
 	instanciate_rifts()
-
 
 # moles management
 func spawn_from_rift(rift_idx, mole_idx, quantity): # spawned units have to be in rift's garrison

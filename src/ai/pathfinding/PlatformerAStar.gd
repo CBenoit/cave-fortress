@@ -26,7 +26,7 @@ func query_path(from, to, max_jump_heigth, is_on_ground, max_iter):
 
 	var i = 0
 	while i < max_iter and not open_list.empty():
-		if i % 15 == 0:
+		if i % 20 == 0:
 			yield()
 		i += 1
 

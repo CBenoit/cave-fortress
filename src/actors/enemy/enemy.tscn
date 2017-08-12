@@ -1,8 +1,7 @@
-[gd_scene load_steps=8 format=1]
+[gd_scene load_steps=7 format=1]
 
 [ext_resource path="res://actors/enemy/enemy.gd" type="Script" id=1]
 [ext_resource path="res://utils/hp.tscn" type="PackedScene" id=2]
-[ext_resource path="res://actors/hero/hero.tex" type="Texture" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -23,7 +22,7 @@ tracks/0/keys = {
 "times": FloatArray( 0, 0.1, 0.3 ),
 "transitions": FloatArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 0.246094, 0.246094, 1 ), Color( 1, 1, 1, 1 ) ]
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
 [sub_resource type="Animation" id=3]
@@ -32,16 +31,6 @@ resource/name = "death"
 length = 0.4
 loop = false
 step = 0.1
-tracks/0/type = "value"
-tracks/0/path = NodePath("body:modulate")
-tracks/0/interp = 1
-tracks/0/imported = false
-tracks/0/keys = {
-"times": FloatArray( 0, 0.4 ),
-"transitions": FloatArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ) ]
-}
 
 [sub_resource type="CircleShape2D" id=4]
 
@@ -66,6 +55,13 @@ movement_speed = 128
 gravity = 313.6
 jump_power = 150
 team = 2
+melee_attack_reach = 50
+melee_power = 5
+attack_interval_ms = 750
+dig_power = 5
+dig_interval_ms = 350
+
+[node name="body" type="Sprite" parent="."]
 
 [node name="head" type="Position2D" parent="."]
 
@@ -83,12 +79,6 @@ _update_shape_index = 0
 
 [node name="hp" parent="." instance=ExtResource( 2 )]
 
-[node name="body" type="Sprite" parent="."]
-
-transform/pos = Vector2( 0, -3 )
-transform/scale = Vector2( 1, 0.4 )
-texture = ExtResource( 3 )
-
 [node name="anim" type="AnimationPlayer" parent="."]
 
 playback/process_mode = 1
@@ -100,21 +90,6 @@ playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
 autoplay = ""
-
-[node name="thought" type="Label" parent="."]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = -27.0
-margin/top = -30.0
-margin/right = 24.0
-margin/bottom = -16.0
-text = "Thought"
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
 
 [node name="close_range" type="Area2D" parent="."]
 

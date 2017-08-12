@@ -1,17 +1,13 @@
 extends "../creature.gd"
 
-const melee_attack_reach = 50
-const melee_power = 5
-const dig_power = 5
-const dig_interval_ms = 350
-const attack_interval_ms = 750
-
-# other classes
-
-var Brain = preload("res://ai/decision/brains/DefaultBrain.gd")
+export(int, 0, 64) var melee_attack_reach = 50
+export(int, 0, 20) var melee_power = 5
+export(int, 100, 2000, 10) var attack_interval_ms = 750
+export(int, 0, 20) var dig_power = 5
+export(int, 100, 2000, 10) var dig_interval_ms = 350
+# TODO: needs update to handle weapons
 
 # nodes
-
 onready var hero = get_node("../hero")
 onready var solids = get_node("../../solids")
 onready var anim = get_node("anim")
@@ -19,11 +15,10 @@ onready var head = get_node("head")
 onready var foots = get_node("foots")
 onready var close_range = get_node("close_range")
 
-# AI
-
-onready var brain = Brain.new()
+# action
 var current_action = null
 
+# pathfinding
 onready var path_target = hero
 var last_pathfinding_target = null
 var performing_pathfinding = false
@@ -32,18 +27,21 @@ var path = []
 var current_waypoint_idx = 0
 var last_pathfinding_timestamp = 0
 var waypoint_found_timestamp = 0
+var ally_collide_counter = randi()
 
+# closest things
 var attack_target
 var closest_carrot
 var closest_rift
 var closest_ally
 
 # other
-
 var dig_timestamp = 0
 var attack_timestamp = 0
+var spawned_timestamp
 
 func _ready():
+	spawned_timestamp = OS.get_ticks_msec()
 	hp.connect("on_damage", self, "_handle_damage")
 
 # action part
@@ -86,7 +84,6 @@ func _approximate_go_to_pos(pos):
 	if closest_ally != null:
 		_avoid_ally(closest_ally)
 
-var ally_collide_counter = randi()
 func _avoid_ally(ally):
 	if distance_to(ally) < 46:
 		if go_right and ally.get_pos().x > get_pos().x:
@@ -136,53 +133,6 @@ func update_decision():
 	_update_closest_rift()
 	_update_closest_carrot()
 
-	_update_goals()
-
-	update_chosen_action(brain.choose_action())
-
-func update_chosen_action(action):
-	if action == Brain.ACTION_ATTACK_CARROT:
-		if closest_carrot == null:
-			update_chosen_action(Brain.ACTION_ATTACK_PLAYER)
-			return
-
-		get_node("thought").set_text("Attack carrot!")
-		attack_target = closest_carrot
-		path_target = attack_target
-		current_action = funcref(self, "_action_attack_target")
-	elif action == Brain.ACTION_ATTACK_PLAYER:
-		get_node("thought").set_text("Attack player!")
-		attack_target = hero
-		path_target = attack_target
-		current_action = funcref(self, "_action_attack_target")
-	elif action == Brain.ACTION_FLEE:
-		if closest_rift == null or distance_to(hero) < 150:
-			update_chosen_action(Brain.ACTION_ATTACK_PLAYER)
-			return
-
-		get_node("thought").set_text("Flee!")
-		attack_target = hero
-		path_target = closest_rift
-		current_action = funcref(self, "_action_flee")
-	else:
-		get_node("thought").set_text("Uh...? " + str(action))
-
-func _update_goals():
-	if closest_carrot != null:
-		var destroy_carrot_value = 30 + 10000 / distance_to(closest_carrot)
-		brain.set_goal_value(Brain.GOAL_DESTROY_CARROTS, destroy_carrot_value)
-	else:
-		brain.set_goal_value(Brain.GOAL_DESTROY_CARROTS, 0)
-
-	var find_allies_value
-	var survive_value = 100 * (hp.max_health - hp.health) / hp.max_health
-	if closest_ally == null:
-		survive_value += 5
-	brain.set_goal_value(Brain.GOAL_SURVIVE, survive_value)
-
-	var kill_player_goal_value = 13000.0 / distance_to(hero) + 10 * (hero.hp.max_health - hero.hp.health) / hero.hp.max_health
-	brain.set_goal_value(Brain.GOAL_KILL_PLAYER, kill_player_goal_value)
-
 func _update_closest_carrot():
 	if closest_carrot != null:
 		closest_carrot.hp.disconnect("killed", self, "_handle_closest_carrot_killed")
@@ -221,7 +171,7 @@ func _handle_closest_ally_killed():
 
 func update_path(astar):
 	if path.empty() or path_target != last_pathfinding_target \
-			or last_pathfinding_timestamp + min(distance_to(path_target) * 10, 10000) < OS.get_ticks_msec():
+			or last_pathfinding_timestamp + min(distance_to(path_target) * 12, 15000) < OS.get_ticks_msec():
 		last_pathfinding_target = path_target
 		last_pathfinding_timestamp = OS.get_ticks_msec()
 		path_query = astar.query_path(
@@ -229,7 +179,7 @@ func update_path(astar):
 			solids.world_to_map(path_target.get_global_pos()),
 			2,
 			on_air_time < JUMP_MAX_AIRBORNE_TIME and not jumping,
-			60
+			100
 		)
 
 		if typeof(path_query) == TYPE_ARRAY:
@@ -295,8 +245,8 @@ func _follow_path():
 	if solids.get_cellv(path[current_waypoint_idx]) != SolidTiles.TILE_EMPTY:
 		dig_at(path[current_waypoint_idx])
 
-	#if closest_ally != null:
-	#	_avoid_ally(closest_ally)
+	if closest_ally != null:
+		_avoid_ally(closest_ally)
 
 	return true
 
