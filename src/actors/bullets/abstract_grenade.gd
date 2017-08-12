@@ -13,6 +13,7 @@ var explosion_area
 
 var already_exploded = false
 
+# FIXME: rename to "hit_creature"
 signal hit(damage)
 
 func _ready():
@@ -98,7 +99,9 @@ func bounced():
 
 
 func hp_removed(entity, damage):
-	if damage > entity.hp.health:
+	if entity.hp.health <= 0:
+		return 0
+	elif damage > entity.hp.health:
 		return entity.hp.health
 	else:
 		return damage

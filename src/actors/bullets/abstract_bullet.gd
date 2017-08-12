@@ -9,6 +9,7 @@ export(PackedScene) var impact_effect_scn
 var time_alive = 0
 var team = Team.UNKNOWN
 
+# FIXME: rename to "hit_creature"
 signal hit(damage)
 
 func _ready():
@@ -41,7 +42,9 @@ func advance(force):
 
 # used to share the damage dealth to the enemy
 func hp_removed(entity, damage):
-	if damage > entity.hp.health:
+	if entity.hp.health <= 0:
+		return 0
+	elif damage > entity.hp.health:
 		return entity.hp.health
 	else:
 		return damage
